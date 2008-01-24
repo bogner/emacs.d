@@ -48,11 +48,14 @@
 ;; Useful keyboard shortcuts
 (global-set-key "\C-x c" 'compile)
 
+;; haskell mode
+(load "haskell-site-file")
+
 ;; Highlight TODO
 (let ((todo-modes '(c-mode c++-mode java-mode asm-mode
                            common-lisp-mode emacs-lisp-mode lisp-mode
                            perl-mode php-mode python-mode ruby-mode
-                           latex-mode tex-mode)))
+                           latex-mode tex-mode haskell-mode)))
   (dolist (mode todo-modes)
     (font-lock-add-keywords
      mode
@@ -66,8 +69,10 @@
 (require 'tramp)
 (setq tramp-default-method "ssh")
 
+(require 'asy-mode)
+
 ;; Zenburn color theme
 (when window-system
   (require 'zenburn)
   (color-theme-zenburn)
-  (set-default-font "BitStream Vera Sans Mono-9"))
+  (set-default-font "BitStream Vera Sans Mono-8.5"))
