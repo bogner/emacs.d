@@ -42,10 +42,14 @@
 (require 'tramp)
 (setq tramp-default-method "ssh")
 
+;; diff switches
+(setq-default diff-switches "-up")
+
 ;; Always syntax highlight
 (global-font-lock-mode t)
 ;; always use spaces, never tabs
 (setq-default indent-tabs-mode nil)
+(setq-default basic-offset 2)
 ;; set tab stops to every 4 spaces (mostly for asm-mode)
 (setq-default tab-stop-list
       '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
@@ -69,10 +73,10 @@
 (load "haskell-site-file")
 
 ;; asymptote
-(require 'asy-mode)
+;(require 'asy-mode)
 
 ;; c# and aspx
-(load-library "csharp-mode-0.4.0")
+;(load-library "csharp-mode-0.4.0")
 (add-hook 'csharp-mode-hook (lambda ()
           (setq indent-tabs-mode t)
           (setq c-basic-offset 4)
@@ -102,3 +106,9 @@
   (require 'zenburn)
   (color-theme-zenburn)
   (set-default-font "DejaVu Sans Mono-8.5"))
+
+(server-start)
+
+; hack --- these should be above
+(require 'asy-mode)
+(load-library "csharp-mode-0.4.0")
