@@ -96,6 +96,16 @@
                             (setq indent-tabs-mode t)
                             (setq tab-width 2)))
 
+;; bitkeeper emacs 23 hack
+;; the sccs backend got smart, but bitkeeper is dumb
+;; this would presumably break actual sccs repos
+(add-hook 'vc-before-checkin-hook
+          (lambda ()
+            (defun vc-sccs-do-command
+              (buffer okstatus command file-or-list &rest flags)
+              (apply 'vc-do-command buffer okstatus
+                     "bk" file-or-list command flags))))
+
 ;; Show the whitesp
 ;(let ((display-table (make-display-table)))
 ;  (aset display-table 9 (string-to-vector "⇒   "))
