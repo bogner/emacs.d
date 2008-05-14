@@ -37,6 +37,10 @@
 (setq display-time-24hr-format nil)
 (setq display-time-day-and-date t)
 
+;; persistence
+(when (require 'saveplace)
+  (setq-default save-place t))
+
 ;; tramp and partial completion
 (setq partial-completion-mode t)
 (require 'tramp)
