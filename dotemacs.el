@@ -40,6 +40,7 @@
 ;; persistence
 (when (require 'saveplace)
   (setq-default save-place t))
+(savehist-mode 1)
 
 ;; tramp and partial completion
 (setq partial-completion-mode t)
