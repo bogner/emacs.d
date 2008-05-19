@@ -6,7 +6,7 @@
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; This file is distributed in the hope that it will be useful,
@@ -41,6 +41,8 @@
 ;;                        varlist))
 ;;          (fields (mapcar (lambda (sym) (substring-no-properties sym 0 -1)) syms)))
 ;;     fields))
+
+(eval-when-compile (require 'cl))
 
 (defconst haskell-cabal-general-fields
   ;; Extracted with (haskell-cabal-extract-fields-from-doc "general-fields")
@@ -77,6 +79,33 @@
 (defvar haskell-cabal-buffers nil
   "List of Cabal buffers.")
 
+;; (defsubst* inferior-haskell-string-prefix-p (str1 str2)
+;;   "Return non-nil if STR1 is a prefix of STR2"
+;;   (eq t (compare-strings str2 nil (length str1) str1 nil nil)))
+
+(defun haskell-cabal-find-file ()
+  "Return a buffer visiting the cabal file of the current directory, or nil."
+  (catch 'found
+    ;; ;; First look for it in haskell-cabal-buffers.
+    ;; (dolist (buf haskell-cabal-buffers)
+    ;;   (if (inferior-haskell-string-prefix-p
+    ;;        (with-current-buffer buf default-directory) default-directory)
+    ;;       (throw 'found buf)))
+    ;; Then look up the directory hierarchy.
+    (let ((user (nth 2 (file-attributes default-directory)))
+          ;; Abbreviate, so as to stop when we cross ~/.
+          (root (abbreviate-file-name default-directory))
+          files)
+      (while (and root (equal user (nth 2 (file-attributes root))))
+        (if (setq files (directory-files root 'full "\\.cabal\\'"))
+            (throw 'found (find-file-noselect (car files)))
+          (if (equal root
+                     (setq root (file-name-directory
+                                 (directory-file-name root))))
+              (setq root nil))))
+      nil)))
+
+
 (defun haskell-cabal-buffers-clean (&optional buffer)
   (let ((bufs ()))
     (dolist (buf haskell-cabal-buffers)
@@ -99,6 +128,29 @@
   (add-to-list 'haskell-cabal-buffers (current-buffer))
   (add-hook 'change-major-mode-hook 'haskell-cabal-unregister-buffer nil 'local)
   (add-hook 'kill-buffer-hook 'haskell-cabal-unregister-buffer nil 'local))
+
+(defun haskell-cabal-get-setting (name)
+  (save-excursion
+    (let ((case-fold-search t))
+      (goto-char (point-min))
+      (when (re-search-forward
+             (concat "^" (regexp-quote name)
+                     ":[ \t]*\\(.*\\(\n[ \t]+[ \t\n].*\\)*\\)")
+             nil t)
+        (let ((val (match-string 1))
+              (start 1))
+          (when (match-end 2)             ;Multiple lines.
+            ;; The documentation is not very precise about what to do about
+            ;; the \n and the indentation: are they part of the value or
+            ;; the encoding?  I take the point of view that \n is part of
+            ;; the value (so that values can span multiple lines as well),
+            ;; and that only the first char in the indentation is part of
+            ;; the encoding, the rest is part of the value (otherwise, lines
+            ;; in the value cannot start with spaces or tabs).
+            (while (string-match "^[ \t]\\(?:\\.$\\)?" val start)
+              (setq start (1+ (match-beginning 0)))
+              (setq val (replace-match "" t t val))))
+          val)))))
 
 (provide 'haskell-cabal)
 
