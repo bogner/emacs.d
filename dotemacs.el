@@ -37,15 +37,24 @@
 (setq display-time-24hr-format nil)
 (setq display-time-day-and-date t)
 
+;; persistence
+(when (require 'saveplace)
+  (setq-default save-place t))
+(savehist-mode 1)
+
 ;; tramp and partial completion
 (setq partial-completion-mode t)
 (require 'tramp)
 (setq tramp-default-method "ssh")
 
+;; diff switches
+(setq-default diff-switches "-up")
+
 ;; Always syntax highlight
 (global-font-lock-mode t)
 ;; always use spaces, never tabs
 (setq-default indent-tabs-mode nil)
+(setq-default basic-offset 2)
 ;; set tab stops to every 4 spaces (mostly for asm-mode)
 (setq-default tab-stop-list
       '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
@@ -106,6 +115,6 @@
 
 (server-start)
 
-; these cause problems if done at a more reasonable spot
+; hack --- these cause problems if done at a more reasonable spot
 (require 'asy-mode)
 (load-library "csharp-mode-0.4.0")
