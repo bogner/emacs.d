@@ -13,7 +13,7 @@
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; This file is distributed in the hope that it will be useful,
@@ -49,7 +49,7 @@
 ;; mode of Moss&Thorn <http://www.haskell.org/haskell-mode/>
 ;; add this to .emacs:
 ;;
-;;    (add-hook haskell-mode-hook 'turn-on-haskell-indent)
+;;    (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 ;;
 ;; Otherwise, call `turn-on-haskell-indent'.
 ;;
@@ -157,12 +157,23 @@ Uses free var `haskell-indent-info'."
 followed by NAME (if present)."
   (haskell-indent-push-col (haskell-indent-point-to-col pos) name))
 
+;; (defvar haskell-indent-tab-align nil
+;;   "Align all indentations on TAB stops.")
+
+(defun haskell-indent-column+offset (column offset)
+  (unless offset (setq offset haskell-indent-offset))
+  (setq column (+ column offset))
+  ;; (if (and haskell-indent-tab-align (> offset 0))
+  ;;     (* 8 (/ (+ column 7) 8))
+    column) ;; )
+
 (defun haskell-indent-push-pos-offset (pos &optional offset)
   "Pushes indentation information for the column corresponding to POS
 followed by an OFFSET (if present use its value otherwise use
 `haskell-indent-offset')."
-  (haskell-indent-push-col (+ (haskell-indent-point-to-col pos)
-                              (or offset haskell-indent-offset))))
+  (haskell-indent-push-col (haskell-indent-column+offset
+                            (haskell-indent-point-to-col pos)
+                            offset)))
 
 ;; redefinition of some Emacs function for dealing with
 ;; Bird Style literate scripts
@@ -272,7 +283,7 @@ otherwise returns the ending position \\begin{code}."
                  (forward-line))
              (point))))
       ;;  Look for a \begin{code} or \end{code} line.
-      (latex
+      ((latex tex)
        (if (re-search-backward
             "^\\(\\\\begin{code}$\\)\\|\\(\\\\end{code}$\\)" nil t)
            ;; within a literate code part if it was a \\begin{code}.
@@ -1087,10 +1098,12 @@ is at the end of an otherwise-non-empty line."
   (setq offset-info
         (if haskell-indent-inhibit-after-offset '(0) (cdr-safe offset-info)))
   (if (not (haskell-indent-hanging-p))
-      (+ (current-column) (or (car offset-info) default))
+      (haskell-indent-column+offset (current-column)
+                                    (or (car offset-info) default))
     ;; The keyword is hanging at the end of the line.
-    (+ (haskell-indent-virtual-indentation start)
-       (or (cadr offset-info) (car offset-info) default))))
+    (haskell-indent-column+offset
+     (haskell-indent-virtual-indentation start)
+     (or (cadr offset-info) (car offset-info) default))))
 
 (defun haskell-indent-inside-paren (open)
   ;; there is an open structure to complete
@@ -1454,34 +1467,56 @@ line with an indentation cycle."
 in the current buffer.")
 (make-variable-buffer-local 'haskell-indent-mode)
 
+(defvar haskell-indent-map
+  (let ((map (make-sparse-keymap)))
+    ;; Removed: remapping DEL seems a bit naughty --SDM
+    ;; (define-key map "\177"  'backward-delete-char-untabify)
+    ;; The binding to TAB is already handled by indent-line-function.  --Stef
+    ;; (define-key map "\t"    'haskell-indent-cycle)
+    (define-key map [?\C-c ?\C-=] 'haskell-indent-insert-equal)
+    (define-key map [?\C-c ?\C-|] 'haskell-indent-insert-guard)
+    ;; Alternate binding, in case C-c C-| is too inconvenient to type.
+    (define-key map [?\C-c ?\C-g] 'haskell-indent-insert-guard)
+    (define-key map [?\C-c ?\C-o] 'haskell-indent-insert-otherwise)
+    (define-key map [?\C-c ?\C-w] 'haskell-indent-insert-where)
+    (define-key map [?\C-c ?\C-.] 'haskell-indent-align-guards-and-rhs)
+    (define-key map [?\C-c ?\C->] 'haskell-indent-put-region-in-literate)
+    map))
+
 (defun turn-on-haskell-indent ()
   "Turn on ``intelligent'' haskell indentation mode."
   (set (make-local-variable 'indent-line-function) 'haskell-indent-cycle)
-  ;; Removed: remapping DEL seems a bit naughty --SDM
-  ;; (local-set-key "\177"  'backward-delete-char-untabify)
-  ;; The binding to TAB is already handled by indent-line-function.  --Stef
-  ;; (local-set-key "\t"    'haskell-indent-cycle)
-  (local-set-key [?\C-c ?\C-=] 'haskell-indent-insert-equal)
-  (local-set-key [?\C-c ?\C-|] 'haskell-indent-insert-guard)
-  (local-set-key [?\C-c ?\C-o] 'haskell-indent-insert-otherwise)
-  (local-set-key [?\C-c ?\C-w] 'haskell-indent-insert-where)
-  (local-set-key [?\C-c ?\C-.] 'haskell-indent-align-guards-and-rhs)
-  (local-set-key [?\C-c ?\C->] 'haskell-indent-put-region-in-literate)
   (setq haskell-indent-mode t)
+  ;; Activate our keymap.
+  (let ((map (current-local-map)))
+    (while (and map (not (eq map haskell-indent-map)))
+      (setq map (keymap-parent map)))
+    (if map
+        ;; haskell-indent-map is already active: nothing to do.
+        nil
+      ;; Put our keymap on top of the others.  We could also put it in
+      ;; second place, or in a minor-mode.  The minor-mode approach would be
+      ;; easier, but it's harder for the user to override it.  This approach
+      ;; is the closest in behavior compared to the previous code that just
+      ;; used a bunch of local-set-key.
+      (set-keymap-parent haskell-indent-map (current-local-map))
+      ;; Protect our keymap.
+      (setq map (make-sparse-keymap))
+      (set-keymap-parent map haskell-indent-map)
+      (use-local-map map)))
   (run-hooks 'haskell-indent-hook))
 
 (defun turn-off-haskell-indent ()
   "Turn off ``intelligent'' haskell indentation mode that deals with
 the layout rule of Haskell."
   (kill-local-variable 'indent-line-function)
-  ;; (local-unset-key "\t")
-  ;; (local-unset-key "\177")
-  (local-unset-key [?\C-c ?\C-=])
-  (local-unset-key [?\C-c ?\C-|])
-  (local-unset-key [?\C-c ?\C-o])
-  (local-unset-key [?\C-c ?\C-w])
-  (local-unset-key [?\C-c ?\C-.])
-  (local-unset-key [?\C-c ?\C->])
+  ;; Remove haskell-indent-map from the local map.
+  (let ((map (current-local-map)))
+    (while map
+      (let ((parent (keymap-parent map)))
+        (if (eq haskell-indent-map parent)
+            (set-keymap-parent map (keymap-parent parent))
+          (setq map parent)))))
   (setq haskell-indent-mode nil))
 
 ;; Put this minor mode on the global minor-mode-alist.

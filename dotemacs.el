@@ -78,10 +78,10 @@
 (load "haskell-site-file")
 
 ;; asymptote
-;(require 'asy-mode)
+;(require 'asy-mode) ; strange error, do this at the end
 
 ;; c# and aspx
-;(load-library "csharp-mode-0.4.0")
+;(load-library "csharp-mode-0.4.0") ; strange error, do this at the end
 (add-hook 'csharp-mode-hook (lambda ()
           (setq indent-tabs-mode t)
           (setq c-basic-offset 4)
@@ -103,7 +103,7 @@
 ;  (setq buffer-display-table display-table))
 
 ;; Set personal infos
-(setq user-mail-address "im@justinbogner.com")
+(setq user-mail-address "mail@justinbogner.com")
 (setq user-full-name "Justin Bogner")
 
 ;; Zenburn color theme
@@ -118,6 +118,6 @@
 
 (server-start)
 
-; hack --- these should be above
+; hack --- these cause problems if done at a more reasonable spot
 (require 'asy-mode)
 (load-library "csharp-mode-0.4.0")
