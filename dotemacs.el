@@ -59,8 +59,12 @@
 (setq-default tab-stop-list
       '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
 
-;; Useful keyboard shortcuts
-(global-set-key "\C-cc" 'compile)
+;; Compilation --- prefix \C-cc to prompt for a compile command
+(setq-default compilation-read-command nil)
+(global-set-key "\C-cb" (lambda (pfx)
+                          (interactive "p")
+                          (setenv "buffer" (buffer-file-name))
+                          (call-interactively 'compile)))
 
 ;; Highlight TODO
 (let ((todo-modes '(c-mode c++-mode csharp-mode java-mode asm-mode
