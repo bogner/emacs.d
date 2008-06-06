@@ -66,6 +66,19 @@
                           (setenv "buffer" (buffer-file-name))
                           (call-interactively 'compile)))
 
+;; fit all of the windows as to minimize unused space
+(defun fit-windows ()
+  (interactive)
+  (walk-windows 'shrink-window-if-larger-than-buffer))
+
+;; dabbrev-completion is more bash-like than dabbrev-expand
+(global-set-key "\M-/" (lambda ()
+                         (interactive)
+                         (dabbrev-completion)
+                         (fit-windows)))
+;; this shortcut is terrible...
+(global-set-key "\M-]" 'fit-windows)
+
 ;; Highlight TODO
 (let ((todo-modes '(c-mode c++-mode csharp-mode java-mode asm-mode
                            common-lisp-mode emacs-lisp-mode lisp-mode
