@@ -1,3 +1,7 @@
+;; Set personal infos
+(setq user-mail-address "mail@justinbogner.com")
+(setq user-full-name "Justin Bogner")
+
 ;; Set up ~/.emacs.d/site-lisp and subdirectories to be searched for elisps.
 (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
     (let* ((my-lisp-dir "~/.emacs.d/site-lisp/")
@@ -5,144 +9,17 @@
       (setq load-path (cons my-lisp-dir load-path))
       (normal-top-level-add-subdirs-to-load-path)))
 
-;; Remove startup message
-(setq inhibit-startup-message t)
+;; Require useful functions
+(load "functions")
 
-;; menus are for stupid
-(menu-bar-mode 0)
-(tool-bar-mode 0)
-(scroll-bar-mode -1)
+;; Customize display
+(load "display")
 
-(transient-mark-mode 0)
-(mouse-wheel-mode 1)
-;; Display line and column numbers
-(setq line-number-mode t)
-(setq column-number-mode t)
-;; Blinking cursor wakes up the cpu when reading code
-(blink-cursor-mode 0)
+;; Customize behaviour
+(load "behaviour")
 
-;; Get rid of that annoying prompt that requires one to type
-;; in Y-E-S and then press the friggin enter key to confirm.
-(defun yes-or-no-p (PROMPT)
-  (y-or-n-p PROMPT))
+;; Customize key bindings
+(load "keys")
 
-;; don't keep backups
-(setq backup-inhibited t)
-
-;; Display the current time
-(autoload 'display-time "time" "Display Time" t)
-(condition-case err
-    (display-time)
-  (error (message "Unable to load Time package.")))
-(setq display-time-24hr-format nil)
-(setq display-time-day-and-date t)
-
-;; persistence
-(when (require 'saveplace)
-  (setq-default save-place t))
-(savehist-mode 1)
-
-;; tramp and partial completion
-(setq partial-completion-mode t)
-(require 'tramp)
-(setq tramp-default-method "ssh")
-
-;; diff switches
-(setq-default diff-switches "-up")
-
-;; Always syntax highlight
-(global-font-lock-mode t)
-;; always use spaces, never tabs
-(setq-default indent-tabs-mode nil)
-(setq-default basic-offset 2)
-;; set tab stops to every 4 spaces (mostly for asm-mode)
-(setq-default tab-stop-list
-      '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
-;; delete trailing whitespace on save
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; Compilation --- prefix \C-cc to prompt for a compile command
-(setq-default compilation-read-command nil)
-(global-set-key "\C-cb" (lambda (pfx)
-                          (interactive "p")
-                          (setenv "buffer" (buffer-file-name))
-                          (call-interactively 'compile)))
-
-;; fit all of the windows as to minimize unused space
-(defun fit-windows ()
-  (interactive)
-  (walk-windows 'shrink-window-if-larger-than-buffer))
-
-;; dabbrev-completion is more bash-like than dabbrev-expand
-(global-set-key "\M-/" (lambda ()
-                         (interactive)
-                         (dabbrev-completion)
-                         (fit-windows)))
-;; this shortcut is terrible...
-(global-set-key "\M-]" 'fit-windows)
-
-;; Highlight TODO
-(let ((todo-modes '(c-mode c++-mode csharp-mode java-mode asm-mode
-                           common-lisp-mode emacs-lisp-mode lisp-mode
-                           perl-mode php-mode python-mode ruby-mode
-                           latex-mode tex-mode haskell-mode)))
-  (dolist (mode todo-modes)
-    (font-lock-add-keywords
-     mode
-     '(("\\<\\(TODO\\):" 1 font-lock-warning-face t)))))
-
-(c-set-offset 'arglist-intro '+)
-
-;; haskell mode
-(load "haskell-site-file")
-
-;; asymptote
-;(require 'asy-mode) ; strange error, do this at the end
-
-;; c# and aspx
-;(load-library "csharp-mode-0.4.0") ; strange error, do this at the end
-(add-hook 'csharp-mode-hook (lambda ()
-          (setq indent-tabs-mode t)
-          (setq c-basic-offset 4)
-          (setq tab-width 4)
-          (c-set-offset 'arglist-intro '+)
-          (c-set-style "bsd")))
-(define-derived-mode aspx-mode
-            html-mode "ASPX"
-            "Major mode for ASPX markup.")
-(add-to-list 'auto-mode-alist '("\\.aspx\\'" . aspx-mode))
-(add-hook 'aspx-mode-hook (lambda ()
-                            (setq indent-tabs-mode t)
-                            (setq tab-width 2)))
-
-(defalias 'sgml-mode 'nxml-mode)
-(defalias 'html-mode 'nxml-mode)
-(defalias 'xml-mode 'nxml-mode)
-(add-to-list 'auto-mode-alist
-             '("\\.\\(xsl\\|xhtml\\|xsd\\|svg\\|rss\\)\\'" . nxml-mode))
-
-;; Show the whitesp
-;(let ((display-table (make-display-table)))
-;  (aset display-table 9 (string-to-vector "⇒   "))
-;  (aset display-table 32 (string-to-vector "→"))
-;  (setq buffer-display-table display-table))
-
-;; Set personal infos
-(setq user-mail-address "mail@justinbogner.com")
-(setq user-full-name "Justin Bogner")
-
-;; Zenburn color theme
-(when window-system
-  ; disable C-z, there's no reason to minimize emacs!
-  (global-set-key "\C-z" (lambda ()
-                           (interactive)
-                           (message "i'm afraid i can't do that dave")))
-  (set-default-font "DejaVu Sans Mono-8.5")
-  (require 'zenburn)
-  (color-theme-zenburn))
-
-(server-start)
-
-; hack --- these cause problems if done at a more reasonable spot
-(require 'asy-mode)
-(load-library "csharp-mode-0.4.0")
+;; Mode-specific customization
+(load "modes")
