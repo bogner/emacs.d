@@ -8,8 +8,11 @@
 ;; Inhibit backup files
 (setq backup-inhibited t)
 
-;; Make sure transient-mark-mode is disabled
-(transient-mark-mode 0)
+;; If the mark is transient, we want delete selection, but we don't
+;; normally want a transient mark
+(delete-selection-mode 1)
+(transient-mark-mode -1)
+(shift-select-mode 1)
 
 ;; Enable the mouse wheel
 (mouse-wheel-mode 1)
