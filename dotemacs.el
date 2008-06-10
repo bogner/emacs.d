@@ -58,6 +58,8 @@
 ;; set tab stops to every 4 spaces (mostly for asm-mode)
 (setq-default tab-stop-list
       '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
+;; delete trailing whitespace on save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Compilation --- prefix \C-cc to prompt for a compile command
 (setq-default compilation-read-command nil)
@@ -126,7 +128,7 @@
 ;; Zenburn color theme
 (when window-system
   ; disable C-z, there's no reason to minimize emacs!
-  (global-set-key "\C-z" (lambda () 
+  (global-set-key "\C-z" (lambda ()
                            (interactive)
                            (message "i'm afraid i can't do that dave")))
   (set-default-font "DejaVu Sans Mono-8.5")
