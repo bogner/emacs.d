@@ -19,7 +19,7 @@
 (display-time)
 
 ;; Compilation window
-(setq compilation-window-height 4)
+(setq compilation-window-height 20)
 (setq compilation-scroll-output t)
 
 ;; Zenburn color theme
