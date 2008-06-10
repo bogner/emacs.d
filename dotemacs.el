@@ -115,6 +115,12 @@
                             (setq indent-tabs-mode t)
                             (setq tab-width 2)))
 
+(defalias 'sgml-mode 'nxml-mode)
+(defalias 'html-mode 'nxml-mode)
+(defalias 'xml-mode 'nxml-mode)
+(add-to-list 'auto-mode-alist
+             '("\\.\\(xsl\\|xhtml\\|xsd\\|svg\\|rss\\)\\'" . nxml-mode))
+
 ;; Show the whitesp
 ;(let ((display-table (make-display-table)))
 ;  (aset display-table 9 (string-to-vector "⇒   "))
