@@ -23,6 +23,10 @@
                             (setq indent-tabs-mode t)
                             (setq tab-width 2)))
 
+;; hooks to make haskell mode behave
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+
 ;; Set up modes that will be autoloaded
 (autoload 'asy-mode "asy-mode")
 (autoload 'csharp-mode "csharp-mode")
