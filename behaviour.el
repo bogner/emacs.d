@@ -12,7 +12,7 @@
 ;; normally want a transient mark
 (delete-selection-mode 1)
 (transient-mark-mode -1)
-(shift-select-mode 1)
+(setq-default shift-select-mode t)
 
 ;; Enable the mouse wheel
 (mouse-wheel-mode 1)
