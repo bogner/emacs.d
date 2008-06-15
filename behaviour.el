@@ -5,6 +5,9 @@
 (setq case-fold-search t)
 (setq case-replace t)
 
+;; enforce case when searching for expansions
+(setq dabbrev-case-fold-search nil)
+
 ;; Inhibit backup files
 (setq backup-inhibited t)
 
