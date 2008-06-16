@@ -27,6 +27,15 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 
+;; Some eye candy for haskell-mode. Note that the prog1 causes the
+;; lamda to be highlighted, but I don't really know why.
+(font-lock-add-keywords
+ 'haskell-mode
+ '(("\\(\\\\\\)\\(?: ?[A-Za-z][A-Za-z0-9]*\\)+ ?->"
+    (0 (prog1 () (compose-region (match-beginning 1)
+                                 (match-end 1)
+                                 #X03BB))))))
+
 ;; Set up modes that will be autoloaded
 (autoload 'asy-mode "asy-mode")
 (autoload 'csharp-mode "csharp-mode")
