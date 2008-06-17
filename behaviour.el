@@ -55,3 +55,8 @@
 
 ;; Act as a server
 (server-start)
+
+;; Copy frame parameters to new frames
+(defadvice make-frame
+  (around frob-frame-parameters activate)
+  (let ((default-frame-alist (frame-parameters))) ad-do-it))

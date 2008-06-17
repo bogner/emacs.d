@@ -22,8 +22,9 @@
 (setq compilation-window-height 20)
 (setq compilation-scroll-output t)
 
-;; Zenburn color theme
+;; autoload for zenburn, so it only loads when there's a window system
+(autoload 'color-theme-zenburn "zenburn")
+
 (when window-system
   (set-default-font "DejaVu Sans Mono-8.5")
-  (require 'zenburn)
   (color-theme-zenburn))
