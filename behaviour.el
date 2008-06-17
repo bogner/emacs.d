@@ -6,7 +6,7 @@
 (setq case-replace t)
 
 ;; enforce case when searching for expansions
-(setq dabbrev-case-fold-search nil)
+(set-variable 'dabbrev-case-fold-search nil)
 
 ;; Inhibit backup files
 (setq backup-inhibited t)
@@ -51,7 +51,7 @@
 ;; Ensure newline at EOF
 (setq require-final-newline t)
 (setq next-line-add-newlines nil)
-(setq next-line-extends-end-of-buffer nil)
+(set-variable 'next-line-extends-end-of-buffer nil)
 
 ;; Act as a server
 (server-start)

@@ -14,7 +14,7 @@
 (setq column-number-mode t)
 
 ;; Display the time and date
-(setq display-time-24hr-format nil)
+(set-variable 'display-time-24hr-format nil)
 (setq display-time-day-and-date t)
 (display-time)
 
