@@ -16,3 +16,9 @@
 
 (global-set-key [?\C-\;] 'comment-or-uncomment-dwim)
 
+; C-z in a window system is confusing and useless
+(global-set-key [?\C-z] (lambda ()
+                          (interactive)
+                          (if window-system
+                              (message "i'm afraid i can't do that dave")
+                            (suspend-frame))))

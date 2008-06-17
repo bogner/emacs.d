@@ -24,10 +24,6 @@
 
 ;; Zenburn color theme
 (when window-system
-  ; disable C-z, there's no reason to minimize emacs!
-  (global-set-key "\C-z" (lambda ()
-                           (interactive)
-                           (message "i'm afraid i can't do that dave")))
   (set-default-font "DejaVu Sans Mono-8.5")
   (require 'zenburn)
   (color-theme-zenburn))
