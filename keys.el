@@ -22,3 +22,6 @@
                           (if window-system
                               (message "i'm afraid i can't do that dave")
                             (suspend-frame))))
+
+;; find the file or url at the point, if possible
+(ffap-bindings)
