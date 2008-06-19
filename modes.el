@@ -46,6 +46,7 @@
 (defalias 'xml-mode 'nxml-mode)
 
 (add-to-list 'auto-mode-alist '("\\.asy\\'" . asy-mode))
+(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
 (add-to-list 'auto-mode-alist '("\\.\\(hs\\|hsc\\)\\'" . haskell-mode))
 (add-to-list 'auto-mode-alist '("\\.lhs\\'" . literate-haskell-mode))
 (add-to-list 'auto-mode-alist
