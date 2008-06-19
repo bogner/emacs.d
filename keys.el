@@ -25,3 +25,4 @@
 
 ;; find the file or url at the point, if possible
 (ffap-bindings)
+(global-set-key (kbd "C-<down-mouse-1>") 'ffap-at-mouse)
