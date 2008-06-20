@@ -26,5 +26,5 @@
                                 (suspend-frame))))
 
 ;; find the file or url at the point, if possible
-(ffap-bindings)
+(global-set-key (kbd "C-x C-f") 'find-file-at-point)
 (global-set-key (kbd "C-<down-mouse-1>") 'ffap-at-mouse)
