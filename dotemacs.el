@@ -8,10 +8,12 @@
            (default-directory my-lisp-dir))
       (setq load-path (cons my-lisp-dir load-path))
       (normal-top-level-add-subdirs-to-load-path)))
-(byte-recompile-directory "~/.emacs.d/site-lisp/")
 
 ;; Require useful functions
-(load "functions")
+(require 'functions)
+
+;; compile after loading functions
+(byte-recompile-directory "~/.emacs.d/site-lisp/")
 
 ;; Customize display
 (load "display")

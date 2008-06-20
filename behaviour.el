@@ -1,3 +1,5 @@
+(require 'functions)
+
 ;; Single character yes/no prompt
 (defalias 'yes-or-no-p 'y-or-n-p)
 

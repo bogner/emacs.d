@@ -1,3 +1,5 @@
+(require 'functions)
+
 ;; Compilation --- prefix \C-cc to prompt for a compile command
 (setq-default compilation-read-command nil)
 (global-set-key (kbd "C-c b") (lambda (pfx)

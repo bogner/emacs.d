@@ -43,3 +43,5 @@ point is on, or if arg is set, comment that many lines."
          (ext (file-name-extension file)))
     (when (vc-registered file) (setq dir (vc-root)))
     (create-tags dir ext)))
+
+(provide 'functions)
