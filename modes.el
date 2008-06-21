@@ -15,10 +15,10 @@
 
 ;; C# and ASPX
 (add-hook 'csharp-mode-hook (lambda ()
-          (setq indent-tabs-mode t)
-          (set-variable 'c-basic-offset 4)
-          (setq tab-width 4)
-          (c-set-style "bsd")))
+                              (c-set-style "bsd")
+                              (setq indent-tabs-mode t)
+                              (set-variable 'c-basic-offset 4)
+                              (setq tab-width 4)))
 (add-hook 'aspx-mode-hook (lambda ()
                             (setq indent-tabs-mode t)
                             (setq tab-width 2)))
