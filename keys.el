@@ -1,3 +1,5 @@
+(require 'functions)
+
 ;; Compilation --- prefix \C-cc to prompt for a compile command
 (setq-default compilation-read-command nil)
 (global-set-key (kbd "C-c b") (lambda (pfx)
@@ -24,5 +26,5 @@
                                 (suspend-frame))))
 
 ;; find the file or url at the point, if possible
-(ffap-bindings)
+(global-set-key (kbd "C-x C-f") 'find-file-at-point)
 (global-set-key (kbd "C-<down-mouse-1>") 'ffap-at-mouse)

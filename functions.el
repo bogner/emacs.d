@@ -25,21 +25,20 @@ point is on, or if arg is set, comment that many lines."
   "Find the root directory of the current buffer's version control"
   (vc-call root (buffer-file-name)))
 
-(defun create-tags (dir ext)
-  "Create a tags file in 'dir' for files with extension
-'ext'. Does nothing if such a tags file already exists"
-  (setq tags-file-name (format "%sTAGS_%s" dir ext))
-  (when (and (not (file-exists-p tags-file-name))
-             (file-accessible-directory-p dir))
+(defun exuberant-tags (dir)
+  "Generate and visit a tags file in 'dir' using exuberant ctags"
+  (when (file-newer-than-file-p dir (expand-file-name "TAGS" dir))
+    (message (format "generating tags file in %s" dir))
     (shell-command
-     (format "cd %s && find . -type f -name '*.%s' | etags -o %s -"
-             dir ext (file-name-nondirectory tags-file-name)))))
+     (format "cd %s && etags --version | grep 'Exuberant Ctags' && etags -R"
+             dir)))
+  (set (make-local-variable 'tags-file-name) dir))
 
 (defun auto-tag ()
-  "Automatically create and/or select a tags table"
+  "Automatically select tags tables when we're in version
+control. Always replaces tags tables instead of adding them."
   (interactive)
-  (let* ((file (buffer-file-name))
-         (dir default-directory)
-         (ext (file-name-extension file)))
-    (when (vc-registered file) (setq dir (vc-root)))
-    (create-tags dir ext)))
+  (when (vc-registered (buffer-file-name))
+    (exuberant-tags (vc-root))))
+
+(provide 'functions)

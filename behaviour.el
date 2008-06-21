@@ -1,3 +1,5 @@
+(require 'functions)
+
 ;; Single character yes/no prompt
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -36,6 +38,10 @@
 ;; Always syntax highlight
 (global-font-lock-mode t)
 (setq font-lock-maximum-decoration t)
+
+;; Automatically select tags tables when we're in version control
+(add-hook 'find-file-hook 'auto-tag)
+(set-variable 'tags-add-tables nil)
 
 ;; Delete trailing whitespace on save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
