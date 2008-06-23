@@ -19,11 +19,13 @@
 (global-set-key (kbd "C-\\") 'comment-or-uncomment-dwim)
 
 ;; C-z in a window system is confusing and useless
-(global-set-key (kbd "C-z") (lambda ()
-                              (interactive)
-                              (if window-system
-                                  (message "i'm afraid i can't do that dave")
-                                (suspend-frame))))
+;; Don't bother if we don't have suspend-frame
+(when (boundp 'suspend-frame)
+  (global-set-key (kbd "C-z") (lambda ()
+                                (interactive)
+                                (if window-system
+                                    (message "i'm afraid i can't do that dave")
+                                  (suspend-frame)))))
 
 ;; find the file or url at the point, if possible
 (global-set-key (kbd "C-x C-f") 'find-file-at-point)

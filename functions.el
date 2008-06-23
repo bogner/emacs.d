@@ -26,7 +26,7 @@ point is on, or if arg is set, comment that many lines."
   (vc-call root (buffer-file-name)))
 
 (defun exuberant-tags (dir)
-  "Generate and visit a tags file in 'dir' using exuberant ctags"
+  "Generate and visit a tags file in `dir' using exuberant ctags"
   (when (file-newer-than-file-p dir (expand-file-name "TAGS" dir))
     (message (format "generating tags file in %s" dir))
     (shell-command
@@ -40,5 +40,11 @@ control. Always replaces tags tables instead of adding them."
   (interactive)
   (when (vc-registered (buffer-file-name))
     (exuberant-tags (vc-root))))
+
+(defun require-or-nil (feature)
+  "If `feature' exists, require it, else return `nil'."
+  (if (locate-library (format "%s" feature))
+      (require feature)
+    nil))
 
 (provide 'functions)

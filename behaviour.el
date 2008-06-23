@@ -24,16 +24,18 @@
 
 ;; tramp and partial completion
 (setq partial-completion-mode t)
-(require 'tramp)
-(setq tramp-default-method "ssh")
+(when (require-or-nil 'tramp)
+  (set-variable 'tramp-default-method "ssh"))
 
 ;; Unified diffs
 (setq-default diff-switches "-up")
 
 ;; Persistence
-(when (require 'saveplace)
+(when (require-or-nil 'saveplace)
   (setq-default save-place t))
-(savehist-mode 1)
+;; emacs21 doesn't have savehist-mode
+(when (boundp 'savehist-mode)
+  (savehist-mode 1))
 
 ;; Always syntax highlight
 (global-font-lock-mode t)
@@ -59,5 +61,10 @@
 (setq next-line-add-newlines nil)
 (set-variable 'next-line-extends-end-of-buffer nil)
 
-;; Act as a server
-(server-start)
+;; Act as a server unless a server is already running. Old emacs
+;; doesn't have server-running-p, but we don't like their server
+;; anyway.
+(require 'server)
+(when (and (boundp 'server-running-p)
+           (not (server-running-p)))
+  (server-start))
