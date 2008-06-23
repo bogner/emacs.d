@@ -31,7 +31,7 @@
 ;; lamda to be highlighted, but I don't really know why.
 (font-lock-add-keywords
  'haskell-mode
- '(("\\(\\\\\\)\\(?: ?[A-Za-z][A-Za-z0-9]*\\)+ ?->"
+ '(("\\(\\\\\\)\\(?: ?[A-Za-z_][A-Za-z0-9_]*\\)+ ?->"
     (0 (prog1 () (compose-region (match-beginning 1)
                                  (match-end 1)
                                  #X03BB))))))
