@@ -25,6 +25,7 @@
 ;; autoload for zenburn, so it only loads when there's a window system
 (autoload 'color-theme-zenburn "zenburn")
 
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-8.5"))
+
 (when window-system
-  (set-default-font "DejaVu Sans Mono-8.5")
   (color-theme-zenburn))
