@@ -61,6 +61,12 @@
 (setq next-line-add-newlines nil)
 (set-variable 'next-line-extends-end-of-buffer nil)
 
+;; fill-paragraph should recognize lists, like "1.", "ii)", etc.
+;; The strange characters in this regexp are from the default in
+;; emacs23
+(set-variable 'adaptive-fill-regexp
+              "[ \t]*\\(\\(\\w+[.)]\\|[-!|#%;>*·•‣⁃◦]+\\)[ \t]*\\)*")
+
 ;; Act as a server unless a server is already running. Old emacs
 ;; doesn't have server-running-p, but we don't like their server
 ;; anyway.
