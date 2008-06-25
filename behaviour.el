@@ -71,6 +71,6 @@
 ;; doesn't have server-running-p, but we don't like their server
 ;; anyway.
 (require 'server)
-(when (and (boundp 'server-running-p)
+(when (and (fboundp 'server-running-p)
            (not (server-running-p)))
   (server-start))
