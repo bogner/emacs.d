@@ -20,7 +20,7 @@
 
 ;; C-z in a window system is confusing and useless
 ;; Don't bother if we don't have suspend-frame
-(when (boundp 'suspend-frame)
+(when (fboundp 'suspend-frame)
   (global-set-key (kbd "C-z") (lambda ()
                                 (interactive)
                                 (if window-system
