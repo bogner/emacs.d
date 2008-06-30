@@ -62,10 +62,11 @@
 (set-variable 'next-line-extends-end-of-buffer nil)
 
 ;; fill-paragraph should recognize lists, like "1.", "ii)", etc.
-;; The strange characters in this regexp are from the default in
-;; emacs23
+;; Otherwise, this is the default from emacs23 with some unicode
+;; characters removed, because having them impeded me from using this
+;; in emacs21 and emacs22.
 (set-variable 'adaptive-fill-regexp
-              "[ \t]*\\(\\(\\w+[.)]\\|[-!|#%;>*·•‣⁃◦]+\\)[ \t]*\\)*")
+              "[ \t]*\\(\\(\\w+[.)]\\|[-!|#%;>*]+\\)[ \t]*\\)*")
 
 ;; Act as a server unless a server is already running. Old emacs
 ;; doesn't have server-running-p, but we don't like their server
