@@ -4,7 +4,7 @@
 (setq-default compilation-read-command nil)
 (global-set-key (kbd "C-c b") (lambda (pfx)
                                 (interactive "p")
-                                (setenv "buffer" (buffer-file-name))
+                                (setenv "buffer" (file-relative-name (buffer-file-name)))
                                 (call-interactively 'compile)))
 
 ;; dabbrev-completion is more bash-like than dabbrev-expand
