@@ -3,7 +3,7 @@
 
 ;; Author: Daniel Brockman <daniel@brockman.se>
 ;; URL: http://www.brockman.se/software/zenburn/zenburn.el
-;; Updated: 2006-11-22 03:20
+;; Updated: 2008-06-30 13:44 By Justin Bogner
 
 ;; This file is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -592,7 +592,7 @@ static char *gnus-pointer[] = {
      `(gnus-group-news-1-empty ((t (:foreground ,zenburn-yellow))))
      `(gnus-group-news-2-empty ((t (:foreground ,zenburn-green+3))))
      `(gnus-group-news-3-empty ((t (:foreground ,zenburn-green+1))))
-     `(gnus-group-news-4-empty ((t (:foreground ,zenburn-blue-2)))) 
+     `(gnus-group-news-4-empty ((t (:foreground ,zenburn-blue-2))))
      `(gnus-group-news-5-empty ((t (:foreground ,zenburn-blue-3))))
      `(gnus-group-news-6-empty ((t (:inherit zenburn-lowlight-1))))
      `(gnus-group-news-low-empty ((t (:inherit zenburn-lowlight-1))))
@@ -819,6 +819,27 @@ static char *gnus-pointer[] = {
        ((t (:inherit zenburn-primary-3))))
      '(tuareg-font-lock-operator
        ((t (:inherit font-lock-operator))))
+
+     (set-variable 'vc-annotate-background zenburn-bg)
+     (set-variable 'vc-annotate-color-map
+                   `(( 20 . ,zenburn-red)
+                     ( 40 . ,zenburn-red-1)
+                     ( 60 . ,zenburn-red-2)
+                     ( 80 . ,zenburn-red-3)
+                     (100 . ,zenburn-orange)
+                     (120 . ,zenburn-yellow)
+                     (140 . ,zenburn-yellow-1)
+                     (160 . ,zenburn-yellow-2)
+                     (180 . ,zenburn-green-1)
+                     (200 . ,zenburn-green)
+                     (220 . ,zenburn-green+1)
+                     (240 . ,zenburn-green+2)
+                     (260 . ,zenburn-green+3)
+                     (280 . ,zenburn-green+4)
+                     (300 . ,zenburn-cyan)
+                     (320 . ,zenburn-blue)
+                     (340 . ,zenburn-blue-1)
+                     (360 . ,zenburn-blue-2)))
 
      '(w3m-form-button
        ((t (:inherit widget-button))))
