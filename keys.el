@@ -16,7 +16,7 @@
 ;; TODO: think of a better shortcut here
 (global-set-key (kbd "M-]") 'fit-windows)
 
-(global-set-key (kbd "C-\\") 'comment-or-uncomment-dwim)
+(global-set-key (kbd "C-\;") 'comment-or-uncomment-dwim)
 
 ;; C-z in a window system is confusing and useless
 ;; Don't bother if we don't have suspend-frame

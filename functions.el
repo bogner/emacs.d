@@ -10,7 +10,7 @@
 (defun comment-or-uncomment-dwim (arg)
   "If transient-mark-mode is t and the mark is active,
 comment-or-uncomment-region, otherwise, comment the line that the
-point is on, or if arg is set, comment that many lines."
+point is on."
   (interactive "*P")
   (if (and mark-active transient-mark-mode)
       (comment-or-uncomment-region (region-beginning) (region-end) arg)
