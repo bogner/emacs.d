@@ -22,6 +22,10 @@
 ;; Enable the mouse wheel
 (mouse-wheel-mode 1)
 
+;; If this isn't nil, there's a chance one of those terrible gtk file
+;; dialogs may show up.
+(set-variable 'use-file-dialog nil)
+
 ;; tramp and partial completion
 (setq partial-completion-mode t)
 (when (require-or-nil 'tramp)
