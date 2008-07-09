@@ -25,21 +25,27 @@ point is on."
   "Find the root directory of the current buffer's version control"
   (vc-call root (buffer-file-name)))
 
-(defun exuberant-tags (dir)
-  "Generate and visit a tags file in `dir' using exuberant ctags"
-  (when (file-newer-than-file-p dir (expand-file-name "TAGS" dir))
-    (message (format "generating tags file in %s" dir))
-    (shell-command
-     (format "cd %s && etags --version | grep 'Exuberant Ctags' && etags -R"
-             dir)))
+(defun exuberant-tags (dir &optional regenerate)
+  "Generate and visit a tags file in `dir' using exuberant ctags.
+If `regenerate' is `nil', refuses to regenerate existing tags."
+  (let ((tags-file (expand-file-name "TAGS" dir)))
+    (when (file-newer-than-file-p dir tags-file)
+      (if (and (file-exists-p tags-file)
+               (not regenerate))
+          (message (format "tags file exists in %s, but is out of date" dir))
+        (message (format "generating tags file in %s" dir))
+        (shell-command
+         (format
+          "cd %s && etags --version | grep 'Exuberant Ctags' && etags -R"
+          dir)))))
   (set (make-local-variable 'tags-file-name) dir))
 
-(defun auto-tag ()
+(defun auto-tag (&optional regenerate)
   "Automatically select tags tables when we're in version
 control. Always replaces tags tables instead of adding them."
-  (interactive)
+  (interactive "p")
   (when (vc-registered (buffer-file-name))
-    (exuberant-tags (vc-root))))
+    (exuberant-tags (vc-root) regenerate)))
 
 (defun require-or-nil (feature)
   "If `feature' exists, require it, else return `nil'."
