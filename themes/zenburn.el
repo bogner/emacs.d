@@ -491,6 +491,7 @@ static char *gnus-pointer[] = {
      '(diff-added ((t (:inherit zenburn-primary-3))))
      '(diff-removed ((t (:inherit zenburn-blue))))
      '(diff-context ((t (:inherit font-lock-comment))))
+     '(diff-refine-change ((t (:inherit zenburn-background-1))))
 
      `(emms-pbi-song ((t (:foreground ,zenburn-yellow))))
      '(emms-pbi-current ((t (:inherit zenburn-primary-1))))
@@ -910,6 +911,7 @@ static char *gnus-pointer[] = {
        diff-header-face
        diff-hunk-header-face
        diff-index-face
+       diff-refine-change-face
        diff-removed-face
        emms-pbi-current-face
        emms-pbi-mark-marked-face
