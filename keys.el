@@ -30,3 +30,11 @@
 ;; find the file or url at the point, if possible
 (global-set-key (kbd "C-x C-f") 'find-file-at-point)
 (global-set-key (kbd "C-<down-mouse-1>") 'ffap-at-mouse)
+
+(global-set-key (kbd "M-n") (lambda (arg)
+                              (interactive "p")
+                              (line-move-visual (or arg 1))))
+
+(global-set-key (kbd "M-p") (lambda (arg)
+                              (interactive "p")
+                              (line-move-visual (- (or arg 1)))))

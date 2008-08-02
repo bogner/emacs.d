@@ -10,6 +10,9 @@
 ;; enforce case when searching for expansions
 (set-variable 'dabbrev-case-fold-search nil)
 
+;; Enable disabled commands
+(put 'narrow-to-region 'disabled nil)
+
 ;; Inhibit backup files
 (setq backup-inhibited t)
 
@@ -18,6 +21,10 @@
 (delete-selection-mode 1)
 (transient-mark-mode -1)
 (setq-default shift-select-mode t)
+
+;; Moving between lines visually is perhaps saner, but breaks
+;; macros that deal with multiple lines
+(set-variable 'line-move-visual nil)
 
 ;; Enable the mouse wheel
 (mouse-wheel-mode 1)
@@ -33,6 +40,14 @@
 
 ;; Unified diffs
 (setq-default diff-switches "-up")
+
+;; Ediff: no extra frames, split horizontally for wide windows
+(set-variable 'ediff-window-setup-function 'ediff-setup-windows-plain)
+(set-variable 'ediff-split-window-function
+              (lambda (&optional arg)
+                (if (> (frame-width) 160)
+                    (split-window-horizontally arg)
+                  (split-window-vertically arg))))
 
 ;; Persistence
 (when (require-or-nil 'saveplace)
@@ -71,6 +86,10 @@
 ;; in emacs21 and emacs22.
 (set-variable 'adaptive-fill-regexp
               "[ \t]*\\(\\(\\w+[.)]\\|[-!|#%;>*]+\\)[ \t]*\\)*")
+
+;; File names like foo<1> aren't terribly helpful
+(require 'uniquify)
+(set-variable 'uniquify-buffer-name-style 'post-forward)
 
 ;; Act as a server unless a server is already running. Old emacs
 ;; doesn't have server-running-p, but we don't like their server
