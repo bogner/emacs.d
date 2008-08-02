@@ -28,7 +28,6 @@
                                   (suspend-frame)))))
 
 ;; find the file or url at the point, if possible
-(global-set-key (kbd "C-x C-f") 'find-file-at-point)
 (global-set-key (kbd "C-<down-mouse-1>") 'ffap-at-mouse)
 
 (global-set-key (kbd "M-n") (lambda (arg)
