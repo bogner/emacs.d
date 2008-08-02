@@ -7,7 +7,7 @@
 (setq case-fold-search t)
 (setq case-replace t)
 
-;; enforce case when searching for expansions
+;; Enforce case when searching for expansions
 (set-variable 'dabbrev-case-fold-search nil)
 
 ;; Enable disabled commands
