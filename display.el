@@ -22,10 +22,10 @@
 (setq compilation-window-height 20)
 (setq compilation-scroll-output t)
 
-;; autoload for zenburn, so it only loads when there's a window system
+;; autoload for zenburn, we load unconditionally now, so maybe we
+;; should drop this...
 (autoload 'color-theme-zenburn "zenburn")
 
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-8.5"))
 
-(when window-system
-  (color-theme-zenburn))
+(color-theme-zenburn)
