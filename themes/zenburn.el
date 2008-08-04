@@ -526,7 +526,7 @@ static char *gnus-pointer[] = {
      '(rcirc-other-nick ((t (:inherit bold))))
      '(rcirc-bright-nick ((t (:foreground "white" :inherit rcirc-other-nick))))
      '(rcirc-dim-nick ((t (:inherit font-lock-comment))))
-     '(rcirc-nick-in-message ((t (:inherit bold))))
+     '(rcirc-nick-in-message ((t (:inherit zenburn-primary-1))))
      '(rcirc-server ((t (:inherit font-lock-comment))))
      '(rcirc-server-prefix ((t (:inherit font-lock-comment-delimiter))))
      '(rcirc-timestamp ((t (:inherit font-lock-comment))))
