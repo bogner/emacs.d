@@ -29,6 +29,9 @@
 ;; Enable the mouse wheel
 (mouse-wheel-mode 1)
 
+;; Make the mouse work in terminals
+(xterm-mouse-mode 1)
+
 ;; If this isn't nil, there's a chance one of those terrible gtk file
 ;; dialogs may show up.
 (set-variable 'use-file-dialog nil)
