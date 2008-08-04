@@ -26,3 +26,6 @@
 
 ;; Mode-specific customization
 (load "modes")
+
+;; Communication with the outside world
+(load "com")
