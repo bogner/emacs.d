@@ -53,4 +53,12 @@ control. Always replaces tags tables instead of adding them."
       (require feature)
     nil))
 
+(defun rdiff ()
+  (interactive)
+  (let ((diff-switches
+         (concat diff-switches " -r " (mapconcat
+                                       (lambda (x) (concat "-x " x))
+                                       vc-directory-exclusion-list " "))))
+    (call-interactively 'diff)))
+
 (provide 'functions)
