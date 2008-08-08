@@ -15,6 +15,7 @@
 
 ;; Display the time and date
 (set-variable 'display-time-24hr-format nil)
+(set-variable 'display-time-load-average nil)
 (setq display-time-day-and-date t)
 (display-time)
 
