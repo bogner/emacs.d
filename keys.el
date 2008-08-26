@@ -37,3 +37,6 @@
 (global-set-key (kbd "M-p") (lambda (arg)
                               (interactive "p")
                               (line-move-visual (- (or arg 1)))))
+
+(define-key
+  mode-line-buffer-identification-keymap [mode-line mouse-2] 'buffer-menu)
