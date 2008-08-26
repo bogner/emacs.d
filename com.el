@@ -1,3 +1,5 @@
+(require 'rcirc)
+
 (setq rcirc-default-nick "bogner")
 
 ;; Servers
