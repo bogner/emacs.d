@@ -139,11 +139,6 @@ to values."
   '(unless (zenburn-format-spec-works-p)
      (zenburn-define-format-spec)))
 
-(setq-default mode-line-buffer-identification
-              (list (propertize "%12b" 'face
-                                (list :weight 'bold
-                                      :foreground zenburn-yellow))))
-(setq-default mode-line-frame-identification "")
 (setq-default erc-mode-line-format
               (concat (propertize "%t" 'face
                                   (list :weight 'bold
@@ -730,6 +725,8 @@ static char *gnus-pointer[] = {
      ;; inside the shell region will get its own box.
      ;; (makefile-shell ((t (:background "#4f4f4f"
      ;;                           :box (:line-width 2 :color "#4f4f4f")))))
+
+     '(mode-line-buffer-id ((t (:inherit zenburn-primary-1))))
 
      '(nxml-delimited-data ((t (:inherit font-lock-string))))
      '(nxml-name ((t (:inherit zenburn-primary-1))))
