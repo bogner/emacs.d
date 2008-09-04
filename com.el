@@ -8,13 +8,13 @@
 (when (file-exists-p "rcirc-auth.el") (load "rcirc-auth"))
 
 ;; Show buffers with unread messages in mode line
-(setq rcirc-track-minor-mode t)
+(rcirc-track-minor-mode t)
 
 ;; Logging
 (setq rcirc-log-flag t)
 
-;; Keep 1M worth of 80 character lines in memory
-(setq rcirc-buffer-maximum-lines 13107)
+;; Keep 500k worth of 80 character lines in memory
+(setq rcirc-buffer-maximum-lines 6554)
 
 ;; TODO: make these match based on rcirc-response-formats...
 (defun rcirc-next-message (arg)
