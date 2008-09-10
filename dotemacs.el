@@ -28,4 +28,4 @@
 (load "modes")
 
 ;; Communication with the outside world
-(load "com")
+(load "net")

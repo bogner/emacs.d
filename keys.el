@@ -38,5 +38,7 @@
                               (interactive "p")
                               (line-move-visual (- (or arg 1)))))
 
-(define-key
-  mode-line-buffer-identification-keymap [mode-line mouse-2] 'buffer-menu)
+;; buffer-menu is nicer than list-buffers
+(global-set-key (kbd "C-x C-b") 'buffer-menu)
+(define-key mode-line-buffer-identification-keymap
+  [mode-line mouse-2] 'buffer-menu)
