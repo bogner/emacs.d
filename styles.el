@@ -8,6 +8,7 @@
              '("bsd"
                (c-backslash-column . 78)
                (c-indent-comments-syntactically-p . t)
+               (c-tab-always-indent . nil)
                (c-cleanup-list . (scope-operator
                                   brace-else-brace))
                (c-offsets-alist . ((arglist-close . 0)
