@@ -47,6 +47,17 @@ control. Always replaces tags tables instead of adding them."
   (when (vc-registered (buffer-file-name))
     (exuberant-tags (vc-root) regenerate)))
 
+(defun find-tags-file ()
+  "Search upwards in the directory heirarchy for a tags file.  If
+no tags file is found, ask for one, and if it doesn't exist,
+create one."
+  (when buffer-file-name
+    (let ((current (file-name-directory buffer-file-name)))
+      (while (and (not (file-exists-p (concat current "TAGS")))
+                  (not (string= "/" current)))
+        (setq current (file-name-directory (directory-file-name current))))
+      (when (not (string= "/" current)) (concat current "TAGS")))))
+
 (defun require-or-nil (feature)
   "If `feature' exists, require it, else return `nil'."
   (if (locate-library (format "%s" feature))
