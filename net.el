@@ -60,13 +60,14 @@ self-insert-command"
 ;;; Gnus / Message
 (when (require-or-nil 'mm-uu)
   (set-variable 'mm-uu-diff-groups-regex ".*")
-  (assq-delete-all 'diff mm-uu-type-alist)
-  (add-to-list 'mm-uu-type-alist
-               '(diff "^Index: \\|^diff \\|^--- [A-Za-z0-9_/.-]+"
-                      nil
-                      mm-uu-diff-extract
-                      nil
-                      mm-uu-diff-test))
+  (when (boundp 'mm-uu-type-alist)
+    (assq-delete-all 'diff mm-uu-type-alist)
+    (add-to-list 'mm-uu-type-alist
+                 '(diff "^Index: \\|^diff \\|^--- [A-Za-z0-9_/.-]+"
+                        nil
+                        mm-uu-diff-extract
+                        nil
+                        mm-uu-diff-test)))
   (mm-uu-configure))
 
 ;; darcs defines it's own media type for patches.
