@@ -434,6 +434,12 @@ static char *gnus-pointer[] = {
      '(compilation-info ((t (:inherit zenburn-primary-1))))
      '(compilation-warning ((t (:inherit font-lock-warning))))
 
+     '(cscope-file-face ((t (:inherit zenburn-primary-1))))
+     '(cscope-function-face ((t (:inherit font-lock-function-name))))
+     '(cscope-line-number-face ((t (:inherit font-lock-function-name))))
+     '(cscope-line-face ((t (nil))))
+     '(cscope-mouse-face ((t (:inherit hover-highlight))))
+
      ;; TODO
      '(cua-rectangle ((t (:inherit region))))
 
@@ -880,6 +886,11 @@ static char *gnus-pointer[] = {
        change-log-date-face
        compilation-info-face
        compilation-warning-face
+       cscope-file-face
+       cscope-function-face
+       cscope-line-number-face
+       cscope-line-face
+       cscope-mouse-face
        cua-rectangle-face
        custom-button-face
        custom-button-pressed-face
