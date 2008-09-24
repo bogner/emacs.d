@@ -14,7 +14,7 @@
 
   ;; compile after loading functions
   ;; TODO: find out why we do this after loading functions
-  (byte-recompile-directory site-lisp))
+  (byte-recompile-directory site-lisp 0))
 
 ;; Customize display
 (load "display")
