@@ -37,8 +37,7 @@ If `regenerate' is `nil', refuses to regenerate existing tags."
         (shell-command
          (format
           "cd %s && etags --version | grep 'Exuberant Ctags' && etags -R"
-          dir)))))
-  (set (make-local-variable 'tags-file-name) dir))
+          dir))))))
 
 (defun auto-tag (&optional regenerate)
   "Automatically select tags tables when we're in version
