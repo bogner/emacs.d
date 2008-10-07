@@ -72,6 +72,8 @@
 
 ;; Delete trailing whitespace on save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; Update time stamps if they exist
+(add-hook 'before-save-hook 'time-stamp)
 
 ;; Global indentation rules
 (setq-default indent-tabs-mode nil
