@@ -6,8 +6,13 @@
   ;; Set up ~/.emacs.d/site-lisp and subdirectories to be searched for elisps.
   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
       (let ((default-directory site-lisp))
-        (setq load-path (cons site-lisp load-path))
+        (add-to-list 'load-path site-lisp)
         (normal-top-level-add-subdirs-to-load-path)))
+
+  ;; Try to put the system site-lisp at the end of our load path if we
+  ;; don't have it already.
+  (when (file-directory-p "/usr/share/emacs/site-lisp")
+    (add-to-list 'load-path "/usr/share/emacs/site-lisp" t))
 
   ;; Require useful functions
   (require 'functions)
