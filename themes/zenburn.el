@@ -3,7 +3,7 @@
 
 ;; Author: Daniel Brockman <daniel@brockman.se>
 ;; URL: http://www.brockman.se/software/zenburn/zenburn.el
-;; Updated: 2008-06-30 13:44 By Justin Bogner
+;; Updated: 2008-09-13 13:25
 
 ;; This file is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -566,6 +566,8 @@ static char *gnus-pointer[] = {
      '(message-mml ((t (:inherit zenburn-primary-1))))
      '(message-separator ((t (:inherit font-lock-comment))))
 
+     '(mm-uu-extract ((t (:inherit zenburn-highlight-damp))))
+
      '(gnus-header-name ((t (:inherit message-header-name))))
      '(gnus-header-content ((t (:inherit message-header-other))))
      '(gnus-header-from ((t (:inherit message-header-from))))
@@ -1052,6 +1054,7 @@ static char *gnus-pointer[] = {
        message-header-xheader-face
        message-mml-face
        message-separator-face
+       mm-uu-extract-face
        mtorus-highlight-face
        mtorus-notify-highlight-face
        nxml-attribute-colon-face
