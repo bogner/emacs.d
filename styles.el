@@ -1,6 +1,5 @@
 (c-add-style "bogner"
              '("stroustrup"
-               (c-basic-offset . 2)
                (c-offsets-alist . ((arglist-intro . +)))
                (indent-tabs-mode . nil)))
 
@@ -22,5 +21,17 @@
                (c-basic-offset . 4)
                (indent-tabs-mode . t)
                (tab-width . 4)))
+
+(c-add-style "yy"
+	     '("k&r"
+	       (c-basic-offset . 4)))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (cond
+	     ((string-match "/cmput415/" buffer-file-name)
+              (c-set-style "bob-beck"))
+	     ((string-match "/yy/" buffer-file-name)
+              (c-set-style "yy")))))
 
 (provide 'styles)
