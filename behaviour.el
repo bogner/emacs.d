@@ -71,7 +71,11 @@
 (set-variable 'default-tags-table-function 'find-tags-file)
 
 ;; Delete trailing whitespace on save
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(defvar delete-ws-on-save t)
+(add-hook 'before-save-hook
+          (lambda ()
+            (when delete-ws-on-save
+              (delete-trailing-whitespace))))
 ;; Update time stamps if they exist
 (add-hook 'before-save-hook 'time-stamp)
 
