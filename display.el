@@ -14,9 +14,9 @@
 (setq column-number-mode t)
 
 ;; Display the time and date
-(set-variable 'display-time-24hr-format nil)
-(set-variable 'display-time-load-average nil)
 (setq display-time-day-and-date t)
+(set-variable 'display-time-load-average nil)
+(set-variable 'display-time-24hr-format t)
 (display-time)
 
 ;; Compilation window
