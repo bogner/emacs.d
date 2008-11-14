@@ -95,6 +95,9 @@
 (set-variable 'adaptive-fill-regexp
               "[ \t]*\\(\\(\\w+[.)]\\|[-!|#%;>*]+\\)[ \t]*\\)*")
 
+;; make diary interoperate with calendar
+(setq diary-file-name "~/.calendar/calendar")
+
 ;; File names like foo<1> aren't terribly helpful
 (require 'uniquify)
 (set-variable 'uniquify-buffer-name-style 'post-forward)
