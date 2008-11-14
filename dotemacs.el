@@ -35,3 +35,6 @@
 
 ;; Communication with the outside world
 (load "net")
+
+;; Calendar stuff
+(load "diary")
