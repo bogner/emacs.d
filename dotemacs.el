@@ -1,5 +1,5 @@
 ;; Set personal infos
-(setq user-mail-address "mail@justinbogner.com")
+(setq user-mail-address "Justin Bogner <mail@justinbogner.com>")
 (setq user-full-name "Justin Bogner")
 
 (let ((site-lisp (concat "~" init-file-user "/.emacs.d/site-lisp/")))
