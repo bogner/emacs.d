@@ -28,14 +28,14 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 
-;; Some eye candy for haskell-mode. Note that the prog1 causes the
-;; lambda to be highlighted, but I don't really know why.
+;; Some eye candy for haskell-mode. #X03BB is a lambda.
 (font-lock-add-keywords
  'haskell-mode
  '(("\\(\\\\\\)\\(?: ?[A-Za-z_][A-Za-z0-9_]*\\)+ ?->"
-    (0 (prog1 () (compose-region (match-beginning 1)
-                                 (match-end 1)
-                                 #X03BB))))))
+    (0
+     (when (char-displayable-p #X03BB)
+       (compose-region (match-beginning 1) (match-end 1) #X03BB))
+     'prepend))))
 
 ;; Set up modes that will be autoloaded
 (autoload 'asy-mode "asy-mode")
