@@ -1,6 +1,8 @@
 (c-add-style "bogner"
              '("stroustrup"
                (c-offsets-alist . ((arglist-intro . +)))
+               (c-tab-always-indents . nil)
+               (tab-width . 4)
                (indent-tabs-mode . nil)))
 
 (c-add-style "bob-beck"
@@ -16,6 +18,14 @@
                (indent-tabs-mode . t)
                (show-trailing-whitespace . t)))
 
+(c-add-style "cmpe490"
+             '("stroustrup"
+               (c-basic-offset . 2)
+               (c-offsets-alist . ((arglist-intro . +)))
+               (c-tab-always-indents . nil)
+               (tab-width . 4)
+               (indent-tabs-mode . nil)))
+
 (c-add-style "forge"
              '("bsd"
                (c-basic-offset . 4)
@@ -29,6 +39,8 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (cond
+	     ((string-match "/cmpe490" buffer-file-name)
+              (c-set-style "cmpe490"))
 	     ((string-match "/cmput415/" buffer-file-name)
               (c-set-style "bob-beck"))
 	     ((string-match "/yy/" buffer-file-name)
