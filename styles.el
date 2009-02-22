@@ -1,6 +1,7 @@
 (c-add-style "bogner"
              '("stroustrup"
-               (c-offsets-alist . ((arglist-intro . +)))
+               (c-offsets-alist . ((arglist-intro . +)
+                                   (statement-cont . c-lineup-assignments)))
                (c-tab-always-indents . nil)
                (tab-width . 4)
                (indent-tabs-mode . nil)))
@@ -21,7 +22,8 @@
 (c-add-style "cmpe490"
              '("stroustrup"
                (c-basic-offset . 2)
-               (c-offsets-alist . ((arglist-intro . +)))
+               (c-offsets-alist . ((arglist-intro . +)
+                                   (statement-cont . c-lineup-assignments)))
                (c-tab-always-indents . nil)
                (tab-width . 4)
                (indent-tabs-mode . nil)))
