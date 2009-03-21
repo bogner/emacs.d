@@ -54,3 +54,4 @@
 (add-to-list 'auto-mode-alist
              '("\\.\\(aspx\\|xsl\\|xhtml\\|xsd\\|svg\\|rss\\)\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.eml\\'" . mail-mode))
+(add-to-list 'auto-mode-alist '("\\.arm\\'" . asm-mode))
