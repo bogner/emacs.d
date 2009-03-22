@@ -131,6 +131,31 @@
                 (340 . ,zenburn-blue-1)
                 (360 . ,zenburn-blue-2)))
 
+;; TODO: find a better way to do this...
+(setq gnus-mode-line-image-cache
+      '(image :type xpm :ascent center :data "/* XPM */
+static char *gnus-pointer[] = {
+/* width height num_colors chars_per_pixel */
+\"    18    13        2            1\",
+/* colors */
+\". c #dcdccc\",
+\"# c None s None\",
+/* pixels */
+\"##################\",
+\"######..##..######\",
+\"#####........#####\",
+\"#.##.##..##...####\",
+\"#...####.###...##.\",
+\"#..###.######.....\",
+\"#####.########...#\",
+\"###########.######\",
+\"####.###.#..######\",
+\"######..###.######\",
+\"###....####.######\",
+\"###..######.######\",
+\"###########.######\"
+};"))
+
 (custom-set-faces
  'zenburn
  '(bold ((t (:weight bold))))
@@ -201,56 +226,25 @@
  '(zenburn-term-dark-yellow    ((t (:foreground "#dfaf8f"))))
  `(zenburn-term-light-gray     ((t (:foreground ,zenburn-fg))))
 
- '(plain-widget-button-face
+ '(widget-button
    ((t (:weight bold))))
- '(plain-widget-button-pressed-face
-   ((t (:inverse-video t))))
- '(plain-widget-documentation-face
-   ((t (:inherit font-lock-doc-face))))
- `(plain-widget-field-face
-   ((t (:background ,zenburn-bg+2))))
- '(plain-widget-inactive-face
-   ((t (:strike-through t))))
- `(plain-widget-single-line-field-face
-   ((t (:background ,zenburn-bg+2))))
-
- `(fancy-widget-button-face
-   ((t (:background ,zenburn-bg+1
-                    :box (:line-width 2 :style released-button)))))
- `(fancy-widget-button-pressed-face
+ `(widget-button-pressed
    ((t (:background ,zenburn-bg+1
                     :box (:line-width 2 :style pressed-button)))))
- `(fancy-widget-button-highlight-face
+ `(widget-button-highlight
    ((t (:background ,zenburn-bg+1
                     :box (:line-width 2 :style released-button)))))
- `(fancy-widget-button-pressed-highlight-face
+ `(widget-button-pressed-highlight
    ((t (:background ,zenburn-bg+1
                     :box (:line-width 2 :style pressed-button)))))
- '(fancy-widget-documentation-face
-   ((t (:inherit font-lock-doc-face))))
- `(fancy-widget-field-face
-   ((t (:background ,zenburn-bg+2))))
- '(fancy-widget-inactive-face
-   ((t (:strike-through t))))
- `(fancy-widget-single-line-field-face
-   ((t (:background ,zenburn-bg+2))))
-
- '(widget-button-face
-   ((t (:inherit plain-widget-button-face))))
- '(widget-button-pressed-face
-   ((t (:inherit fancy-widget-button-pressed-face))))
- '(widget-button-highlight-face
-   ((t (:inherit fancy-widget-button-highlight-face))))
- '(widget-button-pressed-highlight-face
-   ((t (:inherit fancy-widget-button-pressed-highlight-face))))
  '(widget-documentation-face
-   ((t (:inherit fancy-widget-documentation-face))))
- '(widget-field-face
-   ((t (:inherit fancy-widget-field-face))))
+   ((t (:inherit font-lock-doc-face))))
+ `(widget-field-face
+   ((t (:background ,zenburn-bg+2))))
  '(widget-inactive-face
-   ((t (:inherit fancy-widget-inactive-face))))
- '(widget-single-line-field-face
-   ((t (:inherit fancy-widget-single-line-field-face))))
+   ((t (:strike-through t))))
+ `(widget-single-line-field-face
+   ((t (:background ,zenburn-bg+2))))
 
  `(border ((t (:background ,zenburn-bg))))
  '(fringe ((t (:inherit zenburn-highlight-subtle))))
@@ -337,9 +331,9 @@
  '(cua-rectangle-face ((t (:inherit region))))
 
  '(custom-button-face
-   ((t (:inherit fancy-widget-button-face))))
+   ((t (:inherit fancy-widget-button))))
  '(custom-button-pressed-face
-   ((t (:inherit fancy-widget-button-pressed-face))))
+   ((t (:inherit fancy-widget-button-pressed))))
  '(custom-changed-face
    ((t (:inherit zenburn-blue))))
  '(custom-comment-face
@@ -373,7 +367,7 @@
  '(custom-variable-tag-face
    ((t (:inherit zenburn-primary-2))))
 
- '(dictionary-button-face ((t (:inherit fancy-widget-button-face))))
+ '(dictionary-button-face ((t (:inherit fancy-widget-button))))
  '(dictionary-reference-face ((t (:inherit zenburn-primary-1))))
  '(dictionary-word-entry-face ((t (:inherit font-lock-keyword-face))))
 
@@ -446,57 +440,55 @@
  '(ibuffer-special-buffer-face ((t (:inherit font-lock-doc-face))))
  '(ibuffer-help-buffer-face ((t (:inherit font-lock-comment-face))))
 
- '(message-cited-text-face ((t (:inherit font-lock-comment-face))))
+ '(message-cited-text ((t (:inherit font-lock-comment-face))))
  ;;`(message-cited-text-face ((t (:foreground ,zenburn-blue))))
- '(message-header-name-face ((t (:inherit zenburn-green+1))))
- '(message-header-other-face ((t (:inherit zenburn-green))))
- '(message-header-to-face ((t (:inherit zenburn-primary-1))))
- '(message-header-from-face ((t (:inherit zenburn-primary-1))))
- '(message-header-cc-face ((t (:inherit zenburn-primary-1))))
- '(message-header-newsgroups-face ((t (:inherit zenburn-primary-1))))
- '(message-header-subject-face ((t (:inherit zenburn-primary-2))))
- '(message-header-xheader-face ((t (:inherit zenburn-green))))
- '(message-mml-face ((t (:inherit zenburn-primary-1))))
- '(message-separator-face ((t (:inherit font-lock-comment-face))))
+ '(message-header-name ((t (:inherit zenburn-green+1))))
+ '(message-header-other ((t (:inherit zenburn-green))))
+ '(message-header-to ((t (:inherit zenburn-primary-1))))
+ '(message-header-from ((t (:inherit zenburn-primary-1))))
+ '(message-header-cc ((t (:inherit zenburn-primary-1))))
+ '(message-header-newsgroups ((t (:inherit zenburn-primary-1))))
+ '(message-header-subject ((t (:inherit zenburn-primary-2))))
+ '(message-header-xheader ((t (:inherit zenburn-green))))
+ '(message-mml ((t (:inherit zenburn-primary-1))))
+ '(message-separator ((t (:inherit font-lock-comment-face))))
 
- '(mm-uu-extract-face ((t (:inherit zenburn-highlight-damp))))
+ '(mm-uu-extract ((t (:inherit zenburn-highlight-damp))))
 
- '(gnus-header-name-face ((t (:inherit message-header-name-face))))
- '(gnus-header-content-face ((t (:inherit message-header-other-face))))
- '(gnus-header-from-face ((t (:inherit message-header-from-face))))
- '(gnus-header-subject-face ((t (:inherit message-header-subject-face))))
- '(gnus-header-newsgroups-face ((t (:inherit message-header-other-face))))
+ '(gnus-header-name ((t (:inherit message-header-name-face))))
+ '(gnus-header-content ((t (:inherit message-header-other-face))))
+ '(gnus-header-from ((t (:inherit message-header-from-face))))
+ '(gnus-header-subject ((t (:inherit message-header-subject-face))))
+ '(gnus-header-newsgroups ((t (:inherit message-header-other-face))))
 
- `(gnus-x-face ((t (:background ,zenburn-fg :foreground ,zenburn-bg))))
+ ;; (gnus-cite-1 ((t (:inherit message-cited-text))))
+ `(gnus-cite-1 ((t (:foreground ,zenburn-blue))))
+ `(gnus-cite-2 ((t (:foreground ,zenburn-blue-1))))
+ `(gnus-cite-3 ((t (:foreground ,zenburn-blue-2))))
+ ;;      (gnus-cite-4 ((t (:foreground ,zenburn-blue-3))))
+ ;;      (gnus-cite-5 ((t (:foreground ,zenburn-blue-4))))
+ ;;      (gnus-cite-6 ((t (:foreground ,zenburn-red-4))))
+ ;;      (gnus-cite-5 ((t (:foreground ,zenburn-red-3))))
+ `(gnus-cite-4 ((t (:foreground ,zenburn-green+2))))
+ `(gnus-cite-5 ((t (:foreground ,zenburn-green+1))))
+ `(gnus-cite-6 ((t (:foreground ,zenburn-green))))
+ `(gnus-cite-7 ((t (:foreground ,zenburn-red))))
+ `(gnus-cite-8 ((t (:foreground ,zenburn-red-1))))
+ `(gnus-cite-9 ((t (:foreground ,zenburn-red-2))))
+ `(gnus-cite-10 ((t (:foreground ,zenburn-yellow-1))))
+ `(gnus-cite-11 ((t (:foreground ,zenburn-yellow))))
 
- ;; (gnus-cite-face-1 ((t (:inherit message-cited-text-face))))
- `(gnus-cite-face-1 ((t (:foreground ,zenburn-blue))))
- `(gnus-cite-face-2 ((t (:foreground ,zenburn-blue-1))))
- `(gnus-cite-face-3 ((t (:foreground ,zenburn-blue-2))))
- ;;      (gnus-cite-face-4 ((t (:foreground ,zenburn-blue-3))))
- ;;      (gnus-cite-face-5 ((t (:foreground ,zenburn-blue-4))))
- ;;      (gnus-cite-face-6 ((t (:foreground ,zenburn-red-4))))
- ;;      (gnus-cite-face-5 ((t (:foreground ,zenburn-red-3))))
- `(gnus-cite-face-4 ((t (:foreground ,zenburn-green+2))))
- `(gnus-cite-face-5 ((t (:foreground ,zenburn-green+1))))
- `(gnus-cite-face-6 ((t (:foreground ,zenburn-green))))
- `(gnus-cite-face-7 ((t (:foreground ,zenburn-red))))
- `(gnus-cite-face-8 ((t (:foreground ,zenburn-red-1))))
- `(gnus-cite-face-9 ((t (:foreground ,zenburn-red-2))))
- `(gnus-cite-face-10 ((t (:foreground ,zenburn-yellow-1))))
- `(gnus-cite-face-11 ((t (:foreground ,zenburn-yellow))))
-
- `(gnus-group-news-1-empty-face ((t (:foreground ,zenburn-yellow))))
- `(gnus-group-news-2-empty-face ((t (:foreground ,zenburn-green+3))))
- `(gnus-group-news-3-empty-face ((t (:foreground ,zenburn-green+1))))
+ `(gnus-group-news-1-empty ((t (:foreground ,zenburn-yellow))))
+ `(gnus-group-news-2-empty ((t (:foreground ,zenburn-green+3))))
+ `(gnus-group-news-3-empty ((t (:foreground ,zenburn-green+1))))
  `(gnus-group-news-4-empty ((t (:foreground ,zenburn-blue-2))))
  `(gnus-group-news-5-empty ((t (:foreground ,zenburn-blue-3))))
  `(gnus-group-news-6-empty ((t (:inherit zenburn-lowlight-1))))
  `(gnus-group-news-low-empty ((t (:inherit zenburn-lowlight-1))))
 
- '(gnus-group-mail-1-empty-face ((t (:inherit gnus-group-news-1-empty-face))))
- '(gnus-group-mail-2-empty-face ((t (:inherit gnus-group-news-2-empty-face))))
- '(gnus-group-mail-3-empty-face ((t (:inherit gnus-group-news-3-empty-face))))
+ '(gnus-group-mail-1-empty ((t (:inherit gnus-group-news-1-empty-face))))
+ '(gnus-group-mail-2-empty ((t (:inherit gnus-group-news-2-empty-face))))
+ '(gnus-group-mail-3-empty ((t (:inherit gnus-group-news-3-empty-face))))
  '(gnus-group-mail-4-empty ((t (:inherit gnus-group-news-4-empty))))
  '(gnus-group-mail-5-empty ((t (:inherit gnus-group-news-5-empty))))
  '(gnus-group-mail-6-empty ((t (:inherit gnus-group-news-6-empty))))
@@ -512,45 +504,45 @@
 
  '(gnus-group-mail-1 ((t (:bold t :inherit gnus-group-mail-1-empty-face))))
  '(gnus-group-mail-2 ((t (:bold t :inherit gnus-group-mail-2-empty-face))))
- '(gnus-group-mail-3-face ((t (:bold t :inherit gnus-group-mail-3-empty-face))))
+ '(gnus-group-mail-3 ((t (:bold t :inherit gnus-group-mail-3-empty-face))))
  '(gnus-group-mail-4 ((t (:bold t :inherit gnus-group-mail-4-empty))))
  '(gnus-group-mail-5 ((t (:bold t :inherit gnus-group-mail-5-empty))))
  '(gnus-group-mail-6 ((t (:bold t :inherit gnus-group-mail-6-empty))))
  '(gnus-group-mail-low ((t (:bold t :inherit gnus-group-mail-low-empty))))
 
- `(gnus-signature-face ((t (:foreground ,zenburn-yellow))))
+ `(gnus-signature ((t (:foreground ,zenburn-yellow))))
 
- '(gnus-summary-selected-face
+ '(gnus-summary-selected
    ((t (:inherit zenburn-primary-1))))
- '(gnus-summary-cancelled-face
+ '(gnus-summary-cancelled
    ((t (:inherit zenburn-highlight-alerting))))
 
- '(gnus-summary-low-ticked-face
+ '(gnus-summary-low-ticked
    ((t (:inherit zenburn-primary-2))))
- '(gnus-summary-normal-ticked-face
+ '(gnus-summary-normal-ticked
    ((t (:inherit zenburn-primary-2))))
- '(gnus-summary-high-ticked-face
+ '(gnus-summary-high-ticked
    ((t (:inherit zenburn-primary-2))))
 
- '(gnus-summary-low-unread-face
+ '(gnus-summary-low-unread
    ((t (:inherit zenburn-foreground :weight normal))))
- '(gnus-summary-normal-unread-face
+ '(gnus-summary-normal-unread
    ((t (:inherit zenburn-foreground :weight normal))))
- '(gnus-summary-high-unread-face
+ '(gnus-summary-high-unread
    ((t (:inherit zenburn-foreground :weight bold))))
 
- '(gnus-summary-low-read-face
+ '(gnus-summary-low-read
    ((t (:inherit zenburn-green :weight normal))))
- '(gnus-summary-normal-read-face
+ '(gnus-summary-normal-read
    ((t (:inherit zenburn-green :weight normal))))
- '(gnus-summary-high-read-face
+ '(gnus-summary-high-read
    ((t (:inherit zenburn-green :weight bold))))
 
- '(gnus-summary-low-ancient-face
+ '(gnus-summary-low-ancient
    ((t (:inherit zenburn-blue :weight normal))))
- '(gnus-summary-normal-ancient-face
+ '(gnus-summary-normal-ancient
    ((t (:inherit zenburn-blue :weight normal))))
- '(gnus-summary-high-ancient-face
+ '(gnus-summary-high-ancient
    ((t (:inherit zenburn-blue))))
 
  '(help-argument-name ((t (:weight bold))))
@@ -720,11 +712,11 @@
    ((t (:inherit font-lock-operator-face))))
 
  '(w3m-form-button-face
-   ((t (:inherit widget-button-face))))
+   ((t (:inherit widget-button))))
  '(w3m-form-button-pressed-face
-   ((t (:inherit widget-button-pressed-face))))
+   ((t (:inherit widget-button-pressed))))
  '(w3m-form-button-mouse-face
-   ((t (:inherit widget-button-pressed-face))))
+   ((t (:inherit widget-button-pressed))))
  '(w3m-tab-unselected-face
    ((t (:box (:line-width 1 :style released-button)))))
  '(w3m-tab-selected-face
