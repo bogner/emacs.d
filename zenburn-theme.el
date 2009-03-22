@@ -237,13 +237,13 @@ static char *gnus-pointer[] = {
  `(widget-button-pressed-highlight
    ((t (:background ,zenburn-bg+1
                     :box (:line-width 2 :style pressed-button)))))
- '(widget-documentation-face
+ '(widget-documentation
    ((t (:inherit font-lock-doc-face))))
- `(widget-field-face
+ `(widget-field
    ((t (:background ,zenburn-bg+2))))
- '(widget-inactive-face
+ '(widget-inactive
    ((t (:strike-through t))))
- `(widget-single-line-field-face
+ `(widget-single-line-field
    ((t (:background ,zenburn-bg+2))))
 
  `(border ((t (:background ,zenburn-bg))))
@@ -307,9 +307,9 @@ static char *gnus-pointer[] = {
  '(breakpoint-enabled-bitmap-face ((t (:inherit zenburn-primary-1))))
  '(breakpoint-disabled-bitmap-face ((t (:inherit font-lock-comment-face))))
 
- '(calendar-today-face ((t (:underline nil :inherit zenburn-primary-2))))
- '(diary-face ((t (:underline nil :inherit zenburn-primary-1))))
- '(holiday-face ((t (:underline t :inherit zenburn-primary-4))))
+ '(calendar-today ((t (:underline nil :inherit zenburn-primary-2))))
+ '(diary ((t (:underline nil :inherit zenburn-primary-1))))
+ '(holiday ((t (:underline t :inherit zenburn-primary-4))))
 
  '(bongo-unfilled-seek-bar ((t (:background "#606060"))))
 
@@ -318,8 +318,8 @@ static char *gnus-pointer[] = {
  '(comint-highlight-input ((t (:inherit zenburn-primary-1))))
  '(comint-highlight-prompt ((t (:inherit zenburn-primary-2))))
 
- '(compilation-info-face ((t (:inherit zenburn-primary-1))))
- '(compilation-warning-face ((t (:inherit font-lock-warning-face))))
+ '(compilation-info ((t (:inherit zenburn-primary-1))))
+ '(compilation-warning ((t (:inherit font-lock-warning-face))))
 
  '(cscope-file-face ((t (:inherit zenburn-primary-1))))
  '(cscope-function-face ((t (:inherit font-lock-function-name-face))))
@@ -330,41 +330,41 @@ static char *gnus-pointer[] = {
  ;; TODO
  '(cua-rectangle-face ((t (:inherit region))))
 
- '(custom-button-face
+ '(custom-button
    ((t (:inherit fancy-widget-button))))
- '(custom-button-pressed-face
+ '(custom-button-pressed
    ((t (:inherit fancy-widget-button-pressed))))
- '(custom-changed-face
+ '(custom-changed
    ((t (:inherit zenburn-blue))))
- '(custom-comment-face
+ '(custom-comment
    ((t (:inherit font-lock-doc-face))))
- '(custom-comment-tag-face
+ '(custom-comment-tag
    ((t (:inherit font-lock-doc-face))))
- '(custom-documentation-face
+ '(custom-documentation
    ((t (:inherit font-lock-doc-face))))
  '(custom-link
    ((t (:inherit zenburn-yellow :underline t))))
  '(custom-tag
    ((t (:inherit zenburn-primary-2))))
- '(custom-group-tag-face
+ '(custom-group-tag
    ((t (:inherit zenburn-primary-1))))
- '(custom-group-tag-face-1
+ '(custom-group-tag-1
    ((t (:inherit zenburn-primary-4))))
- '(custom-invalid-face
+ '(custom-invalid
    ((t (:inherit font-lock-warning-face))))
- '(custom-modified-face
+ '(custom-modified
    ((t (:inherit zenburn-primary-3))))
- '(custom-rogue-face
+ '(custom-rogue
    ((t (:inhrit font-lock-warning-face))))
- '(custom-saved-face
+ '(custom-saved
    ((t (:underline t))))
- '(custom-set-face
+ '(custom-set
    ((t (:inverse-video t :inherit zenburn-blue))))
- '(custom-state-face
+ '(custom-state
    ((t (:inherit font-lock-comment-face))))
- '(custom-variable-button-face
+ '(custom-variable-button
    ((t (:weight bold :underline t))))
- '(custom-variable-tag-face
+ '(custom-variable-tag
    ((t (:inherit zenburn-primary-2))))
 
  '(dictionary-button-face ((t (:inherit fancy-widget-button))))
