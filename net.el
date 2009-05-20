@@ -6,7 +6,7 @@
 
   ;; Servers
   (setq rcirc-server-alist '(("irc.freenode.net"
-                              :channels ("#haskell" "#xmonad"))))
+                              :channels ("#haskell" "#xmonad" "#ghc"))))
   (when (file-exists-p "rcirc-auth.el") (load "rcirc-auth"))
 
   ;; Show buffers with unread messages in mode line
