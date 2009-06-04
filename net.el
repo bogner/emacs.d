@@ -57,6 +57,10 @@ self-insert-command"
   (define-key rcirc-mode-map (kbd "C-c C-f")
     (lambda () (interactive) (rcirc-clear-unread (current-buffer)))))
 
+;;; W3M
+(set-variable 'w3m-use-cookies t)
+(set-variable 'w3m-key-binding 'info)
+
 ;;; Gnus / Message
 (when (require-or-nil 'mm-uu)
   (set-variable 'mm-uu-diff-groups-regex ".*")

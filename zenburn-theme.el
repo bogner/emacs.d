@@ -711,27 +711,27 @@ static char *gnus-pointer[] = {
  '(tuareg-font-lock-operator-face
    ((t (:inherit font-lock-operator-face))))
 
- '(w3m-form-button-face
+ '(w3m-form-button
    ((t (:inherit widget-button))))
- '(w3m-form-button-pressed-face
+ '(w3m-form-button-pressed
    ((t (:inherit widget-button-pressed))))
- '(w3m-form-button-mouse-face
+ '(w3m-form-button-mouse
    ((t (:inherit widget-button-pressed))))
- '(w3m-tab-unselected-face
+ '(w3m-tab-unselected
    ((t (:box (:line-width 1 :style released-button)))))
- '(w3m-tab-selected-face
+ '(w3m-tab-selected
    ((t (:box (:line-width 1 :style pressed-button)))))
- '(w3m-tab-unselected-retrieving-face
-   ((t (:inherit (w3m-tab-unselected-face widget-inactive-face)))))
- '(w3m-tab-selected-retrieving-face
-   ((t (:inherit (w3m-tab-selected-face widget-inactive-face)))))
- '(w3m-tab-background-face
+ '(w3m-tab-unselected-retrieving
+   ((t (:inherit (w3m-tab-unselected widget-inactive-face)))))
+ '(w3m-tab-selected-retrieving
+   ((t (:inherit (w3m-tab-selected widget-inactive-face)))))
+ '(w3m-tab-background
    ((t (:inherit zenburn-highlight-subtle))))
- '(w3m-anchor-face
+ '(w3m-anchor
    ((t (:inherit zenburn-primary-1))))
- '(w3m-arrived-anchor-face
+ '(w3m-arrived-anchor
    ((t (:inherit zenburn-primary-2))))
- '(w3m-image-face
+ '(w3m-image
    ((t (:inherit zenburn-primary-4))))
- '(w3m-form-face
+ '(w3m-form
    ((t (:inherit widget-field-face)))))
