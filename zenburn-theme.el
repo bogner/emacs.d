@@ -675,6 +675,8 @@ static char *gnus-pointer[] = {
  '(nxml-namespace-attribute-colon-face
    ((t (:inherit nxml-attribute-colon-face))))
 
+ `(org-hide ((t (:foreground ,zenburn-bg+2))))
+
  ;; TODO
  '(outline-8 ((t (:inherit default))))
  '(outline-7 ((t (:inherit outline-8 :height 1.0))))
