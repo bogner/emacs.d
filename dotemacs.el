@@ -14,27 +14,18 @@
   (when (file-directory-p "/usr/share/emacs/site-lisp")
     (add-to-list 'load-path "/usr/share/emacs/site-lisp" t))
 
-  ;; Require useful functions
-  (require 'functions)
-
-  ;; compile after loading functions
-  ;; TODO: find out why we do this after loading functions
+  ;; recompile all my site-lisp
   (byte-recompile-directory site-lisp 0))
 
-;; Customize display
-(load "display")
+;; Infer the hostname and load hostname-local.el, if it exists.
+(let* ((host (car (split-string (shell-command-to-string "hostname"))))
+       (local-conf (concat host "-local" ".el")))
+  (when (locate-library local-conf)
+    (load-library local-conf)))
 
-;; Customize behaviour
-(load "behaviour")
+;; Load my config
+(load-library "config")
 
-;; Customize key bindings
-(load "keys")
-
-;; Mode-specific customization
-(load "modes")
-
-;; Communication with the outside world
-(load "net")
-
-;; Calendar stuff
-(load "diary")
+;; Load config stuff that's not ready for my config
+(when (locate-library "incoming")
+  (load-library "incoming"))
