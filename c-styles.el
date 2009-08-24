@@ -48,4 +48,4 @@
 	     ((string-match "/yy/" buffer-file-name)
               (c-set-style "yy")))))
 
-(provide 'styles)
+(provide 'c-styles)

@@ -11,6 +11,13 @@
      mode
      '(("\\<\\(TODO\\):" 1 font-lock-warning-face t)))))
 
+(defun get-hook (mode)
+  (intern (concat (symbol-name mode) "-hook")))
+
+(let ((outline-modes '(c-mode c++-mode python-mode)))
+  (dolist (mode outline-modes)
+    (add-hook (get-hook mode) 'outline-minor-mode)))
+
 ;; C modes
 (setq c-default-style '((awk-mode . "awk")
                         (other . "bogner")))

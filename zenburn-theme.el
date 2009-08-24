@@ -131,6 +131,10 @@
                 (340 . ,zenburn-blue-1)
                 (360 . ,zenburn-blue-2)))
 
+(set-variable 'ansi-term-color-vector
+              [unspecified "#3f3f3f" "#bc8383" "#7f9f7f" "#e0cf9f"
+               "#8cc0ff" "#cc6ca3" "#73e0c3" "#dcdccc"])
+
 ;; TODO: find a better way to do this...
 (setq gnus-mode-line-image-cache
       '(image :type xpm :ascent center :data "/* XPM */
