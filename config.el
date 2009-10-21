@@ -1,4 +1,22 @@
 ;;; Functions
+(defun sort-words (reverse beg end)
+  "Sort words in region alphabetically; argument means descending order.
+Called from a program, there are three arguments:
+REVERSE (non-nil means reverse order), BEG and END (region to sort).
+The variable `sort-fold-case' determines whether alphabetic case affects
+the sort order."
+  (interactive "P\nr")
+  (save-excursion
+    (save-restriction
+      (narrow-to-region beg end)
+      (goto-char (point-min))
+      (sort-subr reverse
+		 (function
+		  (lambda ()
+		    (while (and (not (eobp)) (looking-at "\\W"))
+		      (forward-char))))
+		 'forward-word))))
+
 (defun comment-or-uncomment-line ()
   "Comment the line that the point is on."
   (interactive)
@@ -71,6 +89,12 @@ create one."
                                        (lambda (x) (concat "-x " x))
                                        vc-directory-exclusion-list " "))))
     (call-interactively 'diff)))
+
+(autoload 'which-function "which-func")
+(defun which-func ()
+  "Mention the current function name in the echo area."
+  (interactive)
+  (message (concat "Current function: " (which-function))))
 
 ;;; Display
 ;; Remove startup message
