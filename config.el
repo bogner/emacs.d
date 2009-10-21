@@ -108,6 +108,10 @@ create one."
 ;; Disable blinking cursor
 (blink-cursor-mode 0)
 
+;; The default mode line likes to be too wide
+(setq-default mode-line-buffer-identification
+              (propertized-buffer-identification "%b"))
+
 ;; Display line and column numbers
 (setq line-number-mode t)
 (setq column-number-mode t)
@@ -115,7 +119,7 @@ create one."
 ;; Display the time and date
 (setq display-time-day-and-date t)
 (set-variable 'display-time-load-average nil)
-(set-variable 'display-time-24hr-format t)
+(set-variable 'display-time-format "%Y-%m-%d %H:%M")
 (display-time)
 
 ;; Compilation window
@@ -279,6 +283,12 @@ create one."
 (define-key mode-line-buffer-identification-keymap
   [mode-line mouse-2] 'buffer-menu)
 
+;;; modes
+
+(unless (require-or-nil 'diminish)
+  (defun diminish (x y) nil))
+
+(setq-default outline-minor-mode 1)
 (when (require-or-nil 'outline)
   (defvar outline-short-prefix-map
     (let ((map (make-sparse-keymap)))
@@ -305,10 +315,12 @@ create one."
       (define-key map ">" 'outline-demote)
       (define-key map "m" 'outline-insert-heading)
       map))
-  (define-key outline-minor-mode-map (kbd "C-c o") outline-short-prefix-map))
+  (define-key outline-minor-mode-map (kbd "C-c o") outline-short-prefix-map)
+  (diminish 'outline-minor-mode ""))
 
-;;; modes
-(require 'c-styles)
+(when (require-or-nil 'filladapt)
+  (setq-default filladapt-mode 1)
+  (diminish 'filladapt-mode ""))
 
 ;; Highlight TODO
 (let ((todo-modes '(c-mode c++-mode csharp-mode java-mode asm-mode
@@ -321,14 +333,9 @@ create one."
      mode
      '(("\\<\\(TODO\\):" 1 font-lock-warning-face t)))))
 
-(defun get-hook (mode)
-  (intern (concat (symbol-name mode) "-hook")))
-
-(let ((outline-modes '(c-mode c++-mode python-mode)))
-  (dolist (mode outline-modes)
-    (add-hook (get-hook mode) 'outline-minor-mode)))
-
 ;; C modes
+(require 'c-styles)
+
 (setq c-default-style '((awk-mode . "awk")
                         (other . "bogner")))
 (add-hook 'c-initialization-hook
