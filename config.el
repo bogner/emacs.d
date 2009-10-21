@@ -286,6 +286,12 @@ create one."
 
 ;;; modes
 
+; shut the byte-compiler up about keymaps
+(eval-when-compile
+  (defvar outline-minor-mode-map)
+  (defvar c-mode-base-map)
+  (defvar rcirc-mode-map))
+
 (unless (require-or-nil 'diminish)
   (defun diminish (x y) nil))
 
@@ -422,6 +428,7 @@ create one."
     (when (re-search-backward "<.*?> .*$" nil t arg)
       (beginning-of-line)))
 
+  (eval-when-compile (defun insert-or-command (command)))
   (defun insert-or-command (command)
     "If the text at point is read-only, run command, otherwise, do
 self-insert-command"
@@ -440,6 +447,7 @@ self-insert-command"
       (insert-or-command 'rcirc-prev-message)))
 
   ;; We would like to clear the unread marker explicitly
+  (eval-when-compile (defun rcirc-clear-unread (buffer)))
   (define-key rcirc-mode-map (kbd "C-c C-f")
     (lambda () (interactive) (rcirc-clear-unread (current-buffer)))))
 
@@ -451,6 +459,8 @@ self-insert-command"
 
 ;;; Gnus / Message
 (when (require-or-nil 'mm-uu)
+  (eval-when-compile (defun mm-uu-configure ()))
+
   (set-variable 'mm-uu-diff-groups-regexp ".*")
   (when (boundp 'mm-uu-type-alist)
     (assq-delete-all 'diff mm-uu-type-alist)
@@ -478,6 +488,8 @@ self-insert-command"
 (set-variable 'diary-display-function 'fancy-diary-display)
 (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
 
+; the byte compiler likes to complain about appt-display-duration
+(eval-when-compile (defvar appt-display-duration))
 (defun appt-notify-script (min-to-app new-time appt-msg)
   "Display appointment due in MIN-TO-APP (a string) minutes.
 NEW-TIME is a string giving the date. Displays the appointment
