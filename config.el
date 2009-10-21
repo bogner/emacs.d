@@ -370,6 +370,8 @@ create one."
 (defalias 'sgml-mode 'nxml-mode)
 (defalias 'html-mode 'nxml-mode)
 (defalias 'xml-mode 'nxml-mode)
+;; For some reason nxml-mode doesn't want to bind alt-tab
+(set-variable 'nxml-bind-meta-tab-to-complete-flag t)
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.asy\\'" . asy-mode))
