@@ -129,7 +129,8 @@ create one."
 (defvar local-font "DejaVu Sans Mono" "The font we'd like to use")
 (add-to-list 'default-frame-alist `(font . ,local-font))
 
-(load-theme 'zenburn)
+(when (fboundp 'load-theme)
+  (load-theme 'zenburn))
 
 ;;; Behaviour
 ;; Single character yes/no prompt
