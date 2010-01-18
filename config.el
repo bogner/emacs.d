@@ -457,6 +457,19 @@ self-insert-command"
 (set-variable 'w3m-default-display-inline-images t)
 (set-variable 'mm-w3m-safe-url-regexp nil)
 
+;; Some great w3m hackery
+(defun w3m-wiki-login ()
+  (interactive)
+  (goto-char (point-max))
+  (when (search-backward "Log In" nil t)
+    (w3m-view-this-url)))
+
+(defun w3m-wiki-edit ()
+  (interactive)
+  (goto-char (point-max))
+  (when (search-backward "Edit" nil t)
+    (w3m-view-this-url)))
+
 ;;; Gnus / Message
 (when (require-or-nil 'mm-uu)
   (eval-when-compile (defun mm-uu-configure ()))
