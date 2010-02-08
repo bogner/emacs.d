@@ -1,6 +1,6 @@
 ;;; haskell-mode.el --- A Haskell editing mode    -*-coding: iso-8859-1;-*-
 
-;; Copyright (C) 2003, 2004, 2005, 2006, 2007  Free Software Foundation, Inc
+;; Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008  Free Software Foundation, Inc
 ;; Copyright (C) 1992, 1997-1998 Simon Marlow, Graeme E Moss, and Tommy Thorn
 
 ;; Authors: 1992      Simon Marlow
@@ -9,7 +9,7 @@
 ;;          2001-2002 Reuben Thomas (>=v1.4)
 ;;          2003      Dave Love <fx@gnu.org>
 ;; Keywords: faces files Haskell
-;; Version: v2_4
+;; Version: v2.6.4
 ;; URL: http://www.haskell.org/haskell-mode/
 
 ;; This file is not part of GNU Emacs.
@@ -46,6 +46,9 @@
 ;; `haskell-doc', Hans-Wolfgang Loidl
 ;;   Echoes types of functions or syntax of keywords when the cursor is idle.
 ;;
+;; `haskell-indentation', Kristof Bastiaensen
+;;   Intelligent semi-automatic indentation, mark two.
+;;
 ;; `haskell-indent', Guy Lapalme
 ;;   Intelligent semi-automatic indentation.
 ;;
@@ -62,49 +65,6 @@
 ;; This mode supports full Haskell 1.4 including literate scripts.
 ;; In some versions of (X)Emacs it may only support Latin-1, not Unicode.
 ;;
-;; Installation:
-;; 
-;; Put in your ~/.emacs:
-;;
-;;    (setq auto-mode-alist
-;;          (append auto-mode-alist
-;;                  '(("\\.[hg]s$"  . haskell-mode)
-;;                    ("\\.hi$"     . haskell-mode)
-;;                    ("\\.l[hg]s$" . literate-haskell-mode))))
-;;
-;;    (autoload 'haskell-mode "haskell-mode"
-;;       "Major mode for editing Haskell scripts." t)
-;;    (autoload 'literate-haskell-mode "haskell-mode"
-;;       "Major mode for editing literate Haskell scripts." t)
-;;
-;; with `haskell-mode.el' accessible somewhere on the load-path.
-;; To add a directory `~/lib/emacs' (for example) to the load-path,
-;; add the following to .emacs:
-;;
-;;    (setq load-path (cons "~/lib/emacs" load-path))
-;;
-;; To turn any of the supported modules on for all buffers, add the
-;; appropriate line(s) to .emacs:
-;;
-;;    (add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
-;;    (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-;;    (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-;;    (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
-;;
-;; Make sure the module files are also on the load-path.  Note that
-;; the two indentation modules are mutually exclusive: Use only one.
-;;
-;;
-;; Customisation:
-;;
-;; Set the value of `haskell-literate-default' to your preferred
-;; literate style: `bird' or `tex', within .emacs as follows:
-;;
-;;    (setq haskell-literate-default 'tex)
-;;
-;; Also see the customisations of the modules.
-;;
-;;
 ;; History:
 ;;
 ;; This mode is based on an editing mode by Simon Marlow 11/1/92
@@ -117,6 +77,9 @@
 ;; thorn@irisa.fr quoting the version of the mode you are using, the
 ;; version of Emacs you are using, and a small example of the problem
 ;; or suggestion.
+;;
+;; Version 1.5
+;;   Added autoload for haskell-indentation
 ;;
 ;; Version 1.43:
 ;;   Various tweaks to doc strings and customization support from
@@ -199,7 +162,7 @@
 ;; All functions/variables start with `(literate-)haskell-'.
 
 ;; Version of mode.
-(defconst haskell-version "v2_4"
+(defconst haskell-version "v2.6.4"
   "`haskell-mode' version number.")
 (defun haskell-version ()
   "Echo the current version of `haskell-mode' in the minibuffer."
@@ -211,11 +174,18 @@
   :group 'languages
   :prefix "haskell-")
 
+;; Set load-path
+;;;###autoload
+(add-to-list 'load-path
+   (or (file-name-directory load-file-name) (car load-path)))
+
 ;; Set up autoloads for the modules we supply
 (autoload 'turn-on-haskell-decl-scan "haskell-decl-scan"
   "Turn on Haskell declaration scanning." t)
 (autoload 'turn-on-haskell-doc-mode "haskell-doc"
   "Turn on Haskell Doc minor mode." t)
+(autoload 'turn-on-haskell-indentation "haskell-indentation"
+  "Turn on advanced Haskell indentation." t)
 (autoload 'turn-on-haskell-indent "haskell-indent"
   "Turn on Haskell indentation." t)
 (autoload 'turn-on-haskell-simple-indent "haskell-simple-indent"
@@ -412,10 +382,10 @@ May return a qualified name."
 ;; Various mode variables.
 
 (defcustom haskell-mode-hook nil
-  "Hook run after entering Haskell mode."
+  "Hook run after entering Haskell mode. Do not select more than one of the three indentation modes."
   :type 'hook
-  :options '(turn-on-haskell-indent turn-on-font-lock turn-on-eldoc-mode
-	     imenu-add-menubar-index))
+  :options '(turn-on-haskell-indent turn-on-haskell-indentation turn-on-font-lock turn-on-eldoc-mode
+	     turn-on-simple-indent turn-on-haskell-doc-mode imenu-add-menubar-index))
 
 (defvar eldoc-print-current-symbol-info-function)
 
@@ -437,6 +407,9 @@ are supported with an `autoload' command:
 
    `haskell-doc', Hans-Wolfgang Loidl
      Echoes types of functions or syntax of keywords when the cursor is idle.
+
+   `haskell-indentation', Kristof Bastiaensen
+     Intelligent semi-automatic indentation Mk2
 
    `haskell-indent', Guy Lapalme
      Intelligent semi-automatic indentation.
@@ -494,12 +467,16 @@ Invokes `haskell-mode-hook'."
            ((re-search-forward "^\\\\\\(begin\\|end\\){code}$" nil t) 'tex)
            ((re-search-forward "^>" nil t) 'bird)
            (t haskell-literate-default))))
-  (set (make-local-variable 'mode-line-process) '("/" haskell-literate)))
+  (if (eq haskell-literate 'bird)
+      ;; fill-comment-paragraph isn't much use there, and even gets confused
+      ;; by the syntax-table text-properties we add to mark the first char
+      ;; of each line as a comment-starter.
+      (set (make-local-variable 'fill-paragraph-handle-comment) nil))
+  (set (make-local-variable 'mode-line-process)
+       '("/" (:eval (symbol-name haskell-literate)))))
 
 ;;;###autoload(add-to-list 'auto-mode-alist '("\\.\\(?:[gh]s\\|hi\\)\\'" . haskell-mode))
 ;;;###autoload(add-to-list 'auto-mode-alist '("\\.l[gh]s\\'" . literate-haskell-mode))
-;;;###autoload(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-;;;###autoload(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 
 (defcustom haskell-hoogle-command
   (if (executable-find "hoogle") "hoogle")
@@ -527,6 +504,25 @@ If nil, use the Hoogle web-site."
       (with-current-buffer standard-output
         (start-process "hoogle" (current-buffer) haskell-hoogle-command
                        query)))))
+
+;;;###autoload
+(defalias 'hoogle 'haskell-hoogle)
+
+;;;###autoload
+(defun haskell-hayoo (query)
+  "Do a Hayoo search for QUERY."
+  (interactive
+   (let ((def (haskell-ident-at-point)))
+     (if (and def (symbolp def)) (setq def (symbol-name def)))
+     (list (read-string (if def
+                            (format "Hayoo query (default %s): " def)
+                          "Hayoo query: ")
+                        nil nil def))))
+  (browse-url (format "http://holumbus.fh-wedel.de/hayoo/hayoo.html?query=%s" query)))
+
+;;;###autoload
+(defalias 'hayoo 'haskell-hayoo)
+
 
 ;; Provide ourselves:
 

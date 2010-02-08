@@ -1,6 +1,6 @@
 ;;; haskell-font-lock.el --- Font locking module for Haskell Mode
 
-;; Copyright 2003, 2004, 2005, 2006, 2007  Free Software Foundation, Inc.
+;; Copyright 2003, 2004, 2005, 2006, 2007, 2008  Free Software Foundation, Inc.
 ;; Copyright 1997-1998 Graeme E Moss, and Tommy Thorn
 
 ;; Authors: 1997-1998 Graeme E Moss <gem@cs.york.ac.uk> and
@@ -142,12 +142,23 @@ and `unicode'."
               (cons "->" (decode-char 'ucs 8594))
 	      (cons "<-" (decode-char 'ucs 8592))
 	      (cons "=>" (decode-char 'ucs 8658))
+              (cons "()" (decode-char 'ucs #X2205))
+              (cons "==" (decode-char 'ucs #X2261))
+              (cons "/=" (decode-char 'ucs #X2262))
+              (cons ">=" (decode-char 'ucs #X2265))
+              (cons "<=" (decode-char 'ucs #X2264))
+              (cons "!!" (decode-char 'ucs #X203C))
+              (cons "&&" (decode-char 'ucs #X2227))
+              (cons "||" (decode-char 'ucs #X2228))
+              (cons "sqrt" (decode-char 'ucs #X221A))
+              (cons "undefined" (decode-char 'ucs #X22A5))
+              (cons "pi" (decode-char 'ucs #X3C0))
               (cons "~>" (decode-char 'ucs 8669)) ;; Omega language
               ;; (cons "~>" (decode-char 'ucs 8605)) ;; less desirable
               (cons "-<" (decode-char 'ucs 8610)) ;; Paterson's arrow syntax
               ;; (cons "-<" (decode-char 'ucs 10521)) ;; nicer but uncommon
 	      (cons "::" (decode-char 'ucs 8759))
-	      (list "." (decode-char 'ucs 9675)
+	      (list "." (decode-char 'ucs 8728) ; (decode-char 'ucs 9675)
                     ;; Need a predicate here to distinguish the . used by
                     ;; forall <foo> . <bar>.
                     'haskell-font-lock-dot-is-not-composition)

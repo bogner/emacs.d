@@ -357,9 +357,12 @@ create one."
                             (setq indent-tabs-mode t)
                             (setq tab-width 2)))
 
+;; set up haskell-mode autoloads
+(load-library "haskell-site-file")
+
 ;; Hooks to make haskell mode behave
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
 ;; Some eye candy for haskell-mode. #X03BB is a lambda.
 (font-lock-add-keywords
@@ -373,7 +376,6 @@ create one."
 ;; Set up modes that will be autoloaded
 (autoload 'asy-mode "asy-mode")
 (autoload 'csharp-mode "csharp-mode")
-(autoload 'haskell-mode "haskell-mode")
 
 (defalias 'sgml-mode 'nxml-mode)
 (defalias 'html-mode 'nxml-mode)
@@ -384,8 +386,6 @@ create one."
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.asy\\'" . asy-mode))
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
-(add-to-list 'auto-mode-alist '("\\.\\(hs\\|hsc\\)\\'" . haskell-mode))
-(add-to-list 'auto-mode-alist '("\\.lhs\\'" . literate-haskell-mode))
 (add-to-list 'auto-mode-alist
              '("\\.\\(aspx\\|xsl\\|xhtml\\|xsd\\|svg\\|rss\\)\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.eml\\'" . mail-mode))
