@@ -453,6 +453,10 @@ self-insert-command"
   (define-key rcirc-mode-map (kbd "C-c C-f")
     (lambda () (interactive) (rcirc-clear-unread (current-buffer)))))
 
+;;; Web Browsers
+(set-variable 'browse-url-browser-function 'browse-url-generic)
+(set-variable 'browse-url-generic-program "x-www-browser")
+
 ;;; w3m
 (set-variable 'w3m-use-cookies t)
 (set-variable 'w3m-key-binding 'info)
