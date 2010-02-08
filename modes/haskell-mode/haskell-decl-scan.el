@@ -1,6 +1,6 @@
 ;;; haskell-decl-scan.el --- Declaration scanning module for Haskell Mode
 
-;; Copyright (C) 2004, 2005, 2007  Free Software Foundation, Inc.
+;; Copyright (C) 2004, 2005, 2007, 2009  Free Software Foundation, Inc.
 ;; Copyright (C) 1997-1998 Graeme E Moss
 
 ;; Author: 1997-1998 Graeme E Moss <gem@cs.york.ac.uk>
@@ -215,6 +215,16 @@ current line that starts with REGEXP and is not in `font-lock-comment-face'."
 		  (eq (get-text-property (point) 'face)
 		      'font-lock-comment-face)))))
 
+(defun haskell-ds-move-to-start-regexp-skipping-comments (inc regexp)
+  "Like haskell-ds-move-to-start-regexp, but uses syntax-ppss to
+  skip comments"
+  (let (p)
+    (loop
+     do (setq p (point))
+        (haskell-ds-move-to-start-regexp inc regexp)
+     while (and (nth 4 (syntax-ppss))
+                (/= p (point))))))
+
 (defvar literate-haskell-ds-line-prefix "> ?"
   "Regexp matching start of a line of Bird-style literate code.
 Current value is \"> \" as we assume top-level declarations start
@@ -260,7 +270,7 @@ then point does not move if already at the start of a declaration."
 	(bound (if direction (point-max) (point-min))))
     ;; Change syntax table.
     (with-syntax-table haskell-ds-syntax-table
-      ;; Move to beginning of line that starts the "current
+      ;; move to beginning of line that starts the "current
       ;; declaration" (dependent on DIRECTION and FIX), and then get
       ;; the variable typed or bound by this declaration, if any.
       (let ( ;; Where point was at call of function.
@@ -294,8 +304,8 @@ then point does not move if already at the start of a declaration."
           (if (and start (bobp))
               (setq abyss t)
             ;; Otherwise we move to the start of the first declaration
-            ;; on a line preceeding the current one.
-            (haskell-ds-move-to-start-regexp -1 start-decl-re))))
+            ;; on a line preceeding the current one, skipping comments
+            (haskell-ds-move-to-start-regexp-skipping-comments -1 start-decl-re))))
       ;; If we are in the abyss, position and return as appropriate.
       (if abyss
           (if (not direction)
@@ -309,16 +319,17 @@ then point does not move if already at the start of a declaration."
             ;; declaration if moving backward, or move to the next
             ;; declaration if moving forward.
             (if direction
-                (haskell-ds-move-to-start-regexp 1 start-decl-re))
+                (haskell-ds-move-to-start-regexp-skipping-comments 1 start-decl-re))
           ;; If there is a variable, find the first
           ;; succeeding/preceeding declaration that does not type or
-          ;; bind it.  Check for reaching start/end of buffer.
-          (haskell-ds-move-to-start-regexp increment start-decl-re)
+          ;; bind it.  Check for reaching start/end of buffer and
+          ;; comments.
+          (haskell-ds-move-to-start-regexp-skipping-comments increment start-decl-re)
           (while (and (/= (point) bound)
                       (and (setq newname (haskell-ds-get-variable line-prefix))
                            (string= name newname)))
             (setq name newname)
-            (haskell-ds-move-to-start-regexp increment start-decl-re))
+            (haskell-ds-move-to-start-regexp-skipping-comments increment start-decl-re))
           ;; If we are going backward, and have either reached a new
           ;; declaration or the beginning of a buffer that does not
           ;; start with a declaration, move forward to start of next
@@ -335,7 +346,7 @@ then point does not move if already at the start of a declaration."
                                            line-prefix))))
                        (and (not (looking-at start-decl-re))
                             (bobp))))
-              (haskell-ds-move-to-start-regexp 1 start-decl-re)))
+              (haskell-ds-move-to-start-regexp-skipping-comments 1 start-decl-re)))
         ;; Store whether we are at the start of a declaration or not.
         ;; Used to calculate final result.
         (let ((at-start-decl (looking-at start-decl-re)))
@@ -395,8 +406,7 @@ positions and the type is one of the symbols \"variable\", \"datatype\",
       ;; Start and end of search space is currently just the starting
       ;; line of the declaration.
       (setq start (point)
-	    end   (progn (end-of-line) (point)))
-      (goto-char start)
+	    end   (line-end-position))
       (cond
        ;; If the start of the top-level declaration does not begin
        ;; with a starting keyword, then (if legal) must be a type
@@ -426,7 +436,7 @@ positions and the type is one of the symbols \"variable\", \"datatype\",
 	      (setq name-pos (match-beginning 1))
 	      (setq type 'class))))
        ;; Import declaration.
-       ((looking-at "import[ \t]+\\(qualified[ \t]+\\)?\\(\\sw+\\)")
+       ((looking-at "import[ \t]+\\(qualified[ \t]+\\)?\\(\\(?:\\sw\\|.\\)+\\)")
 	(setq name (haskell-ds-match-string 2))
 	(setq name-pos (match-beginning 2))
 	(setq type 'import))
@@ -486,7 +496,7 @@ datatypes) in a Haskell file for the `imenu' package."
 	 (index-type-alist '())    ;; Datatypes
 	 ;; Variables for showing progress.
 	 (bufname (buffer-name))
-	 (divisor-of-progress (max 1 (/ (point-max) 100)))
+	 (divisor-of-progress (max 1 (/ (buffer-size) 100)))
 	 ;; The result we wish to return.
 	 result)
     (goto-char (point-min))
@@ -494,7 +504,7 @@ datatypes) in a Haskell file for the `imenu' package."
     ;; starts of the top-level declarations.
     (while (< (point) (point-max))
       (message "Scanning declarations in %s... (%3d%%)" bufname
-	       (/ (point) divisor-of-progress))
+	       (/ (- (point) (point-min)) divisor-of-progress))
       ;; Grab the next declaration.
       (setq result (haskell-ds-generic-find-next-decl bird-literate))
       (if result
@@ -505,13 +515,13 @@ datatypes) in a Haskell file for the `imenu' package."
 		 (start-pos (car posns))
 		 (type (cdr result))
 		 ;; Place `(name . start-pos)' in the correct alist.
-		 (alist (cond
-			 ((eq type 'variable) 'index-var-alist)
-			 ((eq type 'datatype) 'index-type-alist)
-			 ((eq type 'class) 'index-class-alist)
-			 ((eq type 'import) 'index-imp-alist)
-			 ((eq type 'instance) 'index-inst-alist))))
-	    (set alist (cons (cons name start-pos) (eval alist))))))
+		 (sym (cdr (assq type
+                                 '((variable . index-var-alist)
+                                   (datatype . index-type-alist)
+                                   (class . index-class-alist)
+                                   (import . index-imp-alist)
+                                   (instance . index-inst-alist))))))
+	    (set sym (cons (cons name start-pos) (symbol-value sym))))))
     ;; Now sort all the lists, label them, and place them in one list.
     (message "Sorting declarations in %s..." bufname)
     (and index-type-alist
@@ -609,6 +619,7 @@ datatypes) in a Haskell file for the `imenu' package."
 
 ;; The main functions to turn on declaration scanning.
 (defun turn-on-haskell-decl-scan ()
+  (interactive)
   "Unconditionally activate `haskell-decl-scan-mode'."
   (haskell-decl-scan-mode 1))
 
@@ -657,6 +668,7 @@ is nil or `tex', a non-literate or LaTeX-style literate script is
 assumed, respectively.
 
 Invokes `haskell-decl-scan-mode-hook'."
+  (interactive)
   (if (boundp 'beginning-of-defun-function)
       (if haskell-decl-scan-mode
           (progn
