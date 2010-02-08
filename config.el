@@ -125,6 +125,7 @@ create one."
 ;; Compilation window
 (setq compilation-window-height 20)
 (setq compilation-scroll-output t)
+(setq display-buffer-reuse-frames t)
 
 (defvar local-font "DejaVu Sans Mono" "The font we'd like to use")
 (add-to-list 'default-frame-alist `(font . ,local-font))
@@ -243,10 +244,11 @@ create one."
 ;;; Key bindings
 ;; Compilation --- prefix \C-cc to prompt for a compile command
 (setq-default compilation-read-command nil)
-(global-set-key (kbd "C-c b") (lambda (pfx)
-                                (interactive "p")
-                                (setenv "buffer" (file-relative-name (buffer-file-name)))
-                                (call-interactively 'compile)))
+(defun compile-with-buffer-in-env (command)
+  (interactive "p")
+  (setenv "buffer" (file-relative-name (buffer-file-name)))
+  (call-interactively 'compile))
+(global-set-key (kbd "C-c b") 'compile-with-buffer-in-env)
 
 ;; dabbrev-completion is more bash-like than dabbrev-expand
 (global-set-key (kbd "M-/") (lambda ()
