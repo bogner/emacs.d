@@ -1,5 +1,6 @@
 *.elc
 /auto-save-list/
 /history
+/rcirc-log/
 /tramp
 rcirc-auth.el
