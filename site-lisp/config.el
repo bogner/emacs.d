@@ -286,6 +286,12 @@ create one."
 (define-key mode-line-buffer-identification-keymap
   [mode-line mouse-2] 'buffer-menu)
 
+;; Flip isearch and isearch-regexp, since I always want the latter.
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
+
 ;;; modes
 
 ; shut the byte-compiler up about keymaps
