@@ -362,7 +362,7 @@ create one."
 
 ;; Hooks to make haskell mode behave
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 
 ;; Some eye candy for haskell-mode. #X03BB is a lambda.
 (font-lock-add-keywords
