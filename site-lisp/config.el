@@ -281,10 +281,38 @@ create one."
                               (interactive "p")
                               (line-move-visual (- (or arg 1)))))
 
-;; buffer-menu is nicer than list-buffers
-(global-set-key (kbd "C-x C-b") 'buffer-menu)
-(define-key mode-line-buffer-identification-keymap
-  [mode-line mouse-2] 'buffer-menu)
+(let ((buffer-function (cond ((fboundp 'ibuffer) 'ibuffer)
+                             ((fboundp 'buffer-menu) 'buffer-menu)
+                             (t 'list-buffers))))
+  (global-set-key (kbd "C-x C-b") buffer-function)
+  (define-key mode-line-buffer-identification-keymap
+    [mode-line mouse-2] buffer-function))
+
+(when (fboundp 'ibuffer)
+  (setq ibuffer-saved-filter-groups
+        '(("default"
+           ("docs" (or
+                    (mode . Info-mode)
+                    (mode . apropos-mode)
+                    (mode . help-mode)
+                    (mode . Man-mode)))
+           ("gnus" (or
+                    (mode . bbdb-mode)
+                    (mode . gnus-article-mode)
+                    (mode . gnus-group-mode)
+                    (mode . gnus-summary-mode)
+                    (mode . message-mode)
+                    (name . "^\\.bbdb$")
+                    (name . "^\\.newsrc-dribble")))
+           ("vc buffers" (or
+                          (name . "^\\*vc-")
+                          (mode . vc-annotate-mode)))
+           ("tramp shells" (name . "^\\*tramp/"))
+           ("files" (filename . "")))))
+
+  (add-hook 'ibuffer-mode-hook
+            (lambda ()
+              (ibuffer-switch-to-saved-filter-groups "default"))))
 
 ;; Flip isearch and isearch-regexp, since I always want the latter.
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
