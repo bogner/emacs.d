@@ -179,7 +179,7 @@ create one."
 
 ;; Unified diffs
 (setq-default diff-switches "-up")
-(set-variable 'diff-default-read-only t)
+(set-variable 'diff-default-read-only nil)
 
 ;; Ediff: no extra frames, split horizontally for wide windows
 (set-variable 'ediff-window-setup-function 'ediff-setup-windows-plain)
