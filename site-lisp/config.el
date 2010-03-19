@@ -424,8 +424,6 @@ create one."
              '("\\.\\(aspx\\|xsl\\|xhtml\\|xsd\\|svg\\|rss\\)\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.eml\\'" . mail-mode))
 (add-to-list 'auto-mode-alist '("\\.arm\\'" . asm-mode))
-(when (fboundp 'markdown-mode)
-  (add-to-list 'auto-mode-alist '("\\.\\(mdwn\\|txt\\)\\'" . markdown-mode)))
 
 ;;; RCirc
 (when (require-or-nil 'rcirc)
