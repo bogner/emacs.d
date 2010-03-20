@@ -289,7 +289,7 @@ create one."
     [mode-line mouse-2] buffer-function))
 
 (when (fboundp 'ibuffer)
-  (setq ibuffer-saved-filter-groups
+  (set-variable 'ibuffer-saved-filter-groups
         '(("default"
            ("docs" (or
                     (mode . Info-mode)
@@ -499,6 +499,7 @@ self-insert-command"
 (set-variable 'mm-w3m-safe-url-regexp nil)
 
 ;; Some great w3m hackery
+(eval-when-compile (defun w3m-view-this-url))
 (defun w3m-wiki-login ()
   (interactive)
   (goto-char (point-max))
