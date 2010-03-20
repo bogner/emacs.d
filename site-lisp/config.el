@@ -513,6 +513,81 @@ self-insert-command"
     (w3m-view-this-url)))
 
 ;;; Gnus / Message
+(eval-when-compile
+  (defun gnus-buffer-live-p (buf))
+  (defun message-fetch-field (field))
+  (defun gnus-summary-insert-old-articles (n))
+  (defvar gnus-article-buffer)
+  (defvar gnus-group-mode-map))
+
+(defun infer-from-article (domain)
+  (if (gnus-buffer-live-p gnus-article-buffer)
+      (save-excursion
+        (set-buffer gnus-article-buffer)
+        (let ((re (concat "\\("
+                          "\\(\"[A-Za-z0-9]+,? [A-Za-z0-9]+\"\\)"
+                          "\\|"
+                          "\\( *[A-Za-z0-9 ]+\\)"
+                          "\\) *"
+                          "<?[A-Za-z0-9_.-]+@"
+                          domain
+                          ">?"))
+              (to (message-fetch-field "to"))
+              (cc (message-fetch-field "cc")))
+          (message re)
+          (cond ((and to (string-match re to)) (match-string 0 to))
+                ((and cc (string-match re cc)) (match-string 0 cc))
+                (t user-mail-address))))
+    user-mail-address))
+
+(defun gnus-group-with-recent (select-fn &optional all)
+  "Select a newsgroup using select-fn, but add some recent articles as well"
+  (funcall select-fn all)
+  (unless all
+    (gnus-summary-insert-old-articles (/ (* 2 (frame-height)) 3))))
+
+(defun gnus-group-select-recent (&optional all)
+  "Select this newsgroup, displaying some recent articles"
+  (interactive "P")
+  (gnus-group-with-recent 'gnus-group-select-group all))
+
+(defun gnus-group-read-recent (&optional all)
+  "read this newsgroup, displaying some recent articles"
+  (interactive "P")
+  (gnus-group-with-recent 'gnus-group-read-group all))
+
+(when (require-or-nil 'gnus)
+  (setq mail-user-agent 'gnus-user-agent)
+
+  (set-variable 'gnus-gcc-mark-as-read t)
+
+  ;; Appearance
+  (set-variable 'gnus-group-mode-line-format "Gnus: %%b")
+  (set-variable 'gnus-buttonized-mime-types '("multipart/alternative"
+                                              "multipart/mixed"))
+  (set-variable 'mm-text-html-renderer 'w3m)
+
+  (set-variable 'gnus-treat-unsplit-urls t)
+  (set-variable 'gnus-treat-date-local 'head)
+
+  ;; Address magic
+  (set-variable 'message-subscribed-address-functions
+                '(gnus-find-subscribed-addresses))
+
+  (define-key gnus-group-mode-map (kbd "\r") 'gnus-group-select-recent)
+  (define-key gnus-group-mode-map (kbd "<SPC>") 'gnus-group-read-recent))
+
+(when (require-or-nil 'bbdb)
+  (bbdb-initialize 'gnus 'message)
+  (bbdb-insinuate-gnus)
+  (bbdb-insinuate-message)
+  (set-variable 'bbdb-always-add-addresses nil)
+  (set-variable 'bbdb-expand-mail-aliases t)
+  (set-variable 'bbdb-quiet-about-name-mismatches 1)
+  (set-variable 'bbdb-use-pop-up nil)
+  (set-variable 'bbdb-dwim-net-address-allow-redundancy t)
+  (add-hook 'message-setup-hook 'bbdb-define-all-aliases))
+
 (when (require-or-nil 'mm-uu)
   (eval-when-compile (defun mm-uu-configure ()))
 
