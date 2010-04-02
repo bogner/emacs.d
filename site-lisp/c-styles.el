@@ -1,9 +1,9 @@
 (c-add-style "bogner"
              '("stroustrup"
+               (c-basic-offset . 4)
                (c-offsets-alist . ((arglist-intro . +)
                                    (statement-cont . c-lineup-assignments)))
                (c-tab-always-indents . nil)
-               (tab-width . 4)
                (indent-tabs-mode . nil)))
 
 (c-add-style "bob-beck"
@@ -19,33 +19,28 @@
                (indent-tabs-mode . t)
                (show-trailing-whitespace . t)))
 
-(c-add-style "cmpe490"
-             '("stroustrup"
-               (c-basic-offset . 2)
-               (c-offsets-alist . ((arglist-intro . +)
-                                   (statement-cont . c-lineup-assignments)))
-               (c-tab-always-indents . nil)
-               (tab-width . 4)
-               (indent-tabs-mode . nil)))
+(c-add-style "nsfw"
+	     '("cc-mode"
+	       (indent-tabs-mode . nil)
+	       (c-basic-offset . 4)
+	       (c-offsets-alist
+		(substatement-open . 0)
+		(label . 0))))
 
-(c-add-style "forge"
-             '("bsd"
-               (c-basic-offset . 4)
-               (indent-tabs-mode . t)
-               (tab-width . 4)))
+(defun find-c-style-for-file (rules)
+  (catch 'found
+    (dolist (rule rules)
+      (when (string-match (car rule) buffer-file-name)
+        (throw 'found (cdr rule))))))
 
-(c-add-style "yy"
-	     '("k&r"
-	       (c-basic-offset . 4)))
+(defun c-auto-set-style ()
+  (let ((styles '(("/snac/cache/" . "gnu")
+                  ("/snac/dmg/" . "gnu")
+                  ("/stdf/" . "gnu")
+                  ("/nsfw/" . "nsfw")
+                  (".*" . "bogner"))))
+    (c-set-style (or (find-c-style-for-file styles) "bogner"))))
 
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (cond
-	     ((string-match "/cmpe490" buffer-file-name)
-              (c-set-style "cmpe490"))
-	     ((string-match "/cmput415/" buffer-file-name)
-              (c-set-style "bob-beck"))
-	     ((string-match "/yy/" buffer-file-name)
-              (c-set-style "yy")))))
+(add-hook 'c-mode-common-hook 'c-auto-set-style)
 
 (provide 'c-styles)
