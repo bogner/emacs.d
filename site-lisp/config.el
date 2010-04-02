@@ -365,6 +365,9 @@ create one."
   (setq-default filladapt-mode 1)
   (diminish 'filladapt-mode ""))
 
+(when (not (fboundp 'subword-mode))
+  (defalias 'subword-mode 'c-subword-mode))
+
 ;; Highlight TODO
 (let ((todo-modes '(c-mode c++-mode csharp-mode java-mode asm-mode
                     common-lisp-mode emacs-lisp-mode lisp-mode haskell-mode
