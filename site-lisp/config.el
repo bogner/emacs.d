@@ -388,12 +388,6 @@ create one."
           (lambda ()
             (define-key c-mode-base-map "\C-m" 'newline-and-indent)))
 
-;; C# and ASPX
-(add-hook 'csharp-mode-hook (lambda () (c-set-style "forge")))
-(add-hook 'aspx-mode-hook (lambda ()
-                            (setq indent-tabs-mode t)
-                            (setq tab-width 2)))
-
 ;; set up haskell-mode autoloads
 (load-library "haskell-site-file")
 
