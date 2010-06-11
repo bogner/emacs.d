@@ -526,14 +526,14 @@ self-insert-command"
                           "\\|"
                           "\\( *[A-Za-z0-9 ]+\\)"
                           "\\) *"
-                          "<?[A-Za-z0-9_.-]+@"
+                          "<?([A-Za-z0-9_.-]+@"
                           domain
-                          ">?"))
+                          ")>?"))
               (to (message-fetch-field "to"))
               (cc (message-fetch-field "cc")))
           (message re)
-          (cond ((and to (string-match re to)) (match-string 0 to))
-                ((and cc (string-match re cc)) (match-string 0 cc))
+          (cond ((and to (string-match re to)) (match-string 1 to))
+                ((and cc (string-match re cc)) (match-string 1 cc))
                 (t user-mail-address))))
     user-mail-address))
 
