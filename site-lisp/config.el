@@ -407,6 +407,7 @@ create one."
 ;; Set up modes that will be autoloaded
 (autoload 'asy-mode "asy-mode")
 (autoload 'csharp-mode "csharp-mode")
+(autoload 'd-mode "d-mode")
 
 (defalias 'sgml-mode 'nxml-mode)
 (defalias 'html-mode 'nxml-mode)
@@ -417,6 +418,7 @@ create one."
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.asy\\'" . asy-mode))
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
+(add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
 (add-to-list 'auto-mode-alist
              '("\\.\\(aspx\\|xsl\\|xhtml\\|xsd\\|svg\\|rss\\)\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.eml\\'" . mail-mode))
