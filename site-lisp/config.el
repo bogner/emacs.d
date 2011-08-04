@@ -209,6 +209,7 @@ create one."
 
 ;; Delete trailing whitespace on save
 (defvar delete-ws-on-save t)
+(make-variable-buffer-local 'delete-ws-on-save)
 (add-hook 'before-save-hook
           (lambda ()
             (when delete-ws-on-save
