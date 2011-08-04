@@ -292,28 +292,34 @@ create one."
   (define-key mode-line-buffer-identification-keymap
     [mode-line mouse-2] buffer-function))
 
+(defvar local-ibuffer-filter-groups '() "Extra ibuffer filter groups")
 (when (fboundp 'ibuffer)
-  (set-variable 'ibuffer-saved-filter-groups
-        '(("default"
-           ("docs" (or
-                    (mode . Info-mode)
-                    (mode . apropos-mode)
-                    (mode . help-mode)
-                    (mode . Man-mode)))
-           ("gnus" (or
-                    (mode . bbdb-mode)
-                    (mode . gnus-article-mode)
-                    (mode . gnus-group-mode)
-                    (mode . gnus-summary-mode)
-                    (mode . message-mode)
-                    (name . "^\\.bbdb$")
-                    (name . "^\\.newsrc-dribble")))
-           ("vc buffers" (or
-                          (name . "^\\*vc-")
-                          (mode . vc-annotate-mode)))
-           ("tramp shells" (name . "^\\*tramp/"))
-           ("files" (filename . "")))))
-
+  (let ((default-filter-group
+          '(("docs" (or
+                     (mode . Info-mode)
+                     (mode . apropos-mode)
+                     (mode . help-mode)
+                     (mode . Man-mode)))
+            ("gnus" (or
+                     (mode . bbdb-mode)
+                     (mode . gnus-article-mode)
+                     (mode . gnus-group-mode)
+                     (mode . gnus-summary-mode)
+                     (mode . message-mode)
+                     (name . "^\\.bbdb$")
+                     (name . "^\\.newsrc-dribble")))
+            ("vc buffers" (or
+                           (name . "^\\*vc-")
+                           (mode . vc-annotate-mode)))
+            ("tramp shells" (name . "^\\*tramp/"))
+            ("files" (filename . "")))))
+    (set-variable 'ibuffer-saved-filter-groups
+                  (append
+                   (list (cons "default" default-filter-group))
+                   (mapcar
+                    (lambda (g)
+                      (cons (car g) (append (cdr g) default-filter-group)))
+                    local-ibuffer-filter-groups))))
   (add-hook 'ibuffer-mode-hook
             (lambda ()
               (ibuffer-switch-to-saved-filter-groups "default"))))
