@@ -162,6 +162,9 @@ create one."
 ;; macros that deal with multiple lines
 (set-variable 'line-move-visual nil)
 
+;; Focus follows mouse
+(set-variable 'mouse-autoselect-window t)
+
 ;; Enable the mouse wheel
 (mouse-wheel-mode 1)
 
