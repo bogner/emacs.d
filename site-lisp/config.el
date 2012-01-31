@@ -436,17 +436,6 @@ create one."
 
 ;;; RCirc
 (when (require-or-nil 'rcirc)
-  (set-variable 'rcirc-default-nick "bogner")
-
-  ;; Servers
-  (set-variable 'rcirc-server-alist
-                '(("irc.freenode.net"
-                   :channels ("#haskell" "#xmonad" "#ghc"))
-                  ("irc.oftc.net"
-                   :channels ("#llvm"))))
-
-  (when (file-exists-p "rcirc-auth.el") (load "rcirc-auth"))
-
   ;; Show buffers with unread messages in mode line
   (rcirc-track-minor-mode t)
 
