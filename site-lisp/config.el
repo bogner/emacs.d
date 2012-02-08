@@ -414,6 +414,10 @@ create one."
        (compose-region (match-beginning 1) (match-end 1) #X03BB))
      'prepend))))
 
+;; Configure geiser for scheme
+(when (require-or-nil 'geiser)
+  (set-variable 'geiser-repl-use-other-window nil))
+
 ;; Set up modes that will be autoloaded
 (autoload 'asy-mode "asy-mode")
 (autoload 'csharp-mode "csharp-mode")
