@@ -292,6 +292,7 @@ create one."
   (define-key mode-line-buffer-identification-keymap
     [mode-line mouse-2] buffer-function))
 
+(eval-when-compile (defun ibuffer-switch-to-saved-filter-groups (name)))
 (defvar local-ibuffer-filter-groups '() "Extra ibuffer filter groups")
 (when (fboundp 'ibuffer)
   (let ((default-filter-group
@@ -496,6 +497,9 @@ self-insert-command"
   (when (locate-library "rcirc-servers")
     (load-library "rcirc-servers"))
 
+  (eval-when-compile
+    (defvar rcirc-server-alist)
+    (defun rcirc-read-passwords ()))
   (defun rcirc-read-passwords ()
     "Read in any passwords that aren't set in rcirc-server-alist"
     (interactive)
@@ -531,7 +535,7 @@ self-insert-command"
 (set-variable 'mm-w3m-safe-url-regexp nil)
 
 ;; Some great w3m hackery
-(eval-when-compile (defun w3m-view-this-url))
+(eval-when-compile (defun w3m-view-this-url ()))
 (defun w3m-wiki-login ()
   (interactive)
   (goto-char (point-max))
@@ -554,23 +558,23 @@ self-insert-command"
 
 (defun infer-from-article (domain)
   (if (gnus-buffer-live-p gnus-article-buffer)
-      (save-excursion
-        (set-buffer gnus-article-buffer)
-        (let ((re (concat "\\("
-                          "\\(\"[A-Za-z0-9]+,? [A-Za-z0-9]+\"\\)"
-                          "\\|"
-                          "\\( *[A-Za-z0-9 ]+\\)"
-                          "\\) *"
-                          "<?([A-Za-z0-9_.-]+@"
-                          domain
-                          ")>?"))
-              (to (message-fetch-field "to"))
-              (cc (message-fetch-field "cc")))
-          (message re)
-          (cond ((and to (string-match re to)) (match-string 1 to))
-                ((and cc (string-match re cc)) (match-string 1 cc))
-                (t user-mail-address))))
-    user-mail-address))
+      (with-current-buffer gnus-article-buffer
+        (save-excursion
+          (let ((re (concat "\\("
+                            "\\(\"[A-Za-z0-9]+,? [A-Za-z0-9]+\"\\)"
+                            "\\|"
+                            "\\( *[A-Za-z0-9 ]+\\)"
+                            "\\) *"
+                            "<?([A-Za-z0-9_.-]+@"
+                            domain
+                            ")>?"))
+                (to (message-fetch-field "to"))
+                (cc (message-fetch-field "cc")))
+            (message re)
+            (cond ((and to (string-match re to)) (match-string 1 to))
+                  ((and cc (string-match re cc)) (match-string 1 cc))
+                  (t user-mail-address))))
+        user-mail-address)))
 
 (defun gnus-group-with-recent (select-fn &optional all)
   "Select a newsgroup using select-fn, but add some recent articles as well"
@@ -609,6 +613,10 @@ self-insert-command"
   (define-key gnus-group-mode-map (kbd "\r") 'gnus-group-select-recent)
   (define-key gnus-group-mode-map (kbd "<SPC>") 'gnus-group-read-recent))
 
+(eval-when-compile
+  (defun bbdb-initialize (&rest to-insinuate))
+  (defun bbdb-insinuate-gnus ())
+  (defun bbdb-insinuate-message ()))
 (when (require-or-nil 'bbdb)
   (bbdb-initialize 'gnus 'message)
   (bbdb-insinuate-gnus)
