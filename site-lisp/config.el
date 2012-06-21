@@ -659,6 +659,28 @@ self-insert-command"
                         mm-uu-diff-test)))
   (mm-uu-configure))
 
+(defun message-outlook-yank ()
+  (interactive)
+  (let ((message-cite-function 'message-outlook-cite))
+    (message-yank-original)))
+
+(defun message-outlook-cite ()
+  "Cite an original message in a horrible outlook style."
+  (save-excursion
+    (insert-string "-----Original Message-----\n")
+    (while (not (looking-at " *$"))
+      (cond ((looking-at "From:\\|To:\\|C[Cc]:")
+             (save-restriction
+               (narrow-to-region (point)
+                                 (save-excursion (forward-line 1) (point)))
+               (while (search-forward-regexp "\"\\([^\"]+\\)\" <[^<]+>" nil t)
+                 (replace-match "\\1" nil nil)))
+             (forward-line 1))
+            ((not (looking-at "Date:\\|Subject:"))
+             (delete-region (point)
+                            (save-excursion (forward-line 1) (point))))
+            (t (forward-line 1))))))
+
 ;; darcs defines it's own media type for patches.
 (eval-when-compile (defvar mm-inline-media-tests))
 (when (require-or-nil 'mm-decode)
