@@ -491,7 +491,34 @@ self-insert-command"
   ;; We would like to clear the unread marker explicitly
   (eval-when-compile (defun rcirc-clear-unread (buffer)))
   (define-key rcirc-mode-map (kbd "C-c C-f")
-    (lambda () (interactive) (rcirc-clear-unread (current-buffer)))))
+    (lambda () (interactive) (rcirc-clear-unread (current-buffer))))
+
+  (when (locate-library "rcirc-servers")
+    (load-library "rcirc-servers"))
+
+  (defun rcirc-read-passwords ()
+    "Read in any passwords that aren't set in rcirc-server-alist"
+    (interactive)
+    (dolist (c rcirc-server-alist)
+      (when (null (plist-get (cdr c) :password))
+        (let ((password (read-passwd (concat (car c) " password: "))))
+          (plist-put (cdr c) :password password)))))
+
+  (defun rcirc-frame ()
+    "Set up an emacs instance to run rcirc only, and launch rcirc"
+    (interactive)
+
+    (set-default
+     'mode-line-format
+     '("Rcirc" "%e" mode-line-front-space mode-line-mule-info mode-line-client
+       mode-line-modified mode-line-remote mode-line-frame-identification
+       mode-line-buffer-identification " " mode-line-misc-info mode-line-modes
+       mode-line-end-spaces))
+    (set-variable 'frame-title-format '("Rcirc: " "%b"))
+    (display-time-mode 0)
+
+    (rcirc-read-passwords)
+    (rcirc nil)))
 
 ;;; Web Browsers
 (set-variable 'browse-url-browser-function 'browse-url-generic)
