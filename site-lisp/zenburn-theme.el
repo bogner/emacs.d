@@ -160,7 +160,7 @@ static char *gnus-pointer[] = {
 \"###########.######\"
 };"))
 
-(custom-set-faces
+(custom-theme-set-faces
  'zenburn
  '(bold ((t (:weight bold))))
  '(bold-italic ((t (:italic t :weight bold))))
