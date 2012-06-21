@@ -418,6 +418,9 @@ create one."
 (when (require-or-nil 'geiser)
   (set-variable 'geiser-repl-use-other-window nil))
 
+;; Tabs should only look like 4 spaces in go
+(add-hook 'go-mode-hook (lambda () (setq tab-width 4)))
+
 ;; Set up modes that will be autoloaded
 (autoload 'asy-mode "asy-mode")
 (autoload 'csharp-mode "csharp-mode")
