@@ -131,7 +131,13 @@ create one."
 (add-to-list 'default-frame-alist `(font . ,local-font))
 
 (when (fboundp 'load-theme)
-  (load-theme 'zenburn))
+  (let ((site-lisp (concat "~" init-file-user "/.emacs.d/site-lisp/")))
+    (set-variable 'custom-theme-directory site-lisp))
+  ;; We avoid the second arg to load-theme for 22/23 support
+  (let ((custom-safe-themes t))
+    (load-theme 'zenburn))
+  ;; Hack to get around the fact that inherit doesn't mean what it used to...
+  (load-library "zenburn-theme"))
 
 ;;; Behaviour
 ;; Single character yes/no prompt
