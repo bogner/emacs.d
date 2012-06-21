@@ -96,6 +96,14 @@ create one."
   (interactive)
   (message (concat "Current function: " (which-function))))
 
+(defun git-grep ()
+  (interactive)
+  (let ((grep-host-defaults-alist
+         '((nil
+            (grep-command "git --no-pager grep -nH -e ")
+            (grep-template "git --no-pager grep <C> -nH -e <R> -- '<F>'")))))
+    (call-interactively 'lgrep)))
+
 ;;; Display
 ;; Remove startup message
 (setq inhibit-startup-message t)
