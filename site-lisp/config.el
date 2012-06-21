@@ -181,8 +181,11 @@ create one."
 ;; dialogs may show up.
 (set-variable 'use-file-dialog nil)
 
-;; tramp and partial completion
-(setq partial-completion-mode t)
+;; Partial completion. No longer needed in 24
+(when (boundp 'partial-completion-mode)
+  (set-variable 'partial-completion-mode t))
+
+;; Tramp
 (when (require-or-nil 'tramp)
   (set-variable 'tramp-default-method "ssh"))
 
@@ -649,6 +652,7 @@ self-insert-command"
   (mm-uu-configure))
 
 ;; darcs defines it's own media type for patches.
+(eval-when-compile (defvar mm-inline-media-tests))
 (when (require-or-nil 'mm-decode)
   (add-to-list 'mm-inline-media-tests
                '("text/x-darcs-patch" mm-display-patch-inline
