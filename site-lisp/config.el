@@ -415,6 +415,17 @@ create one."
      mode
      '(("\\<\\(TODO\\):" 1 font-lock-warning-face t)))))
 
+(when (require-or-nil 'xcscope)
+  (set-variable 'cscope-do-not-update-database 't)
+
+  (defadvice cscope:hook (after adjust-keybindings)
+    (local-set-key "\M-." 'cscope-find-global-definition)
+    (local-set-key "\M-*" 'cscope-pop-mark))
+  (ad-activate 'cscope:hook)
+
+  ;; cscope sets itself up for c and c++, but we have pycscope as well
+  (add-hook 'python-mode-hook (function cscope:hook)))
+
 ;; C modes
 (require 'c-styles)
 
