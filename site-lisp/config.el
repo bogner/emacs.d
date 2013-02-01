@@ -647,7 +647,9 @@ self-insert-command"
                 '(gnus-find-subscribed-addresses))
 
   (define-key gnus-group-mode-map (kbd "\r") 'gnus-group-select-recent)
-  (define-key gnus-group-mode-map (kbd "<SPC>") 'gnus-group-read-recent))
+  (define-key gnus-group-mode-map (kbd "<SPC>") 'gnus-group-read-recent)
+  (define-key gnus-article-mode-map (kbd "w") 'gnus-article-fill-long-lines)
+  (define-key gnus-summary-mode-map (kbd "w") 'gnus-article-fill-long-lines))
 
 (eval-when-compile
   (defun bbdb-initialize (&rest to-insinuate))
