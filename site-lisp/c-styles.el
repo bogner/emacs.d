@@ -27,6 +27,27 @@
 		(substatement-open . 0)
 		(label . 0))))
 
+(c-add-style "linux-kernel"
+             '("linux"
+               (indent-tabs-mode . t)
+               (c-offsets-alist
+                (arglist-cont-nonempty . '(c-lineup-gcc-asm-reg
+                                           c-lineup-arglist-tabs-only)))))
+
+(require 'cc-defs)
+(eval-when-compile
+  (defvar c-syntactic-element)
+  (defvar c-basic-offset))
+
+(defun c-lineup-arglist-tabs-only (ignored)
+  "Line up argument lists by tabs, not spaces"
+  (let* ((anchor (c-langelem-pos c-syntactic-element))
+	 (column (c-langelem-2nd-pos c-syntactic-element))
+	 (offset (- (1+ column) anchor))
+	 (steps (floor offset c-basic-offset)))
+    (* (max steps 1)
+       c-basic-offset)))
+
 (defun find-c-style-for-file (rules)
   (catch 'found
     (dolist (rule rules)
@@ -38,6 +59,7 @@
                   ("/snac/dmg/" . "gnu")
                   ("/stdf/" . "gnu")
                   ("/nsfw/" . "nsfw")
+                  ("/src/linux" . "linux-kernel")
                   (".*" . "bogner"))))
     (c-set-style (or (find-c-style-for-file styles) "bogner"))))
 
