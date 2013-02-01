@@ -225,12 +225,20 @@ create one."
 (set-variable 'default-tags-table-function 'find-tags-file)
 
 ;; Delete trailing whitespace on save
-(defvar delete-ws-on-save t)
-(make-variable-buffer-local 'delete-ws-on-save)
-(add-hook 'before-save-hook
-          (lambda ()
-            (when delete-ws-on-save
-              (delete-trailing-whitespace))))
+(defvar whitespace-trailing-lines-threshold 10)
+(defvar whitespace-delete-on-save t)
+(make-variable-buffer-local 'whitespace-delete-on-save)
+(defun whitespace-maybe-delete-trailing ()
+  (when whitespace-delete-on-save (delete-trailing-whitespace)))
+(defun whitespace-toggle-delete-on-save ()
+  (save-excursion
+    (goto-char (point-min))
+    (let ((max whitespace-trailing-lines-threshold))
+      (set-variable 'whitespace-delete-on-save
+                    (not (re-search-forward "\\s-$" nil t max))))))
+(add-hook 'find-file-hook 'whitespace-toggle-delete-on-save)
+(add-hook 'before-save-hook 'whitespace-maybe-delete-trailing)
+
 ;; Update time stamps if they exist
 (add-hook 'before-save-hook 'time-stamp)
 
