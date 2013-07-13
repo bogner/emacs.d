@@ -691,6 +691,13 @@ static char *gnus-pointer[] = {
  '(outline-2 ((t (:inherit outline-3 :height 1.0))))
  '(outline-1 ((t (:inherit outline-2 :height 1.0))))
 
+ `(rst-level-1-face ((t (:background ,zenburn-bg :inherit zenburn-title))))
+ `(rst-level-2-face ((t (:background ,zenburn-bg :inherit zenburn-primary-1))))
+ `(rst-level-3-face ((t (:background ,zenburn-bg :inherit zenburn-primary-2))))
+ `(rst-level-4-face ((t (:background ,zenburn-bg :inherit zenburn-primary-3))))
+ `(rst-level-5-face ((t (:background ,zenburn-bg :inherit zenburn-primary-4))))
+ `(rst-level-6-face ((t (:background ,zenburn-bg :inherit zenburn-primary-5))))
+
  '(setnu-line-number-face ((t (:inherit zenburn-lowlight-2))))
 
  '(speedbar-button-face ((t (:inherit zenburn-primary-1))))
