@@ -135,7 +135,7 @@ create one."
 (setq compilation-scroll-output t)
 (setq display-buffer-reuse-frames t)
 
-(defvar local-font "DejaVu Sans Mono" "The font we'd like to use")
+(defvar local-font "DejaVu Sans Mono-9" "The font we'd like to use")
 (add-to-list 'default-frame-alist `(font . ,local-font))
 
 (when (fboundp 'load-theme)
