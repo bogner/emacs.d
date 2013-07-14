@@ -34,6 +34,12 @@
                (c-offsets-alist
                 (arglist-cont-nonempty . '(c-lineup-gcc-asm-reg
                                            c-lineup-arglist-tabs-only)))))
+(c-add-style "llvm"
+             '("stroustrup"
+               (c-basic-offset . 2)
+               (c-offsets-alist . ((innamespace . 0)))
+               (fill-column . 80)
+               (indent-tabs-mode . nil)))
 
 (require 'cc-defs)
 (eval-when-compile
@@ -61,6 +67,7 @@
                   ("/stdf/" . "gnu")
                   ("/nsfw/" . "nsfw")
                   ("/src/linux" . "linux-kernel")
+                  ("/llvm/" . "llvm")
                   (".*" . "bogner"))))
     (c-set-style (or (find-c-style-for-file styles) "bogner"))))
 
