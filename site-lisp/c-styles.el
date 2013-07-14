@@ -2,6 +2,7 @@
              '("stroustrup"
                (c-basic-offset . 4)
                (c-offsets-alist . ((arglist-intro . +)
+                                   (innamespace . 0)
                                    (statement-cont . c-lineup-assignments)))
                (c-tab-always-indents . nil)
                (indent-tabs-mode . nil)))
