@@ -415,6 +415,10 @@ create one."
 (when (require-or-nil 'xcscope)
   (set-variable 'cscope-do-not-update-database 't)
 
+  ;; The [return] binding in xcscope.el doesn't seem to work in terminals
+  (define-key cscope-list-entry-keymap (kbd "RET")
+    'cscope-select-entry-other-window)
+
   (defadvice cscope:hook (after adjust-keybindings)
     (local-set-key "\M-." 'cscope-find-global-definition)
     (local-set-key "\M-*" 'cscope-pop-mark))
