@@ -18,7 +18,7 @@
   (byte-recompile-directory site-lisp 0))
 
 ;; Infer the hostname and load hostname-local.el, if it exists.
-(let* ((host (car (split-string (shell-command-to-string "hostname"))))
+(let* ((host (car (split-string (shell-command-to-string "hostname -s"))))
        (local-conf (concat host "-local" ".el")))
   (when (locate-library local-conf)
     (load-library local-conf)))
