@@ -570,8 +570,10 @@ self-insert-command"
     (rcirc nil)))
 
 ;;; Web Browsers
-(set-variable 'browse-url-browser-function 'browse-url-generic)
-(set-variable 'browse-url-generic-program "x-www-browser")
+(when (eq window-system 'x)
+  ; default-browser tends to do something silly in X11
+  (set-variable 'browse-url-browser-function 'browse-url-generic)
+  (set-variable 'browse-url-generic-program "x-www-browser"))
 
 ;;; w3m
 (set-variable 'w3m-use-cookies t)
