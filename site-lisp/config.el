@@ -139,6 +139,13 @@ create one."
 (defvar local-font "DejaVu Sans Mono-9" "The font we'd like to use")
 (add-to-list 'default-frame-alist `(font . ,local-font))
 
+(defun fullscreen ()
+  "Toggle full screen"
+  (interactive)
+  (set-frame-parameter
+   nil 'fullscreen
+   (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
+
 (when (fboundp 'load-theme)
   (let ((site-lisp (concat "~" init-file-user "/.emacs.d/site-lisp/")))
     (set-variable 'custom-theme-directory site-lisp))
