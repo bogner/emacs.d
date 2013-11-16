@@ -113,8 +113,9 @@ create one."
 (tool-bar-mode 0)
 (scroll-bar-mode -1)
 
-;; Disable blinking cursor
+;; Disable blinking cursor and silence the bell
 (blink-cursor-mode 0)
+(setq ring-bell-function 'ignore)
 
 ;; The default mode line likes to be too wide
 (setq-default mode-line-buffer-identification
