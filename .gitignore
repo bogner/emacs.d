@@ -2,5 +2,6 @@
 /auto-save-list/
 /history
 /rcirc-log/
+/site-lisp/incoming.el
 /tramp
 rcirc-auth.el
