@@ -3,7 +3,8 @@
                (c-basic-offset . 4)
                (c-offsets-alist . ((arglist-intro . +)
                                    (innamespace . 0)
-                                   (statement-cont . c-lineup-assignments)))
+                                   (statement-cont . (c-lineup-assignments
+                                                      +))))
                (c-tab-always-indents . nil)
                (indent-tabs-mode . nil)))
 
@@ -37,7 +38,10 @@
 (c-add-style "llvm"
              '("stroustrup"
                (c-basic-offset . 2)
-               (c-offsets-alist . ((innamespace . 0)))
+               (c-offsets-alist . ((arglist-intro . ++)
+                                   (member-init-intro . ++)
+                                   (statement-cont . (c-lineup-assignments ++))
+                                   (innamespace . 0)))
                (fill-column . 80)
                (indent-tabs-mode . nil)))
 
@@ -67,7 +71,7 @@
                   ("/stdf/" . "gnu")
                   ("/nsfw/" . "nsfw")
                   ("/src/linux" . "linux-kernel")
-                  ("/llvm/" . "llvm")
+                  ("/llvm\\(-[^/]+\\)?/" . "llvm")
                   (".*" . "bogner"))))
     (c-set-style (or (find-c-style-for-file styles) "bogner"))))
 
