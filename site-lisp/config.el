@@ -327,11 +327,13 @@ create one."
 (defvar local-ibuffer-filter-groups '() "Extra ibuffer filter groups")
 (when (fboundp 'ibuffer)
   (let ((default-filter-group
-          '(("docs" (or
+          `(("config" (filename . ,(concat "^" (expand-file-name "~") "/\\.")))
+            ("docs" (or
                      (mode . Info-mode)
                      (mode . apropos-mode)
                      (mode . help-mode)
                      (mode . Man-mode)))
+            ("tmp" (filename . ,(concat "^" (expand-file-name "~/tmp/"))))
             ("gnus" (or
                      (mode . bbdb-mode)
                      (mode . gnus-article-mode)
