@@ -673,6 +673,7 @@ self-insert-command"
   (bbdb-insinuate-gnus)
   (bbdb-insinuate-message)
   (set-variable 'bbdb-always-add-addresses nil)
+  (set-variable 'bbdb-complete-name-allow-cycling t)
   (set-variable 'bbdb-expand-mail-aliases t)
   (set-variable 'bbdb-quiet-about-name-mismatches 1)
   (set-variable 'bbdb-use-pop-up nil)
