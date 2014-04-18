@@ -190,6 +190,8 @@ create one."
 
 ;; Enable the mouse wheel
 (mouse-wheel-mode 1)
+(set-variable 'mouse-wheel-progressive-speed nil)
+(set-variable 'mouse-wheel-scroll-amount '(2 ((shift) . 1) ((control) . 20)))
 
 ;; If this isn't nil, there's a chance one of those terrible gtk file
 ;; dialogs may show up.
