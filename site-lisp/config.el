@@ -423,7 +423,7 @@ create one."
   (dolist (mode todo-modes)
     (font-lock-add-keywords
      mode
-     '(("\\<\\(TODO\\):" 1 font-lock-warning-face t)))))
+     '(("\\<\\(TODO\\|FIXME\\):" 1 font-lock-warning-face t)))))
 
 (when (require-or-nil 'xcscope)
   (set-variable 'cscope-do-not-update-database 't)
