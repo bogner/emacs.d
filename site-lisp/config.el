@@ -371,8 +371,7 @@ create one."
 ; shut the byte-compiler up about keymaps
 (eval-when-compile
   (defvar outline-minor-mode-map)
-  (defvar c-mode-base-map)
-  (defvar rcirc-mode-map))
+  (defvar c-mode-base-map))
 
 (unless (require-or-nil 'diminish)
   (defun diminish (x y) nil))
@@ -419,7 +418,7 @@ create one."
                     common-lisp-mode emacs-lisp-mode lisp-mode haskell-mode
                     perl-mode php-mode python-mode ruby-mode
                     apache-mode nxml-mode css-mode
-                    latex-mode tex-mode asy-mode)))
+                    latex-mode tex-mode)))
   (dolist (mode todo-modes)
     (font-lock-add-keywords
      mode
@@ -473,7 +472,6 @@ create one."
 (add-hook 'go-mode-hook (lambda () (setq tab-width 4)))
 
 ;; Set up modes that will be autoloaded
-(autoload 'asy-mode "asy-mode")
 (autoload 'csharp-mode "csharp-mode")
 (autoload 'd-mode "d-mode")
 
@@ -484,95 +482,12 @@ create one."
 (set-variable 'nxml-bind-meta-tab-to-complete-flag t)
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-(add-to-list 'auto-mode-alist '("\\.asy\\'" . asy-mode))
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
 (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
 (add-to-list 'auto-mode-alist
              '("\\.\\(aspx\\|xsl\\|xhtml\\|xsd\\|svg\\|rss\\)\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.eml\\'" . mail-mode))
 (add-to-list 'auto-mode-alist '("\\.arm\\'" . asm-mode))
-
-;;; RCirc
-(when (require-or-nil 'rcirc)
-  ;; Show buffers with unread messages in mode line
-  (rcirc-track-minor-mode t)
-
-  ;; Logging
-  (set-variable 'rcirc-log-flag t)
-
-  ;; Keep 500k worth of 80 character lines in memory
-  (set-variable 'rcirc-buffer-maximum-lines 6554)
-
-  ;; TODO: make these match based on rcirc-response-formats...
-  (defun rcirc-next-message (arg)
-    "Go to the next message"
-    (interactive "*p")
-    (or arg (setq arg 1))
-    (let ((old-point (point-marker)))
-      (end-of-line)
-      (if (re-search-forward "<.*?> .*$" nil t arg)
-          (beginning-of-line)
-        (goto-char old-point))))
-
-  (defun rcirc-prev-message (arg)
-    "Go to the previous message"
-    (interactive "*p")
-    (or arg (setq arg 1))
-    (when (re-search-backward "<.*?> .*$" nil t arg)
-      (beginning-of-line)))
-
-  (eval-when-compile (defun insert-or-command (command)))
-  (defun insert-or-command (command)
-    "If the text at point is read-only, run command, otherwise, do
-self-insert-command"
-    (if (get-text-property (point) 'read-only)
-        (call-interactively command)
-      (call-interactively 'self-insert-command)))
-
-  ;; Make it easy to read through responses
-  (define-key rcirc-mode-map (kbd "n")
-    (lambda ()
-      (interactive)
-      (insert-or-command 'rcirc-next-message)))
-  (define-key rcirc-mode-map (kbd "p")
-    (lambda ()
-      (interactive)
-      (insert-or-command 'rcirc-prev-message)))
-
-  ;; We would like to clear the unread marker explicitly
-  (eval-when-compile (defun rcirc-clear-unread (buffer)))
-  (define-key rcirc-mode-map (kbd "C-c C-f")
-    (lambda () (interactive) (rcirc-clear-unread (current-buffer))))
-
-  (when (locate-library "rcirc-servers")
-    (load-library "rcirc-servers"))
-
-  (eval-when-compile
-    (defvar rcirc-server-alist)
-    (defun rcirc-read-passwords ()))
-  (defun rcirc-read-passwords ()
-    "Read in any passwords that aren't set in rcirc-server-alist"
-    (interactive)
-    (dolist (c rcirc-server-alist)
-      (when (null (plist-get (cdr c) :password))
-        (let ((password (read-passwd (concat (car c) " password: "))))
-          (plist-put (cdr c) :password password)))))
-
-  (defun rcirc-frame ()
-    "Set up an emacs instance to run rcirc only, and launch rcirc"
-    (interactive)
-
-    (set-default
-     'mode-line-format
-     '("Rcirc" "%e" mode-line-front-space mode-line-mule-info mode-line-client
-       mode-line-modified mode-line-remote mode-line-frame-identification
-       mode-line-buffer-identification " " mode-line-misc-info mode-line-modes
-       mode-line-end-spaces))
-    (set-variable 'frame-title-format '("Rcirc: " "%b"))
-    (display-time-mode 0)
-
-    (rcirc-read-passwords)
-    (rcirc nil)))
 
 ;;; Web Browsers
 (when (eq window-system 'x)
