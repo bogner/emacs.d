@@ -3,5 +3,6 @@
 /history
 /rcirc-log/
 /site-lisp/incoming.el
+/site-lisp/*-local.el
 /tramp
 rcirc-auth.el
