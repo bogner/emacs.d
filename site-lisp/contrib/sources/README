@@ -1,0 +1,3 @@
+These scripts download various third party packages from their
+respecctive sources. They should be invoked with the contrib/
+directory as first argument.

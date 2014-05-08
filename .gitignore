@@ -4,5 +4,7 @@
 /rcirc-log/
 /site-lisp/incoming.el
 /site-lisp/*-local.el
+/site-lisp/contrib/*
+!/site-lisp/contrib/sources
 /tramp
 rcirc-auth.el
