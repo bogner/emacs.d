@@ -451,6 +451,13 @@ create one."
           (lambda ()
             (define-key c-mode-base-map "\C-m" 'newline-and-indent)))
 
+;; Use clang-format for indent-region if possible.
+(when (require-or-nil 'clang-format)
+  (defun clang-format-set-indent-region-function ()
+    (set-variable 'indent-region-function 'clang-format))
+  (add-hook 'c++-mode-hook (function clang-format-set-indent-region-function))
+  (add-hook 'c-mode-hook (function clang-format-set-indent-region-function)))
+
 (when (require-or-nil 'llvm-mode)
   (add-to-list 'auto-mode-alist '("\\.ll\\'" . llvm-mode)))
 
