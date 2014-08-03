@@ -451,6 +451,12 @@ create one."
           (lambda ()
             (define-key c-mode-base-map "\C-m" 'newline-and-indent)))
 
+(when (require-or-nil 'llvm-mode)
+  (add-to-list 'auto-mode-alist '("\\.ll\\'" . llvm-mode)))
+
+(when (require-or-nil 'tablegen-mode)
+  (add-to-list 'auto-mode-alist '("\\.td\\'" . tablegen-mode)))
+
 (when (require-or-nil 'haskell-mode-autoloads)
   ;; Hooks to make haskell mode behave
   (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
