@@ -330,6 +330,7 @@ static char *gnus-pointer[] = {
  '(cscope-line-number-face ((t (:inherit font-lock-function-name-face))))
  '(cscope-line-face ((t (nil))))
  '(cscope-mouse-face ((t (:inherit hover-highlight))))
+ '(cscope-separator-face ((t (:inherit font-lock-comment-face))))
 
  ;; TODO
  '(cua-rectangle-face ((t (:inherit region))))

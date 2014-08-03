@@ -425,19 +425,22 @@ create one."
      '(("\\<\\(TODO\\|FIXME\\):" 1 font-lock-warning-face t)))))
 
 (when (require-or-nil 'xcscope)
-  (set-variable 'cscope-do-not-update-database 't)
+  (set-variable 'cscope-option-do-not-update-database 't)
 
   ;; The [return] binding in xcscope.el doesn't seem to work in terminals
   (define-key cscope-list-entry-keymap (kbd "RET")
     'cscope-select-entry-other-window)
 
-  (defadvice cscope:hook (after adjust-keybindings)
+  (defun cscope-adjust-keybindings ()
     (local-set-key "\M-." 'cscope-find-global-definition)
     (local-set-key "\M-*" 'cscope-pop-mark))
-  (ad-activate 'cscope:hook)
+  (add-to-list 'cscope-minor-mode-hooks 'cscope-adjust-keybindings)
 
-  ;; cscope sets itself up for c and c++, but we have pycscope as well
-  (add-hook 'python-mode-hook (function cscope:hook)))
+  ;; Set up cscope modes
+  (add-hook 'c++-mode-hook (function cscope-minor-mode))
+  (add-hook 'c-mode-hook (function cscope-minor-mode))
+  (add-hook 'dired-mode-hook (function cscope-minor-mode))
+  (add-hook 'python-mode-hook (function cscope-minor-mode)))
 
 ;; C modes
 (require 'c-styles)
