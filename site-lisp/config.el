@@ -463,7 +463,9 @@ create one."
   (add-to-list 'auto-mode-alist '("\\.ll\\'" . llvm-mode)))
 
 (when (require-or-nil 'tablegen-mode)
-  (add-to-list 'auto-mode-alist '("\\.td\\'" . tablegen-mode)))
+  (add-to-list 'auto-mode-alist '("\\.td\\'" . tablegen-mode))
+  (when (featurep 'xcscope)
+    (add-hook 'tablegen-mode-hook (function cscope-minor-mode))))
 
 (when (require-or-nil 'haskell-mode-autoloads)
   ;; Hooks to make haskell mode behave
