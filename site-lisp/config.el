@@ -493,7 +493,6 @@ create one."
 (autoload 'd-mode "d-mode")
 
 (defalias 'sgml-mode 'nxml-mode)
-(defalias 'html-mode 'nxml-mode)
 (defalias 'xml-mode 'nxml-mode)
 ;; For some reason nxml-mode doesn't want to bind alt-tab
 (set-variable 'nxml-bind-meta-tab-to-complete-flag t)
@@ -505,6 +504,9 @@ create one."
              '("\\.\\(aspx\\|xsl\\|xhtml\\|xsd\\|svg\\|rss\\)\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.eml\\'" . mail-mode))
 (add-to-list 'auto-mode-alist '("\\.arm\\'" . asm-mode))
+
+(when (require-or-nil 'web-mode)
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)))
 
 ;;; Web Browsers
 (when (eq window-system 'x)
