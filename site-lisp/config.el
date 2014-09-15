@@ -96,14 +96,15 @@ create one."
   (interactive)
   (message (concat "Current function: " (which-function))))
 
-(defun git-grep ()
-  (interactive)
-  (let ((grep-host-defaults-alist
-         '((nil
-            (grep-command "git --no-pager grep -nH -e ")
-            (grep-template "git --no-pager grep <C> -nH -e <R> -- '<F>'"))))
-        (grep-files-aliases (cons '("any" . "*") grep-files-aliases)))
-    (call-interactively 'lgrep)))
+(when (require-or-nil 'grep)
+  (defun git-grep ()
+    (interactive)
+    (let ((grep-host-defaults-alist
+           '((nil
+              (grep-command "git --no-pager grep -nH -e ")
+              (grep-template "git --no-pager grep <C> -nH -e <R> -- '<F>'"))))
+          (grep-files-aliases (cons '("any" . "*") grep-files-aliases)))
+      (call-interactively 'lgrep))))
 
 ;;; Display
 ;; Remove startup message
