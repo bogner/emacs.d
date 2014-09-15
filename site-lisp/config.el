@@ -588,7 +588,6 @@ create one."
                                               "multipart/mixed"))
   (set-variable 'mm-text-html-renderer 'w3m)
 
-  (set-variable 'gnus-treat-unsplit-urls t)
   (set-variable 'gnus-treat-date-local 'head)
 
   ;; Address magic
