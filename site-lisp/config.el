@@ -508,6 +508,9 @@ create one."
 (when (require-or-nil 'web-mode)
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)))
 
+(when (require-or-nil 'cmake-mode)
+  (add-to-list 'auto-mode-alist '("CMakeLists.txt\\|\\.cmake\\'" . cmake-mode))
+
 ;;; Web Browsers
 (when (eq window-system 'x)
   ; default-browser tends to do something silly in X11
