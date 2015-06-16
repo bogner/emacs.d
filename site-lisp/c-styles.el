@@ -3,6 +3,7 @@
                (c-basic-offset . 4)
                (c-offsets-alist . ((arglist-intro . +)
                                    (innamespace . 0)
+                                   (inextern-lang . 0)
                                    (statement-cont . (c-lineup-assignments
                                                       +))))
                (c-tab-always-indents . nil)
@@ -41,7 +42,8 @@
                (c-offsets-alist . ((arglist-intro . ++)
                                    (member-init-intro . ++)
                                    (statement-cont . (c-lineup-assignments ++))
-                                   (innamespace . 0)))
+                                   (innamespace . 0)
+                                   (inextern-lang . 0)))
                (fill-column . 80)
                (indent-tabs-mode . nil)))
 
