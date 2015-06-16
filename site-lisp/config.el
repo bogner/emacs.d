@@ -457,6 +457,7 @@ create one."
   (defun clang-format-set-indent-region-function ()
     (set-variable 'indent-region-function 'clang-format))
   (add-hook 'c++-mode-hook (function clang-format-set-indent-region-function))
+  (add-hook 'objc-mode-hook (function clang-format-set-indent-region-function))
   (add-hook 'c-mode-hook (function clang-format-set-indent-region-function)))
 
 (when (require-or-nil 'llvm-mode)
