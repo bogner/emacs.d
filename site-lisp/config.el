@@ -581,6 +581,13 @@ create one."
   (interactive "P")
   (gnus-group-with-recent 'gnus-group-read-group all))
 
+(defun gnus-summary-pipe-to-git (&optional repo)
+  "Pipe this article into git-am in REPO."
+  (interactive (gnus-interactive "D"))
+  (let ((gnus-summary-pipe-output-default-command
+         (concat "git -C " repo " am -p0")))
+    (gnus-summary-pipe-output nil 'r)))
+
 (when (require-or-nil 'gnus)
   (setq mail-user-agent 'gnus-user-agent)
 
@@ -598,10 +605,15 @@ create one."
   (set-variable 'message-subscribed-address-functions
                 '(gnus-find-subscribed-addresses))
 
+  ;; Automatically inline patches, even if they have an attachment disposition
+  (eval-after-load 'mm-decode
+    '(add-to-list 'mm-attachment-override-types "text/x-patch"))
+
   (define-key gnus-group-mode-map (kbd "\r") 'gnus-group-select-recent)
   (define-key gnus-group-mode-map (kbd "<SPC>") 'gnus-group-read-recent)
   (define-key gnus-article-mode-map (kbd "w") 'gnus-article-fill-long-lines)
-  (define-key gnus-summary-mode-map (kbd "w") 'gnus-article-fill-long-lines))
+  (define-key gnus-summary-mode-map (kbd "w") 'gnus-article-fill-long-lines)
+  (define-key gnus-summary-mode-map (kbd "O g") 'gnus-summary-pipe-to-git))
 
 (eval-when-compile
   (defun bbdb-initialize (&rest to-insinuate))
