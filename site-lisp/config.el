@@ -588,6 +588,13 @@ create one."
          (concat "git -C " repo " am -p0")))
     (gnus-summary-pipe-output nil 'r)))
 
+(defun gnus-user-format-function-f (header)
+  (let* ((from (mail-header-from header))
+         (name (gnus-summary-from-or-to-or-newsgroups header from)))
+    (if (string-match "\\(.*\\) via [A-Za-z-]*$" name)
+        (match-string 1 name)
+      name)))
+
 (when (require-or-nil 'gnus)
   (setq mail-user-agent 'gnus-user-agent)
 
@@ -604,6 +611,10 @@ create one."
   ;; Address magic
   (set-variable 'message-subscribed-address-functions
                 '(gnus-find-subscribed-addresses))
+
+  ;; Work around mailing list name munging for DMARC.
+  (set-variable 'gnus-summary-line-format
+                "%U%R%z%I%(%[%4L: %-23,23uf%]%) %s\n")
 
   ;; Automatically inline patches, even if they have an attachment disposition
   (eval-after-load 'mm-decode
