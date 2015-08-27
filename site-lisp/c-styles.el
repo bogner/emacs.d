@@ -74,6 +74,8 @@
                   ("/nsfw/" . "nsfw")
                   ("/src/linux" . "linux-kernel")
                   ("/llvm\\(-[^/]+\\)?/" . "llvm")
+                  ("/gpu-[^/]+/" . "llvm")
+                  ("/swift/" . "llvm")
                   (".*" . "bogner"))))
     (c-set-style (or (find-c-style-for-file styles) "bogner"))))
 
