@@ -218,6 +218,60 @@ create one."
                     (split-window-horizontally arg)
                   (split-window-vertically arg))))
 
+(defun ediff-conflict (lhs-A rhs-A lhs-B rhs-B &optional word-mode)
+  "Run Ediff on the regions bound by A and B respectively."
+  (let ((buffer-A (ediff-make-cloned-buffer (current-buffer) "-Region.A-"))
+        (buffer-B (ediff-make-cloned-buffer (current-buffer) "-Region.B-"))
+        reg-A-beg reg-A-end reg-B-beg reg-B-end)
+    (with-current-buffer buffer-A
+      (setq reg-A-beg (or (search-backward lhs-A nil t)
+                          (search-forward lhs-A))
+            reg-A-end (search-forward rhs-A)
+            ediff-temp-indirect-buffer t)
+      ;; Don't include the markers in the diff
+      (goto-char reg-A-beg)
+      (forward-line)
+      (setq reg-A-beg (point))
+      (goto-char reg-A-end)
+      (forward-line -1)
+      (end-of-line)
+      (or (eobp) (forward-char)) ; include the newline char
+      (setq reg-A-end (point))
+
+      (set-buffer buffer-B)
+      (setq reg-B-beg (if (eq rhs-A lhs-B) reg-A-end (search-forward lhs-B))
+            reg-B-end (search-forward rhs-B)
+            ediff-temp-indirect-buffer t)
+      ;; Don't include the markers in the diff
+      (goto-char reg-B-beg)
+      (forward-line)
+      (setq reg-B-beg (point))
+      (goto-char reg-B-end)
+      (forward-line -1)
+      (end-of-line)
+      (or (eobp) (forward-char)) ; include the newline char
+      (setq reg-B-end (point)))
+
+    (ediff-regions-internal
+     (get-buffer buffer-A) reg-A-beg reg-A-end
+     (get-buffer buffer-B) reg-B-beg reg-B-end
+     nil 'ediff-conflict word-mode nil)))
+
+(defun ediff-conflict-yours-ancestor (by-word)
+  (interactive "P")
+  (ediff-conflict "<<<<<<<" "|||||||" "|||||||" "======="
+                  (when by-word 'word-mode)))
+
+(defun ediff-conflict-yours-theirs (by-word)
+  (interactive "P")
+  (ediff-conflict "<<<<<<<" "|||||||" "=======" ">>>>>>>"
+                  (when by-word 'word-mode)))
+
+(defun ediff-conflict-ancestor-theirs (by-word)
+  (interactive "P")
+  (ediff-conflict "|||||||" "=======" "=======" ">>>>>>>"
+                  (when by-word 'word-mode)))
+
 ;; Persistence
 (when (require-or-nil 'saveplace)
   (setq-default save-place t))
