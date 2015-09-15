@@ -652,6 +652,7 @@ create one."
   (set-variable 'gnus-buttonized-mime-types '("multipart/alternative"
                                               "multipart/mixed"))
   (set-variable 'mm-text-html-renderer 'w3m)
+  (set-variable 'mm-discouraged-alternatives '("text/html"))
 
   (set-variable 'gnus-treat-date-local 'head)
 
