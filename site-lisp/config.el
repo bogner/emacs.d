@@ -642,6 +642,31 @@ create one."
          (concat "git -C " repo " am -p0")))
     (gnus-summary-pipe-output nil 'r)))
 
+(defun gnus-summary-nnir-search (nnir-extra-parms)
+  "Search a group from the summary buffer."
+  (interactive "P")
+  (gnus-warp-to-article)
+
+  (let* ((init
+          (if transient-mark-mode
+              (buffer-substring-no-properties (mark) (point))
+              (gnus-general-simplify-subject (gnus-summary-article-subject))))
+         (server (gnus-group-server gnus-newsgroup-name))
+         (spec
+          (list
+           (cons 'nnir-group-spec
+                 (list (list server (list gnus-newsgroup-name))))
+           (cons 'nnir-query-spec
+                 (apply
+                  'append
+                  (list
+                   (cons 'query
+                         (read-string "Query: " init 'nnir-search-history)))
+                  (when nnir-extra-parms
+                    (list (nnir-read-parms
+                           (nnir-server-to-search-engine server)))))))))
+    (gnus-group-make-nnir-group nnir-extra-parms spec)))
+
 (when (require-or-nil 'gnus)
   (setq mail-user-agent 'gnus-user-agent)
 
@@ -678,6 +703,8 @@ create one."
   (define-key gnus-group-mode-map (kbd "<SPC>") 'gnus-group-read-recent)
   (define-key gnus-article-mode-map (kbd "w") 'gnus-article-fill-long-lines)
   (define-key gnus-summary-mode-map (kbd "w") 'gnus-article-fill-long-lines)
+  (define-key gnus-article-mode-map (kbd "G G") 'gnus-summary-nnir-search)
+  (define-key gnus-summary-mode-map (kbd "G G") 'gnus-summary-nnir-search)
   (define-key gnus-summary-mode-map (kbd "O g") 'gnus-summary-pipe-to-git))
 
 (eval-when-compile
