@@ -479,23 +479,14 @@ create one."
      mode
      '(("\\<\\(TODO\\|FIXME\\):" 1 font-lock-warning-face t)))))
 
-(when (require-or-nil 'xcscope)
-  (set-variable 'cscope-option-do-not-update-database 't)
-
-  ;; The [return] binding in xcscope.el doesn't seem to work in terminals
-  (define-key cscope-list-entry-keymap (kbd "RET")
-    'cscope-select-entry-other-window)
-
-  (defun cscope-adjust-keybindings ()
-    (local-set-key "\M-." 'cscope-find-global-definition)
-    (local-set-key "\M-*" 'cscope-pop-mark))
-  (add-to-list 'cscope-minor-mode-hooks 'cscope-adjust-keybindings)
-
-  ;; Set up cscope modes
-  (add-hook 'c++-mode-hook (function cscope-minor-mode))
-  (add-hook 'c-mode-hook (function cscope-minor-mode))
-  (add-hook 'dired-mode-hook (function cscope-minor-mode))
-  (add-hook 'python-mode-hook (function cscope-minor-mode)))
+(when (require-or-nil 'rtags)
+  (rtags-enable-standard-keybindings)
+  (define-key c-mode-base-map (kbd "M-.") (function rtags-find-symbol-at-point))
+  (define-key c-mode-base-map (kbd "M-*") (function rtags-location-stack-back))
+  (define-key c-mode-base-map (kbd "M-,")
+    (function rtags-find-references-at-point))
+  (define-key c-mode-base-map (kbd "C-.") (function rtags-find-symbol))
+  (define-key c-mode-base-map (kbd "C-,") (function rtags-find-references)))
 
 ;; C modes
 (require 'c-styles)
@@ -518,9 +509,7 @@ create one."
   (add-to-list 'auto-mode-alist '("\\.ll\\'" . llvm-mode)))
 
 (when (require-or-nil 'tablegen-mode)
-  (add-to-list 'auto-mode-alist '("\\.td\\'" . tablegen-mode))
-  (when (featurep 'xcscope)
-    (add-hook 'tablegen-mode-hook (function cscope-minor-mode))))
+  (add-to-list 'auto-mode-alist '("\\.td\\'" . tablegen-mode)))
 
 (when (require-or-nil 'haskell-mode-autoloads)
   ;; Hooks to make haskell mode behave
