@@ -538,13 +538,14 @@ create one."
      '(("\\<\\(TODO\\|FIXME\\):" 1 font-lock-warning-face t)))))
 
 (when (require-or-nil 'rtags)
-  (rtags-enable-standard-keybindings)
-  (define-key c-mode-base-map (kbd "M-.") (function rtags-find-symbol-at-point))
-  (define-key c-mode-base-map (kbd "M-*") (function rtags-location-stack-back))
-  (define-key c-mode-base-map (kbd "M-,")
-    (function rtags-find-references-at-point))
-  (define-key c-mode-base-map (kbd "C-.") (function rtags-find-symbol))
-  (define-key c-mode-base-map (kbd "C-,") (function rtags-find-references)))
+  (defun rtags-enable-bindings (map)
+    (rtags-enable-standard-keybindings map)
+    (define-key map (kbd "M-.") (function rtags-find-symbol-at-point))
+    (define-key map (kbd "M-*") (function rtags-location-stack-back))
+    (define-key map (kbd "M-,") (function rtags-find-references-at-point))
+    (define-key map (kbd "C-.") (function rtags-find-symbol))
+    (define-key map (kbd "C-,") (function rtags-find-references)))
+  (rtags-enable-bindings c-mode-base-map))
 
 ;; C modes
 (require 'c-styles)
