@@ -678,7 +678,7 @@ create one."
   (defun gnus-user-format-function-f (header)
     (let* ((from (mail-header-from header))
            (name (gnus-summary-from-or-to-or-newsgroups header from)))
-      (if (string-match "\\(.*\\) via [A-Za-z-]*$" name)
+      (if (string-match "\\(.*?\\)\\( via [A-Za-z-]*\\)+$" name)
           (match-string 1 name)
         name)))
   (set-variable 'gnus-summary-line-format
