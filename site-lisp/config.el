@@ -272,6 +272,64 @@ create one."
   (ediff-conflict "|||||||" "=======" "=======" ">>>>>>>"
                   (when by-word 'word-mode)))
 
+(defun git-conflict-find-marker (marker &optional bound backward)
+  (let ((direction (if backward -1 1))
+        (search (concat "^" (if (characterp marker)
+                                (make-string 7 marker) marker))))
+    (save-excursion
+      ; Searching backward should match the current line.
+      (when backward (end-of-line))
+      (if (not (re-search-forward search bound t direction))
+          nil
+        ; Return the beginning of the marker.
+        (beginning-of-line)
+        (point)))))
+
+(defun git-conflict-next ()
+  (interactive)
+  (let ((marker (git-conflict-find-marker ?<)))
+    (if (not marker)
+        (message "No conflicts found")
+      (goto-char marker)
+      (recenter 10))))
+
+(defun git-conflict-keep-left ()
+  (interactive)
+  (let ((begin (git-conflict-find-marker ?< nil t))
+        (end (git-conflict-find-marker ?>)))
+    (if (not (and begin end))
+        (message "No conflict at point")
+      (save-excursion
+        (goto-char begin)
+        (let ((left-end (or (git-conflict-find-marker ?| end)
+                            (git-conflict-find-marker ?= end))))
+          (if (not left-end)
+              (message "Could not parse conflict")
+            (goto-char end)
+            (forward-line)
+            (delete-region left-end (point))
+            (goto-char begin)
+            (forward-line)
+            (delete-region begin (point))))))))
+
+(defun git-conflict-keep-right ()
+  (interactive)
+  (let ((begin (git-conflict-find-marker ?< nil t))
+        (end (git-conflict-find-marker ?>)))
+    (if (not (and begin end))
+        (message "No conflict at point")
+      (save-excursion
+        (goto-char begin)
+        (let ((right-begin (git-conflict-find-marker ?= end)))
+          (if (not right-begin)
+              (message "Could not parse conflict")
+            (goto-char end)
+            (forward-line)
+            (delete-region end (point))
+            (goto-char right-begin)
+            (forward-line)
+            (delete-region begin (point))))))))
+
 ;; Persistence
 (when (require-or-nil 'saveplace)
   (setq-default save-place t))
