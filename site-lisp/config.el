@@ -734,6 +734,7 @@ create one."
                 '(gnus-find-subscribed-addresses))
 
   ;; Work around mailing list name munging for DMARC.
+  (eval-when-compile (require 'nnheader))
   (defun gnus-user-format-function-f (header)
     (let* ((from (mail-header-from header))
            (name (gnus-summary-from-or-to-or-newsgroups header from)))
