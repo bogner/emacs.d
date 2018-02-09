@@ -626,14 +626,21 @@ create one."
   (set-variable 'message-subscribed-address-functions
                 '(gnus-find-subscribed-addresses))
 
+  ;; Fetch the reply-to header so the DMARC munging below can read it.
+  (add-to-list 'gnus-extra-headers 'Reply-To)
+  (add-to-list 'nnmail-extra-headers 'Reply-To)
+
   ;; Work around mailing list name munging for DMARC.
   (eval-when-compile (require 'nnheader))
   (defun gnus-user-format-function-f (header)
     (let* ((from (mail-header-from header))
            (name (gnus-summary-from-or-to-or-newsgroups header from)))
-      (if (string-match "\\(.*?\\)\\( via [A-Za-z-]*\\)+$" name)
-          (match-string 1 name)
-        name)))
+      (cond ((string-match "\\(.*?\\)\\( via [A-Za-z-]*\\)+$" name)
+             (match-string 1 name))
+            ((string-match "^via [A-Za-z-]*" name)
+             (gnus-summary-from-or-to-or-newsgroups
+              header (alist-get 'Reply-To (mail-header-extra header))))
+            (t name))))
   (set-variable 'gnus-summary-line-format
                 "%U%R%z%I%(%[%4L: %-23,23uf%]%) %s\n")
 
