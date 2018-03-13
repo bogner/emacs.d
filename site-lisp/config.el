@@ -626,8 +626,11 @@ create one."
   (set-variable 'message-subscribed-address-functions
                 '(gnus-find-subscribed-addresses))
 
+
   ;; Fetch the reply-to header so the DMARC munging below can read it.
+  (require 'gnus-sum)
   (add-to-list 'gnus-extra-headers 'Reply-To)
+  (require 'nnmail)
   (add-to-list 'nnmail-extra-headers 'Reply-To)
 
   ;; Work around mailing list name munging for DMARC.
