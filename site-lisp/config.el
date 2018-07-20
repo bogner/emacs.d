@@ -106,6 +106,11 @@ create one."
           (grep-files-aliases (cons '("any" . "*") grep-files-aliases)))
       (call-interactively 'lgrep))))
 
+(when (require-or-nil 'vc-git)
+  ; Don't automatically add files to git when we resolve conflicts, it
+  ; makes it harder to verify the changes are correct.
+  (set-variable 'vc-git-resolve-conflicts nil))
+
 ;;; Display
 ;; Remove startup message
 (setq inhibit-startup-message t)
