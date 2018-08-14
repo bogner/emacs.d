@@ -512,6 +512,10 @@ create one."
 (when (require-or-nil 'cmake-mode)
   (add-to-list 'auto-mode-alist '("CMakeLists.txt\\|\\.cmake\\'" . cmake-mode)))
 
+(when (require-or-nil 'markdown-mode)
+  ; markdown-mode registers .md itself. Default to it for READMEs too.
+  (add-to-list 'auto-mode-alist '("README" . markdown-mode)))
+
 ;;; Web Browsers
 (when (eq window-system 'x)
   ; default-browser tends to do something silly in X11
