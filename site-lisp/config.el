@@ -499,6 +499,7 @@ create one."
 (set-variable 'nxml-bind-meta-tab-to-complete-flag t)
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode)) ; objc++
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
 (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
 (add-to-list 'auto-mode-alist
