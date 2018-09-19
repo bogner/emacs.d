@@ -3,7 +3,7 @@
 
 cd $1
 set -e
-clang_src_url=http://llvm.org/viewvc/llvm-project/cfe/trunk
+clang_src_url=https://git.llvm.org/klaus/clang/raw/master
 curl -sSLo clang-format.el \
-     $clang_src_url/tools/clang-format/clang-format.el?view=co
+     $clang_src_url/tools/clang-format/clang-format.el
 echo "clang-format installed in $(pwd)"
