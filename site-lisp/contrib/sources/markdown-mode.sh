@@ -6,6 +6,6 @@ version=v2.3
 source=https://raw.githubusercontent.com/$repo/$version/markdown-mode.el
 
 set -e
-cd $1
+cd $1/modes
 curl -sSLO "$source"
 echo "markdown-mode installed in $(pwd)"
