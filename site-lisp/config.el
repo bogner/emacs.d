@@ -435,15 +435,29 @@ create one."
      mode
      '(("\\<\\(TODO\\|FIXME\\):" 1 font-lock-warning-face t)))))
 
-(when (require-or-nil 'rtags)
-  (defun rtags-enable-bindings (map)
-    (rtags-enable-standard-keybindings map)
-    (define-key map (kbd "M-.") (function rtags-find-symbol-at-point))
-    (define-key map (kbd "M-*") (function rtags-location-stack-back))
-    (define-key map (kbd "M-,") (function rtags-find-references-at-point))
-    (define-key map (kbd "C-.") (function rtags-find-symbol))
-    (define-key map (kbd "C-,") (function rtags-find-references)))
-  (rtags-enable-bindings c-mode-base-map))
+(when (require-or-nil 'lsp-mode)
+  (set-variable 'lsp-enable-snippet nil)
+  (set-variable 'lsp-auto-guess-root t)
+
+  (add-hook 'prog-mode-hook #'lsp))
+
+; lsp-mode sometimes enables flymake even if it didn't find a project,
+; which will fall back to the legacy mode by default. This litters the
+; filesystem with _flymake files and is generally annoying, so we
+; disable the legacy backend of flymake completely.
+(when (require-or-nil 'flymake)
+  (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
+
+(require 'xref)
+; Don't prompt for an identifier in xref-find-references - it doesn't
+; work well with lsp modes, and it's kind of pointless if you're
+; already on the symbol anyway.
+(set-variable 'xref-prompt-for-identifier
+              '(not
+                xref-find-definitions
+                xref-find-definitions-other-window
+                xref-find-definitions-other-frame
+                xref-find-references))
 
 ;; C modes
 (require 'c-styles)
