@@ -439,6 +439,13 @@ create one."
 (when (require-or-nil 'lsp-mode)
   (set-variable 'lsp-enable-snippet nil)
   (set-variable 'lsp-auto-guess-root t)
+  ;(set-variable 'lsp-enable-semantic-highlighting nil)
+  (set-variable 'lsp-server-allow-automatic-install nil)
+
+  (set-variable 'lsp-clients-clangd-args '("-background-index"))
+
+  ; HACK: This doesn't seem to be loading automatically
+  (require 'lsp-modeline)
 
   (add-hook 'prog-mode-hook #'lsp))
 
