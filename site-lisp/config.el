@@ -340,7 +340,8 @@ create one."
 (defvar local-ibuffer-filter-groups '() "Extra ibuffer filter groups")
 (when (fboundp 'ibuffer)
   (let ((default-filter-group
-          `(("config" (filename . ,(concat "^" (expand-file-name "~") "/\\.")))
+          `(("code" (filename . "code/"))
+            ("config" (filename . ,(concat "^" (expand-file-name "~") "/\\.")))
             ("docs" (or
                      (mode . Info-mode)
                      (mode . apropos-mode)

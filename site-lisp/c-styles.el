@@ -73,7 +73,7 @@
                   ("/stdf/" . "gnu")
                   ("/nsfw/" . "nsfw")
                   ("/src/linux" . "linux-kernel")
-                  ("/llvm\\(-[^/]+\\)?/" . "llvm")
+                  ("/llvm\\(-[^/]+\\|\\.org\\)?/" . "llvm")
                   ("/gpu-[^/]+/" . "llvm")
                   ("/swift/" . "llvm")
                   (".*" . "bogner"))))
