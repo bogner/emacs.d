@@ -440,12 +440,15 @@ create one."
   (set-variable 'lsp-enable-snippet nil)
   (set-variable 'lsp-auto-guess-root t)
   ;(set-variable 'lsp-enable-semantic-highlighting nil)
-  (set-variable 'lsp-server-allow-automatic-install nil)
+
+  ; note: requires 8.0.1+
+  (set-variable 'lsp-enable-suggest-server-download nil)
 
   (set-variable 'lsp-clients-clangd-args '("-background-index"))
 
   ; HACK: This doesn't seem to be loading automatically
   (require 'lsp-modeline)
+  (require 'lsp-headerline)
 
   (add-hook 'prog-mode-hook #'lsp))
 
