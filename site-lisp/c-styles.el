@@ -1,11 +1,12 @@
 (c-add-style "bogner"
              '("stroustrup"
-               (c-basic-offset . 4)
-               (c-offsets-alist . ((arglist-intro . +)
+               (c-basic-offset . 2)
+               (c-offsets-alist . ((arglist-intro . ++)
+                                   (member-init-intro . ++)
+                                   (statement-cont . (c-lineup-assignments ++))
                                    (innamespace . 0)
-                                   (inextern-lang . 0)
-                                   (statement-cont . (c-lineup-assignments
-                                                      +))))
+                                   (inextern-lang . 0)))
+               (fill-column . 80)
                (c-tab-always-indents . nil)
                (indent-tabs-mode . nil)))
 
