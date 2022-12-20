@@ -146,12 +146,42 @@ create one."
 (defvar local-font "DejaVu Sans Mono-9" "The font we'd like to use")
 (add-to-list 'default-frame-alist `(font . ,local-font))
 
-(defun fullscreen ()
-  "Toggle full screen"
+;; Some extra frame commands
+(defun toggle-frame-fullheight (&optional frame)
+  "Toggle fullheight state of FRAME. See `toggle-frame-fullscreen'."
   (interactive)
-  (set-frame-parameter
-   nil 'fullscreen
-   (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
+  (let ((fullscreen (frame-parameter frame 'fullscreen)))
+    (if (eq fullscreen 'fullheight)
+	(set-frame-parameter frame 'fullscreen nil)
+      (modify-frame-parameters
+       frame `((fullscreen . fullheight) (fullscreen-restore . ,fullscreen))))))
+
+(defun repair-frame-tiling ()
+  "Try to repair tiling of 80-column frames."
+  (interactive)
+  (let ((columns 80)
+        (x-map))
+    (dolist (frame (frame-list))
+      (let* ((workarea (frame-monitor-attribute 'workarea frame))
+             (next-x (or (cdr (assoc workarea x-map))
+                         (car workarea))))
+        ; If we have too many windows just start over.
+        ; TODO: would it be better to stop resizing?
+        (when (> next-x (+ (car workarea) (caddr workarea)))
+          (setq (next-x (car workarea))))
+        ; HACK: Reduce x slightly to avoid whitespace between windows.
+        (when (> next-x 8)
+          (setq next-x (- next-x 8)))
+        (modify-frame-parameters frame `((left . ,next-x)
+                                         (top . (cdr workarea))
+                                         (width . ,columns)))
+        (let* ((geom (frame-geometry))
+               (title (cddr (assq 'title-bar-size geom)))
+               (border (/ (cddr (assq 'title-bar-size geom)) 2))
+               (height (- (cadddr workarea) title border)))
+          (set-frame-height frame height nil t))
+        (setf (alist-get workarea x-map nil nil #'equal)
+              (caddr (frame-edges frame)))))))
 
 (when (fboundp 'load-theme)
   (let ((site-lisp (concat "~" init-file-user "/.emacs.d/site-lisp/")))
