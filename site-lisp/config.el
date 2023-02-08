@@ -300,12 +300,14 @@ create one."
 (setq next-line-add-newlines nil)
 (set-variable 'next-line-extends-end-of-buffer nil)
 
-;; fill-paragraph should recognize lists, like "1.", "ii)", etc.
-;; Otherwise, this is the default from emacs23 with some unicode
-;; characters removed, because having them impeded me from using this
-;; in emacs21 and emacs22.
-(set-variable 'adaptive-fill-regexp
-              "[ \t]*\\(\\(\\w+[.)]\\|[-!|#%;>*]+\\)[ \t]*\\)*")
+;; Make sure fill-paragraph doesn't get confused by periods
+(set-variable 'sentence-end-double-space nil)
+
+(defun unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil region)))
 
 ;; File names like foo<1> aren't terribly helpful
 (require 'uniquify)
