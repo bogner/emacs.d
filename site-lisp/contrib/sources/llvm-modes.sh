@@ -6,5 +6,6 @@ cd $1/modes
 set -e
 llvm_src_url=https://raw.githubusercontent.com/llvm/llvm-project/main/llvm
 curl -sSLo llvm-mode.el $llvm_src_url/utils/emacs/llvm-mode.el
+curl -sSLo llvm-mir-mode.el $llvm_src_url/utils/emacs/llvm-mir-mode.el
 curl -sSLo tablegen-mode.el $llvm_src_url/utils/emacs/tablegen-mode.el
 echo "LLVM modes installed in $(pwd)"
