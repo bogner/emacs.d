@@ -528,6 +528,8 @@ create one."
 (when (require-or-nil 'tablegen-mode)
   (add-to-list 'auto-mode-alist '("\\.td\\'" . tablegen-mode)))
 
+(add-to-list 'auto-mode-alist '("\\.hlsl\\'" . hlsl-mode))
+
 (when (require-or-nil 'haskell-mode-autoloads)
   ;; Hooks to make haskell mode behave
   (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
