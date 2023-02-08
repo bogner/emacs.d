@@ -522,6 +522,9 @@ create one."
 (when (require-or-nil 'llvm-mode)
   (add-to-list 'auto-mode-alist '("\\.ll\\'" . llvm-mode)))
 
+(when (require-or-nil 'llvm-mir-mode)
+  (add-to-list 'auto-mode-alist '("\\.mir\\'" . llvm-mir-mode)))
+
 (when (require-or-nil 'tablegen-mode)
   (add-to-list 'auto-mode-alist '("\\.td\\'" . tablegen-mode)))
 
