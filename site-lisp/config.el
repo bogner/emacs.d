@@ -168,7 +168,7 @@ create one."
         ; If we have too many windows just start over.
         ; TODO: would it be better to stop resizing?
         (when (> next-x (+ (car workarea) (caddr workarea)))
-          (setq (next-x (car workarea))))
+          (setq next-x (car workarea)))
         ; HACK: Reduce x slightly to avoid whitespace between windows.
         (when (> next-x 8)
           (setq next-x (- next-x 8)))
