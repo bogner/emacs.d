@@ -103,6 +103,7 @@ create one."
            '((nil
               (grep-command "git --no-pager grep -nH -e ")
               (grep-template "git --no-pager grep <C> -nH -e <R> -- \"<F>\""))))
+          (grep-use-directories-skip nil)
           (grep-files-aliases (cons '("any" . "*") grep-files-aliases)))
       (call-interactively 'lgrep))))
 
