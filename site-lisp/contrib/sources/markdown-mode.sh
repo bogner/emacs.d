@@ -2,7 +2,7 @@
 [ -d "$1" ] || exit 1
 
 repo=jrblevin/markdown-mode
-version=v2.3
+version=v2.5
 source=https://raw.githubusercontent.com/$repo/$version/markdown-mode.el
 
 set -e
