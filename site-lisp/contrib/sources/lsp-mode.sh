@@ -17,7 +17,7 @@ install_archive() {
     archive=https://github.com/$repo/archive/$version.tar.gz
     mkdir -p $dest
     cd $dest
-    curl -sSL $archive | tar -xz --strip-components 1 --wildcards '*.el'
+    curl -sSL $archive | tar -xz --strip-components 1 '*.el'
     echo "$repo installed in $(pwd)"
     cd -
 }
