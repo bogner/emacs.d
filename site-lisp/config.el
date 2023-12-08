@@ -484,7 +484,7 @@ create one."
   (require 'lsp-modeline)
   (require 'lsp-headerline)
 
-  (add-hook 'prog-mode-hook #'lsp))
+  (add-hook 'c-mode-common-hook #'lsp))
 
 ; lsp-mode sometimes enables flymake even if it didn't find a project,
 ; which will fall back to the legacy mode by default. This litters the
