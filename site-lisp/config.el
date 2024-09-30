@@ -162,28 +162,44 @@ create one."
   "Try to repair tiling of 80-column frames."
   (interactive)
   (let ((columns 80)
+        (guessed-width 0)
         (x-map))
-    (dolist (frame (frame-list))
-      (let* ((workarea (frame-monitor-attribute 'workarea frame))
-             (next-x (or (cdr (assoc workarea x-map))
-                         (car workarea))))
-        ; If we have too many windows just start over.
-        ; TODO: would it be better to stop resizing?
-        (when (> next-x (+ (car workarea) (caddr workarea)))
-          (setq next-x (car workarea)))
-        ; HACK: Reduce x slightly to avoid whitespace between windows.
-        (when (> next-x 8)
-          (setq next-x (- next-x 8)))
-        (modify-frame-parameters frame `((left . ,next-x)
-                                         (top . (cdr workarea))
-                                         (width . ,columns)))
-        (let* ((geom (frame-geometry))
-               (title (cddr (assq 'title-bar-size geom)))
-               (border (/ (cddr (assq 'title-bar-size geom)) 2))
-               (height (- (cadddr workarea) title border)))
-          (set-frame-height frame height nil t))
-        (setf (alist-get workarea x-map nil nil #'equal)
-              (caddr (frame-edges frame)))))))
+    ; Frames seem to be ordered most- to least-recently created. Reverse the
+    ; list to avoid frames jumping around when we create more of them.
+    (dolist (frame (nreverse (frame-list)))
+      ; Ignore frames on ttys.
+      (when (not (eq (framep frame) t))
+        (let* ((workarea (frame-monitor-attribute 'workarea frame))
+               (next-x (or (cdr (assoc workarea x-map))
+                           (car workarea))))
+
+          ; HACK: Reduce x slightly to avoid whitespace between windows.
+          (when (> (- next-x (car workarea)) 8)
+            (setq next-x (- next-x 8)))
+
+          ; Try not to create frames that go out of bounds of the current
+          ; screen. This assumes the width of the next frame matches the
+          ; previous.
+          (when (< (+ next-x guessed-width)
+                   (+ (car workarea) (caddr workarea)))
+            ; Note that we need to use the `(+ x)` form for the left parameter,
+            ; otherwise negative numbers are offset from the right.
+            (modify-frame-parameters frame `((left . (+ ,next-x))
+                                             (top . (cdr workarea))
+                                             (width . ,columns)))
+
+            ; Use some heuristics to fill the height of the screen.
+            (let* ((geom (frame-geometry))
+                   (title (cddr (assq 'title-bar-size geom)))
+                   (border (/ (cddr (assq 'title-bar-size geom)) 2))
+                   (height (- (cadddr workarea) title border)))
+              (set-frame-height frame height nil t))
+
+            (let* ((edges (frame-edges frame))
+                   (left (car edges))
+                   (right (caddr edges)))
+              (setq guessed-width (- right left))
+              (setf (alist-get workarea x-map nil nil #'equal) right))))))))
 
 (when (fboundp 'load-theme)
   (let ((site-lisp (concat "~" init-file-user "/.emacs.d/site-lisp/")))
