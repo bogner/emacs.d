@@ -323,6 +323,8 @@ create one."
 
 ;; Make sure fill-paragraph doesn't get confused by periods
 (set-variable 'sentence-end-double-space nil)
+;; Fill closer to 80
+(setq-default fill-column 79)
 
 (defun unfill-paragraph (&optional region)
   "Takes a multi-line paragraph and makes it into a single line of text."
