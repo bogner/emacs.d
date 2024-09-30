@@ -213,6 +213,9 @@ create one."
 ;; Inhibit backup files
 (setq backup-inhibited t)
 
+;; Use uft-8-unix for new files. This should only do anything on windows.
+(setq-default buffer-file-coding-system 'utf-8-unix)
+
 ;; If the mark is transient, we want delete selection, but we don't
 ;; normally want a transient mark
 (delete-selection-mode 1)
