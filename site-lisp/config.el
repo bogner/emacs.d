@@ -534,11 +534,17 @@ create one."
 
 ;; Use clang-format for indent-region if possible.
 (when (require-or-nil 'clang-format)
-  (defun clang-format-set-indent-region-function ()
+  (defun clang-format-set-indent-region ()
+    ; Hack around test directories that disable llvm. Arguably this should look
+    ; for a .clang-format with "DisableFormat: true" but this is close enough.
+    (when (string-match "/test/" buffer-file-name)
+      (set-variable 'clang-format-style "LLVM"))
     (set-variable 'indent-region-function 'clang-format))
-  (add-hook 'c++-mode-hook (function clang-format-set-indent-region-function))
-  (add-hook 'objc-mode-hook (function clang-format-set-indent-region-function))
-  (add-hook 'c-mode-hook (function clang-format-set-indent-region-function)))
+  (add-hook 'c++-mode-hook (function clang-format-set-indent-region))
+  (add-hook 'c-mode-hook (function clang-format-set-indent-region))
+  (add-hook 'hlsl-mode-hook (function clang-format-set-indent-region))
+  (add-hook 'objc-mode-hook (function clang-format-set-indent-region))
+  (add-hook 'tablegen-mode-hook (function clang-format-set-indent-region)))
 
 (when (require-or-nil 'llvm-mode)
   (add-to-list 'auto-mode-alist '("\\.ll\\'" . llvm-mode)))
