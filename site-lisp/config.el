@@ -144,9 +144,9 @@ create one."
 (setq compilation-scroll-output t)
 (setq display-buffer-reuse-frames t)
 
-(when (font-info "DejaVu Sans Mono-9")
-  (defvar local-font "DejaVu Sans Mono-9" "The font we'd like to use")
-  (add-to-list 'default-frame-alist `(font . ,local-font)))
+(defvar local-font "DejaVu Sans Mono-9" "The font we'd like to use")
+(when (font-info local-font)
+    (add-to-list 'default-frame-alist `(font . ,local-font)))
 
 ;; Some extra frame commands
 (defun toggle-frame-fullheight (&optional frame)
